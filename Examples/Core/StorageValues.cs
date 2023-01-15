@@ -9,12 +9,10 @@
 *
 ********************************************************************************************/
 
-using System;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
 using static Raylib_cs.Color;
 using static Raylib_cs.KeyboardKey;
-using System.Runtime.InteropServices;
 
 namespace Examples.Core
 {
@@ -23,18 +21,9 @@ namespace Examples.Core
         // NOTE: Storage positions must start with 0, directly related to file memory layout
         enum StorageData
         {
-            STORAGE_SCORE = 0,
-            STORAGE_HISCORE
+            Score,
+            HiScore
         }
-
-        // Load integer value from storage file (from defined position), returns true on success
-        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.I1)]
-        public static extern bool SaveStorageValue(uint position, int value);
-
-        // Load integer value from storage file (from defined position)
-        [DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int LoadStorageValue(uint position);
 
         public static int Main()
         {
@@ -42,6 +31,7 @@ namespace Examples.Core
             //--------------------------------------------------------------------------------------
             const int screenWidth = 800;
             const int screenHeight = 450;
+            const string storageDataFile = "storage.data";
 
             InitWindow(screenWidth, screenHeight, "raylib [core] example - storage save/load values");
 
@@ -65,14 +55,14 @@ namespace Examples.Core
 
                 if (IsKeyPressed(KEY_ENTER))
                 {
-                    SaveStorageValue((int)StorageData.STORAGE_SCORE, score);
-                    SaveStorageValue((int)StorageData.STORAGE_HISCORE, hiscore);
+                    SaveStorageValue(storageDataFile, (int)StorageData.Score, score);
+                    SaveStorageValue(storageDataFile, (int)StorageData.HiScore, hiscore);
                 }
                 else if (IsKeyPressed(KEY_SPACE))
                 {
                     // NOTE: If requested position could not be found, value 0 is returned
-                    score = LoadStorageValue((int)StorageData.STORAGE_SCORE);
-                    hiscore = LoadStorageValue((int)StorageData.STORAGE_HISCORE);
+                    score = LoadStorageValue(storageDataFile, (int)StorageData.Score);
+                    hiscore = LoadStorageValue(storageDataFile, (int)StorageData.HiScore);
                 }
 
                 framesCounter++;
@@ -102,6 +92,115 @@ namespace Examples.Core
             //--------------------------------------------------------------------------------------
 
             return 0;
+        }
+
+        // Save integer value to storage file (to defined position)
+        // NOTE: Storage positions is directly related to file memory layout (4 bytes each integer)
+        private static unsafe bool SaveStorageValue(string fileName, uint position, int value)
+        {
+            using var fileNameBuffer = fileName.ToUTF8Buffer();
+
+            bool success = false;
+            uint dataSize = 0;
+            uint newDataSize = 0;
+
+            byte* fileData = LoadFileData(fileNameBuffer.AsPointer(), &dataSize);
+            byte* newFileData = null;
+
+            if (fileData != null)
+            {
+                if (dataSize <= (position*sizeof(int)))
+                {
+                    // Increase data size up to position and store value
+                    newDataSize = (position + 1)*sizeof(int);
+                    newFileData = (byte* )MemRealloc(fileData, (int)newDataSize);
+
+                    if (newFileData != null)
+                    {
+                        // RL_REALLOC succeded
+                        int *dataPtr = (int *)newFileData;
+                        dataPtr[position] = value;
+                    }
+                    else
+                    {
+                        // RL_REALLOC failed
+                        uint positionInBytes = position*sizeof(int);
+                        TraceLog(
+                            TraceLogLevel.LOG_WARNING,
+                            @$"FILEIO: [{fileName}] Failed to realloc data ({dataSize}),
+                            position in bytes({positionInBytes}) bigger than actual file size"
+                        );
+
+                        // We store the old size of the file
+                        newFileData = fileData;
+                        newDataSize = dataSize;
+                    }
+                }
+                else
+                {
+                    // Store the old size of the file
+                    newFileData = fileData;
+                    newDataSize = dataSize;
+
+                    // Replace value on selected position
+                    int *dataPtr = (int *)newFileData;
+                    dataPtr[position] = value;
+                }
+
+                success = SaveFileData(fileNameBuffer.AsPointer(), newFileData, newDataSize);
+                MemFree(newFileData);
+
+                TraceLog(TraceLogLevel.LOG_INFO, $"FILEIO: [{fileName}] Saved storage value: {value}");
+            }
+            else
+            {
+                TraceLog(TraceLogLevel.LOG_INFO, $"FILEIO: [{fileName}] File created successfully");
+
+                dataSize = (position + 1)*sizeof(int);
+                fileData = (byte* )MemAlloc((int)dataSize);
+                int *dataPtr = (int *)fileData;
+                dataPtr[position] = value;
+
+                success = SaveFileData(fileNameBuffer.AsPointer(), fileData, dataSize);
+                UnloadFileData(fileData);
+
+                TraceLog(TraceLogLevel.LOG_INFO, $"FILEIO: [{fileName}] Saved storage value: {value}");
+            }
+
+            return success;
+        }
+
+        // Load integer value from storage file (from defined position)
+        // NOTE: If requested position could not be found, value 0 is returned
+        private static unsafe int LoadStorageValue(string fileName, uint position)
+        {
+            using var fileNameBuffer = fileName.ToUTF8Buffer();
+
+            int value = 0;
+            uint dataSize = 0;
+            byte *fileData = LoadFileData(fileNameBuffer.AsPointer(), &dataSize);
+
+            if (fileData != null)
+            {
+                if (dataSize < (position*4))
+                {
+                    TraceLog(
+                        TraceLogLevel.LOG_WARNING,
+                        $"FILEIO: [{fileName}] Failed to find storage position: {value}"
+                    );
+                }
+                else
+                {
+                    int *dataPtr = (int *)fileData;
+                    value = dataPtr[position];
+                }
+
+                UnloadFileData(fileData);
+
+                TraceLog(TraceLogLevel.LOG_INFO, $"FILEIO: [{fileName}] Loaded storage value: {value}");
+            }
+
+            return value;
         }
     }
 }
