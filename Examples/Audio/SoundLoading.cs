@@ -42,9 +42,14 @@ namespace Examples.Audio
                 // Update
                 //----------------------------------------------------------------------------------
                 if (IsKeyPressed(KEY_SPACE))
+                {
                     PlaySound(fxWav);      // Play WAV sound
+                }
+
                 if (IsKeyPressed(KEY_ENTER))
+                {
                     PlaySound(fxOgg);      // Play OGG sound
+                }
                 //----------------------------------------------------------------------------------
 
                 // Draw

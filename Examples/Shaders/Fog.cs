@@ -108,14 +108,18 @@ namespace Examples.Shaders
                 {
                     fogDensity += 0.001f;
                     if (fogDensity > 1.0)
+                    {
                         fogDensity = 1.0f;
+                    }
                 }
 
                 if (IsKeyDown(KEY_DOWN))
                 {
                     fogDensity -= 0.001f;
                     if (fogDensity < 0.0)
+                    {
                         fogDensity = 0.0f;
+                    }
                 }
 
                 Raylib.SetShaderValue(shader, fogDensityLoc, fogDensity, SHADER_UNIFORM_FLOAT);
@@ -141,7 +145,9 @@ namespace Examples.Shaders
                 DrawModel(modelC, new Vector3(2.6f, 0, 0), 1.0f, WHITE);
 
                 for (int i = -20; i < 20; i += 2)
+                {
                     DrawModel(modelA, new Vector3(i, 0, 2), 1.0f, WHITE);
+                }
 
                 EndMode3D();
 

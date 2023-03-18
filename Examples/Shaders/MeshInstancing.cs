@@ -132,31 +132,69 @@ namespace Examples.Shaders
                 framesCounter += 1;
 
                 if (IsKeyDown(KEY_UP))
+                {
                     amp += 0.5f;
+                }
+
                 if (IsKeyDown(KEY_DOWN))
+                {
                     amp = (amp <= 1) ? 1.0f : (amp - 1.0f);
+                }
+
                 if (IsKeyDown(KEY_LEFT))
+                {
                     variance = (variance <= 0.0f) ? 0.0f : (variance - 0.01f);
+                }
+
                 if (IsKeyDown(KEY_RIGHT))
+                {
                     variance = (variance >= 1.0f) ? 1.0f : (variance + 0.01f);
+                }
+
                 if (IsKeyDown(KEY_ONE))
+                {
                     groups = 1;
+                }
+
                 if (IsKeyDown(KEY_TWO))
+                {
                     groups = 2;
+                }
+
                 if (IsKeyDown(KEY_THREE))
+                {
                     groups = 3;
+                }
+
                 if (IsKeyDown(KEY_FOUR))
+                {
                     groups = 4;
+                }
+
                 if (IsKeyDown(KEY_FIVE))
+                {
                     groups = 5;
+                }
+
                 if (IsKeyDown(KEY_SIX))
+                {
                     groups = 6;
+                }
+
                 if (IsKeyDown(KEY_SEVEN))
+                {
                     groups = 7;
+                }
+
                 if (IsKeyDown(KEY_EIGHT))
+                {
                     groups = 8;
+                }
+
                 if (IsKeyDown(KEY_NINE))
+                {
                     groups = 9;
+                }
 
                 if (IsKeyDown(KEY_W))
                 {
@@ -167,14 +205,24 @@ namespace Examples.Shaders
                 }
 
                 if (IsKeyDown(KEY_EQUAL))
+                {
                     speed = (speed <= (int)(fps * 0.25f)) ? (int)(fps * 0.25f) : (int)(speed * 0.95f);
+                }
+
                 if (IsKeyDown(KEY_KP_ADD))
+                {
                     speed = (speed <= (int)(fps * 0.25f)) ? (int)(fps * 0.25f) : (int)(speed * 0.95f);
+                }
 
                 if (IsKeyDown(KEY_MINUS))
+                {
                     speed = (int)MathF.Max(speed * 1.02f, speed + 1);
+                }
+
                 if (IsKeyDown(KEY_KP_SUBTRACT))
+                {
                     speed = (int)MathF.Max(speed * 1.02f, speed + 1);
+                }
 
                 // Update the light shader with the camera view position
                 float[] cameraPos = { camera.position.X, camera.position.Y, camera.position.Z };

@@ -13,7 +13,7 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
+using static Raylib_cs.Rlgl;
 
 namespace Examples.Textures
 {
@@ -83,11 +83,11 @@ namespace Examples.Textures
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
-                DrawText("Textured Polygon", 20, 20, 20, DARKGRAY);
+                DrawText("Textured Polygon", 20, 20, 20, Color.DARKGRAY);
                 Vector2 center = new Vector2(screenWidth / 2, screenHeight / 2);
-                DrawTexturePoly(texture, center, positions, texcoords, positions.Length, WHITE);
+                DrawTexturePoly(texture, center, positions, texcoords, positions.Length, Color.WHITE);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -101,6 +101,44 @@ namespace Examples.Textures
             //--------------------------------------------------------------------------------------
 
             return 0;
+        }
+
+        // Draw textured polygon, defined by vertex and texture coordinates
+        // NOTE: Polygon center must have straight line path to all points
+        // without crossing perimeter, points must be in anticlockwise order
+        static void DrawTexturePoly(
+            Texture2D texture,
+            Vector2 center,
+            Vector2[] points,
+            Vector2[] texcoords,
+            int pointCount,
+            Color tint
+        )
+        {
+            rlSetTexture(texture.id);
+
+            // Texturing is only supported on RL_QUADS
+            rlBegin(DrawMode.QUADS);
+
+            rlColor4ub(tint.r, tint.g, tint.b, tint.a);
+
+            for (int i = 0; i < pointCount - 1; i++)
+            {
+                rlTexCoord2f(0.5f, 0.5f);
+                rlVertex2f(center.X, center.Y);
+
+                rlTexCoord2f(texcoords[i].X, texcoords[i].Y);
+                rlVertex2f(points[i].X + center.X, points[i].Y + center.Y);
+
+                rlTexCoord2f(texcoords[i + 1].X, texcoords[i + 1].Y);
+                rlVertex2f(points[i + 1].X + center.X, points[i + 1].Y + center.Y);
+
+                rlTexCoord2f(texcoords[i + 1].X, texcoords[i + 1].Y);
+                rlVertex2f(points[i + 1].X + center.X, points[i + 1].Y + center.Y);
+            }
+            rlEnd();
+
+            rlSetTexture(0);
         }
     }
 }

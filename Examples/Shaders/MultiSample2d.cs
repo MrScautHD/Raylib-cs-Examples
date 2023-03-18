@@ -61,14 +61,22 @@ namespace Examples.Shaders
                 // Update
                 //----------------------------------------------------------------------------------
                 if (IsKeyDown(KEY_RIGHT))
+                {
                     dividerValue += 0.01f;
+                }
                 else if (IsKeyDown(KEY_LEFT))
+                {
                     dividerValue -= 0.01f;
+                }
 
                 if (dividerValue < 0.0f)
+                {
                     dividerValue = 0.0f;
+                }
                 else if (dividerValue > 1.0f)
+                {
                     dividerValue = 1.0f;
+                }
 
                 Raylib.SetShaderValue(shader, dividerLoc, dividerValue, SHADER_UNIFORM_FLOAT);
                 //----------------------------------------------------------------------------------

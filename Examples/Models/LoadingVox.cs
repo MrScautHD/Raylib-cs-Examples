@@ -85,7 +85,9 @@ namespace Examples.Models
 
                 // Cycle between models on mouse click
                 if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+                {
                     currentModel = (currentModel + 1) % MAX_VOX_FILES;
+                }
 
                 // Cycle between models on key pressed
                 if (IsKeyPressed(KEY_RIGHT))
@@ -136,7 +138,9 @@ namespace Examples.Models
             //--------------------------------------------------------------------------------------
             // Unload models data (GPU VRAM)
             for (int i = 0; i < MAX_VOX_FILES; i++)
+            {
                 UnloadModel(models[i]);
+            }
 
             CloseWindow();          // Close window and OpenGL context
             //--------------------------------------------------------------------------------------

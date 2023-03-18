@@ -103,14 +103,22 @@ namespace Examples.Shaders
                 // Update
                 //----------------------------------------------------------------------------------
                 if (IsKeyPressed(KEY_RIGHT))
+                {
                     currentPalette++;
+                }
                 else if (IsKeyPressed(KEY_LEFT))
+                {
                     currentPalette--;
+                }
 
                 if (currentPalette >= MAX_PALETTES)
+                {
                     currentPalette = 0;
+                }
                 else if (currentPalette < 0)
+                {
                     currentPalette = MAX_PALETTES - 1;
+                }
 
                 // Send new value to the shader to be used on drawing.
                 // NOTE: We are sending RGB triplets w/o the alpha channel

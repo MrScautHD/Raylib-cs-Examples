@@ -77,14 +77,18 @@ namespace Examples.Models
                 {
                     currentModel += 1;
                     if (currentModel == modelCount)
+                    {
                         currentModel = 0;
+                    }
                 }
 
                 if (IsKeyReleased(KEY_LEFT))
                 {
                     currentModel -= 1;
                     if (currentModel < 0)
+                    {
                         currentModel = modelCount - 1;
+                    }
                 }
                 //----------------------------------------------------------------------------------
 

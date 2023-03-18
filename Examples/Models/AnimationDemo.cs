@@ -77,7 +77,9 @@ namespace Examples.Models
                     animFrameCounter++;
                     UpdateModelAnimation(model, anims[0], animFrameCounter);
                     if (animFrameCounter >= anims[0].frameCount)
+                    {
                         animFrameCounter = 0;
+                    }
                 }
                 //----------------------------------------------------------------------------------
 
@@ -113,7 +115,9 @@ namespace Examples.Models
 
             // Unload model animations data
             for (int i = 0; i < animsCount; i++)
+            {
                 UnloadModelAnimation(anims[i]);
+            }
 
             UnloadModel(model);         // Unload model
 

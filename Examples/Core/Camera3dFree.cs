@@ -53,7 +53,9 @@ namespace Examples.Core
                 UpdateCamera(ref camera);          // Update camera
 
                 if (IsKeyDown(KEY_Z))
+                {
                     camera.target = new Vector3(0.0f, 0.0f, 0.0f);
+                }
                 //----------------------------------------------------------------------------------
 
                 // Draw

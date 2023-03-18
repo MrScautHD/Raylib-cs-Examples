@@ -41,7 +41,9 @@ namespace Examples.Core
                 // Update
                 //----------------------------------------------------------------------------------
                 if (IsKeyPressed(KEY_S))
+                {
                     scissorMode = !scissorMode;
+                }
 
                 // Centre the scissor area around the mouse position
                 scissorArea.x = GetMouseX() - scissorArea.width / 2;

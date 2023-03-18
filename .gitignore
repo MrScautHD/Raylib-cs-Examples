@@ -1,6 +1,7 @@
 # Ignore generated files
 # ...
 .vscode/
+*.data
 
 # Ignore VIM's backup generated files
 *.swp

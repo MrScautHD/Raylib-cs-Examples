@@ -80,14 +80,22 @@ namespace Examples.Models
 
                 // Out-of-limits security check
                 if (playerCellX < 0)
+                {
                     playerCellX = 0;
+                }
                 else if (playerCellX >= cubicmap.width)
+                {
                     playerCellX = cubicmap.width - 1;
+                }
 
                 if (playerCellY < 0)
+                {
                     playerCellY = 0;
+                }
                 else if (playerCellY >= cubicmap.height)
+                {
                     playerCellY = cubicmap.height - 1;
+                }
 
                 // Check map collisions using image data and player position
                 // TODO: Improvement: Just check player surrounding cells for collision

@@ -60,13 +60,21 @@ namespace Examples.Models
 
                 // Move player
                 if (IsKeyDown(KEY_RIGHT))
+                {
                     playerPosition.X += 0.2f;
+                }
                 else if (IsKeyDown(KEY_LEFT))
+                {
                     playerPosition.X -= 0.2f;
+                }
                 else if (IsKeyDown(KEY_DOWN))
+                {
                     playerPosition.Z += 0.2f;
+                }
                 else if (IsKeyDown(KEY_UP))
+                {
                     playerPosition.Z -= 0.2f;
+                }
 
                 collision = false;
 
@@ -81,11 +89,15 @@ namespace Examples.Models
                 );
 
                 if (CheckCollisionBoxes(box1, box2))
+                {
                     collision = true;
+                }
 
                 // Check collisions player vs enemy-sphere
                 if (CheckCollisionBoxSphere(box1, enemySpherePos, enemySphereSize))
+                {
                     collision = true;
+                }
 
                 if (collision)
                 {

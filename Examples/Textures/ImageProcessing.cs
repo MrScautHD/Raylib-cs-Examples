@@ -69,7 +69,9 @@ namespace Examples.Textures
             int mouseHoverRec = -1;
 
             for (int i = 0; i < NUM_PROCESSES; i++)
+            {
                 toggleRecs[i] = new Rectangle(40, 50 + 32 * i, 150, 30);
+            }
 
             SetTargetFPS(60);
             //---------------------------------------------------------------------------------------
@@ -95,21 +97,29 @@ namespace Examples.Textures
                         break;
                     }
                     else
+                    {
                         mouseHoverRec = -1;
+                    }
                 }
 
                 if (IsKeyPressed(KEY_DOWN))
                 {
                     currentProcess++;
                     if (currentProcess > 7)
+                    {
                         currentProcess = 0;
+                    }
+
                     textureReload = true;
                 }
                 else if (IsKeyPressed(KEY_UP))
                 {
                     currentProcess--;
                     if (currentProcess < 0)
+                    {
                         currentProcess = 7;
+                    }
+
                     textureReload = true;
                 }
 

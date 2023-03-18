@@ -126,14 +126,22 @@ namespace Examples.Shaders
                 UpdateCamera(ref camera);              // Update camera
 
                 if (IsKeyPressed(KEY_RIGHT))
+                {
                     currentShader++;
+                }
                 else if (IsKeyPressed(KEY_LEFT))
+                {
                     currentShader--;
+                }
 
                 if (currentShader >= MAX_POSTPRO_SHADERS)
+                {
                     currentShader = 0;
+                }
                 else if (currentShader < 0)
+                {
                     currentShader = MAX_POSTPRO_SHADERS - 1;
+                }
                 //----------------------------------------------------------------------------------
 
                 // Draw
@@ -181,7 +189,9 @@ namespace Examples.Shaders
 
             // Unload all postpro shaders
             for (int i = 0; i < MAX_POSTPRO_SHADERS; i++)
+            {
                 UnloadShader(shaders[i]);
+            }
 
             UnloadTexture(texture);         // Unload texture
             UnloadModel(model);             // Unload model

@@ -54,9 +54,13 @@ namespace Examples.Textures
                 if (IsKeyPressed(KEY_SPACE))
                 {
                     if ((int)blendMode >= (blendCountMax - 1))
+                    {
                         blendMode = 0;
+                    }
                     else
+                    {
                         blendMode++;
+                    }
                 }
                 //----------------------------------------------------------------------------------
 

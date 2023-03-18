@@ -49,21 +49,39 @@ namespace Examples.Core
                 ballColor = BEIGE;
 
                 if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+                {
                     ballColor = MAROON;
+                }
+
                 if (IsMouseButtonDown(MOUSE_MIDDLE_BUTTON))
+                {
                     ballColor = LIME;
+                }
+
                 if (IsMouseButtonDown(MOUSE_RIGHT_BUTTON))
+                {
                     ballColor = DARKBLUE;
+                }
 
                 if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+                {
                     touchCounter = 10;
+                }
+
                 if (IsMouseButtonPressed(MOUSE_MIDDLE_BUTTON))
+                {
                     touchCounter = 10;
+                }
+
                 if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
+                {
                     touchCounter = 10;
+                }
 
                 if (touchCounter > 0)
+                {
                     touchCounter--;
+                }
                 //----------------------------------------------------------------------------------
 
                 // Draw

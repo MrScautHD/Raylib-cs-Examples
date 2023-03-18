@@ -35,14 +35,14 @@ namespace Examples.Core
 
             // Grid of cube trees on a plane to make a "world"
             // Simple world plane
-            DrawPlane(new Vector3(0, 0, 0), new Vector2(50, 50), BEIGE);
+            DrawPlane(new Vector3(0, 0, 0), new Vector2(50, 50), Color.BEIGE);
 
             for (float x = -count * spacing; x <= count * spacing; x += spacing)
             {
                 for (float z = -count * spacing; z <= count * spacing; z += spacing)
                 {
-                    DrawCubeTexture(textureGrid, new Vector3(x, 1.5f, z), 1, 1, 1, GREEN);
-                    DrawCubeTexture(textureGrid, new Vector3(x, 0.5f, z), 0.25f, 1, 0.25f, BROWN);
+                    DrawCube(new Vector3(x, 1.5f, z), 1, 1, 1, Color.LIME);
+                    DrawCube(new Vector3(x, 0.5f, z), 0.25f, 1, 0.25f, Color.BROWN);
                 }
             }
 

@@ -61,28 +61,40 @@ namespace Examples.Core
                 // Update
                 //-----------------------------------------------------
                 if (IsKeyPressed(KEY_F))
+                {
                     ToggleFullscreen();  // modifies window size when scaling!
+                }
 
                 if (IsKeyPressed(KEY_R))
                 {
                     if (IsWindowState(FLAG_WINDOW_RESIZABLE))
+                    {
                         ClearWindowState(FLAG_WINDOW_RESIZABLE);
+                    }
                     else
+                    {
                         SetWindowState(FLAG_WINDOW_RESIZABLE);
+                    }
                 }
 
                 if (IsKeyPressed(KEY_D))
                 {
                     if (IsWindowState(FLAG_WINDOW_UNDECORATED))
+                    {
                         ClearWindowState(FLAG_WINDOW_UNDECORATED);
+                    }
                     else
+                    {
                         SetWindowState(FLAG_WINDOW_UNDECORATED);
+                    }
                 }
 
                 if (IsKeyPressed(KEY_H))
                 {
                     if (!IsWindowState(FLAG_WINDOW_HIDDEN))
+                    {
                         SetWindowState(FLAG_WINDOW_HIDDEN);
+                    }
 
                     framesCounter = 0;
                 }
@@ -91,13 +103,18 @@ namespace Examples.Core
                 {
                     framesCounter++;
                     if (framesCounter >= 240)
+                    {
                         ClearWindowState(FLAG_WINDOW_HIDDEN); // Show window after 3 seconds
+                    }
                 }
 
                 if (IsKeyPressed(KEY_N))
                 {
                     if (!IsWindowState(FLAG_WINDOW_MINIMIZED))
+                    {
                         MinimizeWindow();
+                    }
+
                     framesCounter = 0;
                 }
 
@@ -105,48 +122,70 @@ namespace Examples.Core
                 {
                     framesCounter++;
                     if (framesCounter >= 240)
+                    {
                         RestoreWindow(); // Restore window after 3 seconds
+                    }
                 }
 
                 if (IsKeyPressed(KEY_M))
                 {
                     // NOTE: Requires FLAG_WINDOW_RESIZABLE enabled!
                     if (IsWindowState(FLAG_WINDOW_MAXIMIZED))
+                    {
                         RestoreWindow();
+                    }
                     else
+                    {
                         MaximizeWindow();
+                    }
                 }
 
                 if (IsKeyPressed(KEY_U))
                 {
                     if (IsWindowState(FLAG_WINDOW_UNFOCUSED))
+                    {
                         ClearWindowState(FLAG_WINDOW_UNFOCUSED);
+                    }
                     else
+                    {
                         SetWindowState(FLAG_WINDOW_UNFOCUSED);
+                    }
                 }
 
                 if (IsKeyPressed(KEY_T))
                 {
                     if (IsWindowState(FLAG_WINDOW_TOPMOST))
+                    {
                         ClearWindowState(FLAG_WINDOW_TOPMOST);
+                    }
                     else
+                    {
                         SetWindowState(FLAG_WINDOW_TOPMOST);
+                    }
                 }
 
                 if (IsKeyPressed(KEY_A))
                 {
                     if (IsWindowState(FLAG_WINDOW_ALWAYS_RUN))
+                    {
                         ClearWindowState(FLAG_WINDOW_ALWAYS_RUN);
+                    }
                     else
+                    {
                         SetWindowState(FLAG_WINDOW_ALWAYS_RUN);
+                    }
                 }
 
                 if (IsKeyPressed(KEY_V))
                 {
                     if (IsWindowState(FLAG_VSYNC_HINT))
+                    {
                         ClearWindowState(FLAG_VSYNC_HINT);
+                    }
                     else
+                    {
                         SetWindowState(FLAG_VSYNC_HINT);
+                    }
                 }
 
                 // Bouncing ball logic
@@ -167,9 +206,13 @@ namespace Examples.Core
                 BeginDrawing();
 
                 if (IsWindowState(FLAG_WINDOW_TRANSPARENT))
+                {
                     ClearBackground(BLANK);
+                }
                 else
+                {
                     ClearBackground(RAYWHITE);
+                }
 
                 DrawCircleV(ballPosition, ballRadius, MAROON);
                 DrawRectangleLinesEx(new Rectangle(0, 0, GetScreenWidth(), GetScreenHeight()), 4, RAYWHITE);

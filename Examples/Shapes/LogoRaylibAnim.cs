@@ -85,7 +85,9 @@ namespace Examples.Shapes
                     rightSideRecHeight += 4;
 
                     if (bottomSideRecWidth == 256)
+                    {
                         state = 3;
+                    }
                 }
                 // State 3: Letters appearing (one by one)
                 else if (state == 3)

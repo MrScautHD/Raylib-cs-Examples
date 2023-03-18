@@ -91,9 +91,13 @@ namespace Examples.Audio
                     pause = !pause;
 
                     if (pause)
+                    {
                         PauseMusicStream(xm);
+                    }
                     else
+                    {
                         ResumeMusicStream(xm);
+                    }
                 }
 
                 // Get timePlayed scaled to bar dimensions
@@ -106,7 +110,9 @@ namespace Examples.Audio
                     circles[i].radius += circles[i].speed * 10.0f;
 
                     if (circles[i].alpha > 1.0f)
+                    {
                         circles[i].speed *= -1;
+                    }
 
                     if (circles[i].alpha <= 0.0f)
                     {

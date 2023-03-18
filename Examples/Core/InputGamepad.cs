@@ -73,39 +73,74 @@ namespace Examples.Core
 
                         // Draw buttons: xbox home
                         if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_MIDDLE))
+                        {
                             DrawCircle(394, 89, 19, RED);
+                        }
 
                         // Draw buttons: basic
                         if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_MIDDLE_RIGHT))
+                        {
                             DrawCircle(436, 150, 9, RED);
+                        }
+
                         if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_MIDDLE_LEFT))
+                        {
                             DrawCircle(352, 150, 9, RED);
+                        }
+
                         if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_LEFT))
+                        {
                             DrawCircle(501, 151, 15, BLUE);
+                        }
+
                         if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_DOWN))
+                        {
                             DrawCircle(536, 187, 15, LIME);
+                        }
+
                         if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_RIGHT))
+                        {
                             DrawCircle(572, 151, 15, MAROON);
+                        }
+
                         if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_UP))
+                        {
                             DrawCircle(536, 115, 15, GOLD);
+                        }
 
                         // Draw buttons: d-pad
                         DrawRectangle(317, 202, 19, 71, BLACK);
                         DrawRectangle(293, 228, 69, 19, BLACK);
                         if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_UP))
+                        {
                             DrawRectangle(317, 202, 19, 26, RED);
+                        }
+
                         if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_DOWN))
+                        {
                             DrawRectangle(317, 202 + 45, 19, 26, RED);
+                        }
+
                         if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_LEFT))
+                        {
                             DrawRectangle(292, 228, 25, 19, RED);
+                        }
+
                         if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_RIGHT))
+                        {
                             DrawRectangle(292 + 44, 228, 26, 19, RED);
+                        }
 
                         // Draw buttons: left-right back
                         if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_TRIGGER_1))
+                        {
                             DrawCircle(259, 61, 20, RED);
+                        }
+
                         if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_TRIGGER_1))
+                        {
                             DrawCircle(536, 61, 20, RED);
+                        }
 
                         // Draw axis: left joystick
                         DrawCircle(259, 152, 39, BLACK);
@@ -131,40 +166,75 @@ namespace Examples.Core
 
                         // Draw buttons: ps
                         if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_MIDDLE))
+                        {
                             DrawCircle(396, 222, 13, RED);
+                        }
 
                         // Draw buttons: basic
                         if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_MIDDLE_LEFT))
+                        {
                             DrawRectangle(328, 170, 32, 13, RED);
+                        }
+
                         if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_MIDDLE_RIGHT))
+                        {
                             DrawTriangle(new Vector2(436, 168), new Vector2(436, 185), new Vector2(
                         464, 177), RED);
+                        }
+
                         if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_UP))
+                        {
                             DrawCircle(557, 144, 13, LIME);
+                        }
+
                         if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_RIGHT))
+                        {
                             DrawCircle(586, 173, 13, RED);
+                        }
+
                         if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_DOWN))
+                        {
                             DrawCircle(557, 203, 13, VIOLET);
+                        }
+
                         if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_FACE_LEFT))
+                        {
                             DrawCircle(527, 173, 13, PINK);
+                        }
 
                         // Draw buttons: d-pad
                         DrawRectangle(225, 132, 24, 84, BLACK);
                         DrawRectangle(195, 161, 84, 25, BLACK);
                         if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_UP))
+                        {
                             DrawRectangle(225, 132, 24, 29, RED);
+                        }
+
                         if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_DOWN))
+                        {
                             DrawRectangle(225, 132 + 54, 24, 30, RED);
+                        }
+
                         if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_LEFT))
+                        {
                             DrawRectangle(195, 161, 30, 25, RED);
+                        }
+
                         if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_RIGHT))
+                        {
                             DrawRectangle(195 + 54, 161, 30, 25, RED);
+                        }
 
                         // Draw buttons: left-right back buttons
                         if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_TRIGGER_1))
+                        {
                             DrawCircle(239, 82, 20, RED);
+                        }
+
                         if (IsGamepadButtonDown(0, GAMEPAD_BUTTON_RIGHT_TRIGGER_1))
+                        {
                             DrawCircle(557, 82, 20, RED);
+                        }
 
                         // Draw axis: left joystick
                         DrawCircle(319, 255, 35, BLACK);

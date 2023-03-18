@@ -75,7 +75,9 @@ namespace ImGuiDemo
 
             int addr_digits_count = 0;
             for (int n = base_display_addr + mem_size - 1; n > 0; n >>= 4)
+            {
                 addr_digits_count++;
+            }
 
             float glyph_width = ImGui.CalcTextSize("F").X;
             // "FF " we include trailing space in the width to easily catch clicks everywhere
@@ -88,7 +90,9 @@ namespace ImGuiDemo
             bool data_next = false;
 
             if (!AllowEdits || DataEditingAddr >= mem_size)
+            {
                 DataEditingAddr = -1;
+            }
 
             int data_editing_addr_backup = DataEditingAddr;
 
@@ -121,7 +125,9 @@ namespace ImGuiDemo
                 float scroll_offset = ((DataEditingAddr / Rows) - (data_editing_addr_backup / Rows)) * line_height;
                 bool scroll_desired = (scroll_offset < 0.0f && DataEditingAddr < visible_start_addr + Rows * 2) || (scroll_offset > 0.0f && DataEditingAddr > visible_end_addr - Rows * 2);
                 if (scroll_desired)
+                {
                     ImGuiNative.igSetScrollYFloat(ImGuiNative.igGetScrollY() + scroll_offset);
+                }
             }
 
             // display only visible items
@@ -148,7 +154,10 @@ namespace ImGuiDemo
                             int* p_cursor_pos = (int*)data->UserData;
 
                             if (ImGuiNative.ImGuiInputTextCallbackData_HasSelection(data) == 0)
+                            {
                                 *p_cursor_pos = data->CursorPos;
+                            }
+
                             return 0;
                         };
                         int cursor_pos = -1;
@@ -164,19 +173,28 @@ namespace ImGuiDemo
                         var flags = ImGuiInputTextFlags.CharsHexadecimal | ImGuiInputTextFlags.EnterReturnsTrue | ImGuiInputTextFlags.AutoSelectAll | ImGuiInputTextFlags.NoHorizontalScroll | ImGuiInputTextFlags.AlwaysInsertMode | ImGuiInputTextFlags.CallbackAlways;
 
                         if (ImGui.InputText("##data", DataInput, 32, flags, callback, (IntPtr)(&cursor_pos)))
+                        {
                             data_write = data_next = true;
+                        }
                         else if (!DataEditingTakeFocus && !ImGui.IsItemActive())
+                        {
                             DataEditingAddr = -1;
+                        }
 
                         DataEditingTakeFocus = false;
                         ImGui.PopItemWidth();
                         if (cursor_pos >= 2)
+                        {
                             data_write = data_next = true;
+                        }
+
                         if (data_write)
                         {
                             int data;
                             if (TryHexParse(DataInput, out data))
+                            {
                                 mem_data[addr] = (byte)data;
+                            }
                         }
                         ImGui.PopID();
                     }
@@ -225,7 +243,10 @@ namespace ImGuiDemo
             if (ImGui.DragInt("##rows", ref Rows, 0.2f, 4, 32, "%.0f rows"))
             {
                 if (Rows <= 0)
+                {
                     Rows = 4;
+                }
+
                 Vector2 new_window_size = ImGui.GetWindowSize();
                 new_window_size.X += (Rows - rows_backup) * (cell_width + glyph_width);
                 ImGui.SetWindowSize(new_window_size);
@@ -287,8 +308,11 @@ namespace ImGuiDemo
                 DisplayStart = dispStart;
                 DisplayEnd = dispEnd;
                 if (DisplayStart > 0)
+                {
                     //SetCursorPosYAndSetupDummyPrevLine(StartPosY + DisplayStart * ItemsHeight, ItemsHeight); // advance cursor
                     ImGuiNative.igSetCursorPosY(StartPosY + DisplayStart * ItemsHeight);
+                }
+
                 StepNo = 2;
             }
         }

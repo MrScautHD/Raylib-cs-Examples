@@ -109,22 +109,22 @@ namespace Examples.Core
 
             if (fileData != null)
             {
-                if (dataSize <= (position*sizeof(int)))
+                if (dataSize <= (position * sizeof(int)))
                 {
                     // Increase data size up to position and store value
-                    newDataSize = (position + 1)*sizeof(int);
-                    newFileData = (byte* )MemRealloc(fileData, (int)newDataSize);
+                    newDataSize = (position + 1) * sizeof(int);
+                    newFileData = (byte*)MemRealloc(fileData, (int)newDataSize);
 
                     if (newFileData != null)
                     {
                         // RL_REALLOC succeded
-                        int *dataPtr = (int *)newFileData;
+                        int* dataPtr = (int*)newFileData;
                         dataPtr[position] = value;
                     }
                     else
                     {
                         // RL_REALLOC failed
-                        uint positionInBytes = position*sizeof(int);
+                        uint positionInBytes = position * sizeof(int);
                         TraceLog(
                             TraceLogLevel.LOG_WARNING,
                             @$"FILEIO: [{fileName}] Failed to realloc data ({dataSize}),
@@ -143,7 +143,7 @@ namespace Examples.Core
                     newDataSize = dataSize;
 
                     // Replace value on selected position
-                    int *dataPtr = (int *)newFileData;
+                    int* dataPtr = (int*)newFileData;
                     dataPtr[position] = value;
                 }
 
@@ -156,9 +156,9 @@ namespace Examples.Core
             {
                 TraceLog(TraceLogLevel.LOG_INFO, $"FILEIO: [{fileName}] File created successfully");
 
-                dataSize = (position + 1)*sizeof(int);
-                fileData = (byte* )MemAlloc((int)dataSize);
-                int *dataPtr = (int *)fileData;
+                dataSize = (position + 1) * sizeof(int);
+                fileData = (byte*)MemAlloc((int)dataSize);
+                int* dataPtr = (int*)fileData;
                 dataPtr[position] = value;
 
                 success = SaveFileData(fileNameBuffer.AsPointer(), fileData, dataSize);
@@ -178,11 +178,11 @@ namespace Examples.Core
 
             int value = 0;
             uint dataSize = 0;
-            byte *fileData = LoadFileData(fileNameBuffer.AsPointer(), &dataSize);
+            byte* fileData = LoadFileData(fileNameBuffer.AsPointer(), &dataSize);
 
             if (fileData != null)
             {
-                if (dataSize < (position*4))
+                if (dataSize < (position * 4))
                 {
                     TraceLog(
                         TraceLogLevel.LOG_WARNING,
@@ -191,7 +191,7 @@ namespace Examples.Core
                 }
                 else
                 {
-                    int *dataPtr = (int *)fileData;
+                    int* dataPtr = (int*)fileData;
                     value = dataPtr[position];
                 }
 

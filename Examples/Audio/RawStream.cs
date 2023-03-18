@@ -89,9 +89,14 @@ namespace Examples.Audio
                     int oldWavelength = waveLength;
                     waveLength = (int)(22050 / frequency);
                     if (waveLength > MAX_SAMPLES / 2)
+                    {
                         waveLength = MAX_SAMPLES / 2;
+                    }
+
                     if (waveLength < 1)
+                    {
                         waveLength = 1;
+                    }
 
                     // Write sine wave.
                     for (int i = 0; i < waveLength * 2; i++)
@@ -119,7 +124,9 @@ namespace Examples.Audio
                         int readLength = waveLength - readCursor;
 
                         if (writeLength > readLength)
+                        {
                             writeLength = readLength;
+                        }
 
                         // Write the slice
                         // memcpy(writeBuf + writeCursor, data + readCursor, writeLength*sizeof(short));

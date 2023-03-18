@@ -77,13 +77,17 @@ namespace Examples.Shaders
             Star[] stars = new Star[MAX_STARS];
 
             for (int n = 0; n < MAX_STARS; n++)
+            {
                 ResetStar(ref stars[n]);
+            }
 
             // Progress all the stars on, so they don't all start in the centre
             for (int m = 0; m < screenWidth / 2.0; m++)
             {
                 for (int n = 0; n < MAX_STARS; n++)
+                {
                     UpdateStar(ref stars[n]);
+                }
             }
 
             int frameCounter = 0;
@@ -145,7 +149,9 @@ namespace Examples.Shaders
 
                 // Move the stars, resetting them if the go offscreen
                 for (int n = 0; n < MAX_STARS; n++)
+                {
                     UpdateStar(ref stars[n]);
+                }
 
                 // Update the spots, send them to the shader
                 for (int i = 0; i < MAX_SPOTS; i++)
@@ -162,13 +168,24 @@ namespace Examples.Shaders
                         spots[i].pos.Y += spots[i].vel.Y;
 
                         if (spots[i].pos.X < 64)
+                        {
                             spots[i].vel.X = -spots[i].vel.X;
+                        }
+
                         if (spots[i].pos.X > (screenWidth - 64))
+                        {
                             spots[i].vel.X = -spots[i].vel.X;
+                        }
+
                         if (spots[i].pos.Y < 64)
+                        {
                             spots[i].vel.Y = -spots[i].vel.Y;
+                        }
+
                         if (spots[i].pos.Y > (screenHeight - 64))
+                        {
                             spots[i].vel.Y = -spots[i].vel.Y;
+                        }
                     }
 
                     Raylib.SetShaderValue(shdrSpot, spots[i].posLoc, spots[i].pos, SHADER_UNIFORM_VEC2);

@@ -80,14 +80,22 @@ namespace Examples.Textures
 
                 // Move between colors with keys
                 if (IsKeyPressed(KEY_RIGHT))
+                {
                     colorSelected++;
+                }
                 else if (IsKeyPressed(KEY_LEFT))
+                {
                     colorSelected--;
+                }
 
                 if (colorSelected >= MAX_COLORS_COUNT)
+                {
                     colorSelected = MAX_COLORS_COUNT - 1;
+                }
                 else if (colorSelected < 0)
+                {
                     colorSelected = 0;
+                }
 
                 // Choose color with mouse
                 for (int i = 0; i < MAX_COLORS_COUNT; i++)
@@ -98,7 +106,9 @@ namespace Examples.Textures
                         break;
                     }
                     else
+                    {
                         colorMouseHover = -1;
+                    }
                 }
 
                 if ((colorMouseHover >= 0) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
@@ -110,9 +120,14 @@ namespace Examples.Textures
                 // Change brush size
                 brushSize += (int)(GetMouseWheelMove() * 5);
                 if (brushSize < 2)
+                {
                     brushSize = 2;
+                }
+
                 if (brushSize > 50)
+                {
                     brushSize = 50;
+                }
 
                 if (IsKeyPressed(KEY_C))
                 {
@@ -129,7 +144,10 @@ namespace Examples.Textures
                     // previous-next mouse points and just draw a line using brush size
                     BeginTextureMode(target);
                     if (mousePos.Y > 50)
+                    {
                         DrawCircle((int)mousePos.X, (int)mousePos.Y, brushSize, colors[colorSelected]);
+                    }
+
                     EndTextureMode();
                 }
                 else if (IsMouseButtonDown(MOUSE_RIGHT_BUTTON))
@@ -139,7 +157,10 @@ namespace Examples.Textures
                     // Erase circle from render texture
                     BeginTextureMode(target);
                     if (mousePos.Y > 50)
+                    {
                         DrawCircle((int)mousePos.X, (int)mousePos.Y, brushSize, colors[0]);
+                    }
+
                     EndTextureMode();
                 }
                 else
@@ -149,9 +170,13 @@ namespace Examples.Textures
 
                 // Check mouse hover save button
                 if (CheckCollisionPointRec(mousePos, btnSaveRec))
+                {
                     btnSaveMouseHover = true;
+                }
                 else
+                {
                     btnSaveMouseHover = false;
+                }
 
                 // Image saving logic
                 // NOTE: Saving painted texture to a default named image
