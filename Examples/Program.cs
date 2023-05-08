@@ -113,6 +113,7 @@ namespace Examples
             BillboardDemo.Main();
             BoxCollisions.Main();
             CubicmapDemo.Main();
+            ModelCubeTexture.Main();
             FirstPersonMaze.Main();
             GeometricShapes.Main();
             HeightmapDemo.Main();
