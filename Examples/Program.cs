@@ -153,7 +153,6 @@ namespace Examples
         static void RunAudioExamples()
         {
             ModulePlaying.Main();
-            MultichannelSound.Main();
             MusicStreamDemo.Main();
             RawStream.Main();
             SoundLoading.Main();

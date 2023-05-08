@@ -15,8 +15,6 @@ using Raylib_cs;
 using static Raylib_cs.Raylib;
 using static Raylib_cs.Raymath;
 using static Raylib_cs.Color;
-using static Raylib_cs.CameraProjection;
-using static Raylib_cs.CameraMode;
 using static Raylib_cs.MaterialMapIndex;
 
 namespace Examples.Models
@@ -40,7 +38,7 @@ namespace Examples.Models
             camera.target = new Vector3(0.0f, 8.0f, 0.0f);
             camera.up = new Vector3(0.0f, 1.6f, 0.0f);
             camera.fovy = 45.0f;
-            camera.projection = CAMERA_PERSPECTIVE;
+            camera.projection = CameraProjection.CAMERA_PERSPECTIVE;
 
             // Picking ray
             Ray ray = new Ray();
@@ -67,8 +65,6 @@ namespace Examples.Models
 
             Vector3 bary = new Vector3(0.0f, 0.0f, 0.0f);
 
-            SetCameraMode(camera, CAMERA_FREE);
-
             SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
 
             //----------------------------------------------------------------------------------
@@ -79,7 +75,7 @@ namespace Examples.Models
                 //----------------------------------------------------------------------------------
                 // Update
                 //----------------------------------------------------------------------------------
-                UpdateCamera(ref camera);       // Update camera
+                UpdateCamera(ref camera, CameraMode.CAMERA_FREE);
 
                 // Display information about closest hit
                 RayCollision collision = new RayCollision();

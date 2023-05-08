@@ -16,7 +16,6 @@ using Raylib_cs;
 using static Raylib_cs.Raylib;
 using static Raylib_cs.Raymath;
 using static Raylib_cs.Color;
-using static Raylib_cs.CameraProjection;
 using static Raylib_cs.KeyboardKey;
 using static Raylib_cs.MaterialMapIndex;
 
@@ -38,7 +37,7 @@ namespace Examples.Models
             camera.target = new Vector3(0.0f, 0.0f, 0.0f);
             camera.up = new Vector3(0.0f, 1.0f, 0.0f);
             camera.fovy = 30.0f;
-            camera.projection = CAMERA_PERSPECTIVE;
+            camera.projection = CameraProjection.CAMERA_PERSPECTIVE;
 
             // Model loading
             Model model = LoadModel("resources/models/obj/plane.obj");

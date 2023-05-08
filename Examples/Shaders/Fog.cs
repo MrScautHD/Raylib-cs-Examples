@@ -31,8 +31,6 @@ using static Raylib_cs.Raylib;
 using static Raylib_cs.Raymath;
 using static Raylib_cs.Color;
 using static Raylib_cs.ConfigFlags;
-using static Raylib_cs.CameraMode;
-using static Raylib_cs.CameraProjection;
 using static Raylib_cs.KeyboardKey;
 using static Raylib_cs.MaterialMapIndex;
 using static Raylib_cs.ShaderLocationIndex;
@@ -54,11 +52,12 @@ namespace Examples.Shaders
             InitWindow(screenWidth, screenHeight, "raylib [shaders] example - fog");
 
             // Define the camera to look into our 3d world
-            Camera3D camera = new Camera3D(
-                new Vector3(2.0f, 2.0f, 6.0f),      // position
-                new Vector3(0.0f, 0.5f, 0.0f),      // target
-                new Vector3(0.0f, 1.0f, 0.0f),      // up
-                45.0f, CAMERA_PERSPECTIVE);         // fov, type
+            Camera3D camera = new Camera3D();
+            camera.position = new Vector3(2.0f, 2.0f, 6.0f);
+            camera.target = new Vector3(0.0f, 0.5f, 0.0f);
+            camera.up = new Vector3(0.0f, 1.0f, 0.0f);
+            camera.fovy = 45.0f;
+            camera.projection = CameraProjection.CAMERA_PERSPECTIVE;
 
             // Load models and texture
             Model modelA = LoadModelFromMesh(GenMeshTorus(0.4f, 1.0f, 16, 32));
@@ -92,8 +91,6 @@ namespace Examples.Shaders
             // Using just 1 point lights
             CreateLight(0, LightType.LIGHT_POINT, new Vector3(0, 2, 6), Vector3.Zero, WHITE, shader);
 
-            SetCameraMode(camera, CAMERA_ORBITAL);  // Set an orbital camera mode
-
             SetTargetFPS(60);                       // Set our game to run at 60 frames-per-second
             //--------------------------------------------------------------------------------------
 
@@ -102,7 +99,7 @@ namespace Examples.Shaders
             {
                 // Update
                 //----------------------------------------------------------------------------------
-                UpdateCamera(ref camera);              // Update camera
+                UpdateCamera(ref camera, CameraMode.CAMERA_ORBITAL);
 
                 if (IsKeyDown(KEY_UP))
                 {

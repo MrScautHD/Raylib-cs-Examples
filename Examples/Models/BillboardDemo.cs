@@ -12,8 +12,6 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.CameraProjection;
-using static Raylib_cs.CameraMode;
 using static Raylib_cs.Color;
 
 namespace Examples.Models
@@ -35,12 +33,13 @@ namespace Examples.Models
             camera.target = new Vector3(0.0f, 2.0f, 0.0f);
             camera.up = new Vector3(0.0f, 1.0f, 0.0f);
             camera.fovy = 45.0f;
-            camera.projection = CAMERA_PERSPECTIVE;
+            camera.projection = CameraProjection.CAMERA_PERSPECTIVE;
 
-            Texture2D bill = LoadTexture("resources/billboard.png");              // Our texture billboard
-            Vector3 billPosition = new Vector3(0.0f, 2.0f, 0.0f);                 // Position where draw billboard
+            // Our texture billboard
+            Texture2D bill = LoadTexture("resources/billboard.png");
 
-            SetCameraMode(camera, CAMERA_ORBITAL);  // Set an orbital camera mode
+            // Position to draw billboard
+            Vector3 billPosition = new Vector3(0.0f, 2.0f, 0.0f);
 
             SetTargetFPS(60);                       // Set our game to run at 60 frames-per-second
             //--------------------------------------------------------------------------------------
@@ -50,7 +49,7 @@ namespace Examples.Models
             {
                 // Update
                 //----------------------------------------------------------------------------------
-                UpdateCamera(ref camera);              // Update camera
+                UpdateCamera(ref camera, CameraMode.CAMERA_ORBITAL);
                 //----------------------------------------------------------------------------------
 
                 // Draw

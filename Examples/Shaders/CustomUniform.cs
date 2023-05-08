@@ -20,8 +20,6 @@ using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
 using static Raylib_cs.Color;
-using static Raylib_cs.CameraProjection;
-using static Raylib_cs.CameraMode;
 using static Raylib_cs.MaterialMapIndex;
 
 namespace Examples.Shaders
@@ -45,7 +43,7 @@ namespace Examples.Shaders
             camera.target = new Vector3(0.0f, 1.5f, 0.0f);
             camera.up = new Vector3(0.0f, 1.0f, 0.0f);
             camera.fovy = 45.0f;
-            camera.projection = CAMERA_PERSPECTIVE;
+            camera.projection = CameraProjection.CAMERA_PERSPECTIVE;
 
             Model model = LoadModel("resources/models/barracks.obj");                   // Load OBJ model
             Texture2D texture = LoadTexture("resources/models/barracks_diffuse.png");   // Load model texture (diffuse map)
@@ -69,9 +67,6 @@ namespace Examples.Shaders
             // Create a RenderTexture2D to be used for render to texture
             RenderTexture2D target = LoadRenderTexture(screenWidth, screenHeight);
 
-            // Setup orbital camera
-            SetCameraMode(camera, CAMERA_ORBITAL);  // Set an orbital camera mode
-
             SetTargetFPS(60);                       // Set our game to run at 60 frames-per-second
             //--------------------------------------------------------------------------------------
 
@@ -88,7 +83,7 @@ namespace Examples.Shaders
                 // Send new value to the shader to be used on drawing
                 Raylib.SetShaderValue(shader, swirlCenterLoc, swirlCenter, ShaderUniformDataType.SHADER_UNIFORM_VEC2);
 
-                UpdateCamera(ref camera);              // Update camera
+                UpdateCamera(ref camera, CameraMode.CAMERA_ORBITAL);
                 //----------------------------------------------------------------------------------
 
                 // Draw

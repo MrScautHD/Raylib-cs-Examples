@@ -23,8 +23,6 @@ using Raylib_cs;
 using static Raylib_cs.Raylib;
 using static Raylib_cs.Raymath;
 using static Raylib_cs.Color;
-using static Raylib_cs.CameraProjection;
-using static Raylib_cs.CameraMode;
 using static Raylib_cs.MaterialMapIndex;
 using static Raylib_cs.ShaderUniformDataType;
 using static Raylib_cs.ShaderLocationIndex;
@@ -48,9 +46,7 @@ namespace Examples.Shaders
             camera.target = new Vector3(0.0f, 0.0f, 0.0f);
             camera.up = new Vector3(0.0f, 1.0f, 0.0f);
             camera.fovy = 45.0f;
-            camera.projection = CAMERA_PERSPECTIVE;
-
-            SetCameraMode(camera, CAMERA_CUSTOM);
+            camera.projection = CameraProjection.CAMERA_PERSPECTIVE;
 
             // Define our three models to show the shader on
             Mesh torus = GenMeshTorus(.3f, 1, 16, 32);
@@ -125,7 +121,7 @@ namespace Examples.Shaders
                 // Rotate one of the models
                 model1.transform = MatrixRotateXYZ(rotation);
 
-                UpdateCamera(ref camera);
+                UpdateCamera(ref camera, CameraMode.CAMERA_CUSTOM);
                 //----------------------------------------------------------------------------------
 
                 // Draw

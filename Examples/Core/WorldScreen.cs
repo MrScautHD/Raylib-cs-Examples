@@ -12,8 +12,6 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.CameraProjection;
-using static Raylib_cs.CameraMode;
 using static Raylib_cs.Color;
 
 namespace Examples.Core
@@ -35,12 +33,10 @@ namespace Examples.Core
             camera.target = new Vector3(0.0f, 0.0f, 0.0f);
             camera.up = new Vector3(0.0f, 1.0f, 0.0f);
             camera.fovy = 45.0f;
-            camera.projection = CAMERA_PERSPECTIVE;
+            camera.projection = CameraProjection.CAMERA_PERSPECTIVE;
 
             Vector3 cubePosition = new Vector3(0.0f, 0.0f, 0.0f);
             Vector2 cubeScreenPosition;
-
-            SetCameraMode(camera, CAMERA_FREE); // Set a free camera mode
 
             SetTargetFPS(60);                   // Set our game to run at 60 frames-per-second
             //--------------------------------------------------------------------------------------
@@ -50,7 +46,7 @@ namespace Examples.Core
             {
                 // Update
                 //----------------------------------------------------------------------------------
-                UpdateCamera(ref camera);          // Update camera
+                UpdateCamera(ref camera, CameraMode.CAMERA_FREE);
 
                 // Calculate cube screen space position (with a little offset to be in top)
                 cubeScreenPosition = GetWorldToScreen(new Vector3(cubePosition.X, cubePosition.Y + 2.5f, cubePosition.Z), camera);

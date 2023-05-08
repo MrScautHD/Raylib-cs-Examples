@@ -20,7 +20,6 @@ using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
 using static Raylib_cs.ConfigFlags;
-using static Raylib_cs.CameraMode;
 using static Raylib_cs.Color;
 using static Raylib_cs.ShaderUniformDataType;
 
@@ -46,8 +45,6 @@ namespace Examples.Shaders
             camera.target = new Vector3(0.0f, 0.0f, 0.7f);      // Camera looking at point
             camera.up = new Vector3(0.0f, 1.0f, 0.0f);          // Camera up vector (rotation towards target)
             camera.fovy = 65.0f;                                // Camera field-of-view Y
-
-            SetCameraMode(camera, CAMERA_FREE);                 // Set camera mode
 
             // Load raymarching shader
             // NOTE: Defining 0 (NULL) for vertex shader forces usage of internal default vertex shader
@@ -82,7 +79,7 @@ namespace Examples.Shaders
 
                 // Update
                 //----------------------------------------------------------------------------------
-                UpdateCamera(ref camera);              // Update camera
+                UpdateCamera(ref camera, CameraMode.CAMERA_FREE);
 
                 float deltaTime = GetFrameTime();
                 runTime += deltaTime;

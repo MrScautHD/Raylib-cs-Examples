@@ -20,8 +20,6 @@ using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
 using static Raylib_cs.Color;
-using static Raylib_cs.CameraProjection;
-using static Raylib_cs.CameraMode;
 using static Raylib_cs.MaterialMapIndex;
 
 namespace Examples.Shaders
@@ -45,7 +43,7 @@ namespace Examples.Shaders
             camera.target = new Vector3(0.0f, 1.0f, -1.0f);
             camera.up = new Vector3(0.0f, 1.0f, 0.0f);
             camera.fovy = 45.0f;
-            camera.projection = CAMERA_PERSPECTIVE;
+            camera.projection = CameraProjection.CAMERA_PERSPECTIVE;
 
             Model model = LoadModel("resources/models/watermill.obj");                   // Load OBJ model
             Texture2D texture = LoadTexture("resources/models/watermill_diffuse.png");   // Load model texture
@@ -57,8 +55,6 @@ namespace Examples.Shaders
 
             Vector3 position = new Vector3(0.0f, 0.0f, 0.0f);    // Set model position
 
-            SetCameraMode(camera, CAMERA_FREE);         // Set an orbital camera mode
-
             SetTargetFPS(60);                           // Set our game to run at 60 frames-per-second
             //--------------------------------------------------------------------------------------
 
@@ -67,7 +63,7 @@ namespace Examples.Shaders
             {
                 // Update
                 //----------------------------------------------------------------------------------
-                UpdateCamera(ref camera);                  // Update camera
+                UpdateCamera(ref camera, CameraMode.CAMERA_FREE);
                 //----------------------------------------------------------------------------------
 
                 // Draw

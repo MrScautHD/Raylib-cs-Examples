@@ -17,8 +17,6 @@ using Raylib_cs;
 using static Raylib_cs.Raylib;
 using static Raylib_cs.Rlgl;
 using static Raylib_cs.Color;
-using static Raylib_cs.CameraMode;
-using static Raylib_cs.CameraProjection;
 
 namespace Examples.Models
 {
@@ -48,9 +46,7 @@ namespace Examples.Models
             camera.target = new Vector3(0.0f, 0.0f, 0.0f);
             camera.up = new Vector3(0.0f, 1.0f, 0.0f);
             camera.fovy = 45.0f;
-            camera.projection = CAMERA_PERSPECTIVE;
-
-            SetCameraMode(camera, CAMERA_FREE);
+            camera.projection = CameraProjection.CAMERA_PERSPECTIVE;
 
             float rotationSpeed = 0.2f;         // General system rotation speed
 
@@ -67,7 +63,7 @@ namespace Examples.Models
             {
                 // Update
                 //----------------------------------------------------------------------------------
-                UpdateCamera(ref camera);
+                UpdateCamera(ref camera, CameraMode.CAMERA_FREE);
 
                 earthRotation += (5.0f * rotationSpeed);
                 earthOrbitRotation += (365 / 360.0f * (5.0f * rotationSpeed) * rotationSpeed);

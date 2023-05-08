@@ -12,8 +12,6 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.CameraProjection;
-using static Raylib_cs.CameraMode;
 using static Raylib_cs.KeyboardKey;
 using static Raylib_cs.Color;
 
@@ -36,11 +34,9 @@ namespace Examples.Core
             camera.target = new Vector3(0.0f, 0.0f, 0.0f);      // Camera3D looking at point
             camera.up = new Vector3(0.0f, 1.0f, 0.0f);          // Camera3D up vector (rotation towards target)
             camera.fovy = 45.0f;                                // Camera3D field-of-view Y
-            camera.projection = CAMERA_PERSPECTIVE;                   // Camera3D mode type
+            camera.projection = CameraProjection.CAMERA_PERSPECTIVE;                   // Camera3D mode type
 
             Vector3 cubePosition = new Vector3(0.0f, 0.0f, 0.0f);
-
-            SetCameraMode(camera, CAMERA_FREE); // Set a free camera mode
 
             SetTargetFPS(60);                   // Set our game to run at 60 frames-per-second
             //--------------------------------------------------------------------------------------
@@ -50,7 +46,7 @@ namespace Examples.Core
             {
                 // Update
                 //----------------------------------------------------------------------------------
-                UpdateCamera(ref camera);          // Update camera
+                UpdateCamera(ref camera, CameraMode.CAMERA_FREE);
 
                 if (IsKeyDown(KEY_Z))
                 {

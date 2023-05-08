@@ -13,8 +13,6 @@ using System;
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.CameraProjection;
-using static Raylib_cs.CameraMode;
 using static Raylib_cs.Color;
 using static Raylib_cs.ShaderUniformDataType;
 
@@ -99,11 +97,9 @@ namespace Examples.Core
             camera.target = new Vector3(0.0f, 2.0f, 0.0f);      // Camera looking at point
             camera.up = new Vector3(0.0f, 1.0f, 0.0f);          // Camera up vector (rotation towards target)
             camera.fovy = 60.0f;                                // Camera field-of-view Y
-            camera.projection = CAMERA_PERSPECTIVE;             // Camera type
+            camera.projection = CameraProjection.CAMERA_PERSPECTIVE;             // Camera type
 
             Vector3 cubePosition = new Vector3(0.0f, 0.0f, 0.0f);
-
-            SetCameraMode(camera, CAMERA_FIRST_PERSON);         // Set first person camera mode
 
             SetTargetFPS(90);                   // Set our game to run at 90 frames-per-second
             //--------------------------------------------------------------------------------------
@@ -113,7 +109,7 @@ namespace Examples.Core
             {
                 // Update
                 //----------------------------------------------------------------------------------
-                UpdateCamera(ref camera);          // Update camera (simulator mode)
+                UpdateCamera(ref camera, CameraMode.CAMERA_FIRST_PERSON);
                 //----------------------------------------------------------------------------------
 
                 // Draw

@@ -19,11 +19,9 @@ using Raylib_cs;
 using static Raylib_cs.Raylib;
 using static Raylib_cs.ConfigFlags;
 using static Raylib_cs.Color;
-using static Raylib_cs.CameraProjection;
 using static Raylib_cs.ShaderLocationIndex;
 using static Raylib_cs.ShaderUniformDataType;
 using static Raylib_cs.MaterialMapIndex;
-using static Raylib_cs.CameraMode;
 using static Raylib_cs.KeyboardKey;
 
 namespace Examples.Shaders
@@ -58,7 +56,7 @@ namespace Examples.Shaders
             camera.target = new Vector3(0.0f, 0.0f, 0.0f);
             camera.up = new Vector3(0.0f, 1.0f, 0.0f);
             camera.fovy = 45.0f;
-            camera.projection = CAMERA_PERSPECTIVE;
+            camera.projection = CameraProjection.CAMERA_PERSPECTIVE;
 
             // Number of instances to display
             const int instances = 10000;
@@ -111,8 +109,6 @@ namespace Examples.Shaders
                 material.maps[(int)MATERIAL_MAP_DIFFUSE].color = RED;
             }
 
-            SetCameraMode(camera, CAMERA_FREE); // Set a free camera mode
-
             int textPositionY = 300;
 
             // Simple frames counter to manage animation
@@ -126,7 +122,7 @@ namespace Examples.Shaders
             {
                 // Update
                 //----------------------------------------------------------------------------------
-                UpdateCamera(ref camera);
+                UpdateCamera(ref camera, CameraMode.CAMERA_FREE);
 
                 textPositionY = 300;
                 framesCounter += 1;

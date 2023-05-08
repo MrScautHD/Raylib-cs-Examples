@@ -14,8 +14,6 @@ using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
 using static Raylib_cs.Color;
-using static Raylib_cs.CameraMode;
-using static Raylib_cs.CameraProjection;
 using static Raylib_cs.MaterialMapIndex;
 using static Raylib_cs.ShaderUniformDataType;
 
@@ -33,7 +31,12 @@ namespace Examples.Models
             InitWindow(screenWidth, screenHeight, "raylib [models] example - skybox loading and drawing");
 
             // Define the camera to look into our 3d world
-            Camera3D camera = new Camera3D(new Vector3(1.0f, 1.0f, 1.0f), new Vector3(4.0f, 1.0f, 4.0f), new Vector3(0.0f, 1.0f, 0.0f), 45.0f, CAMERA_PERSPECTIVE);
+            Camera3D camera = new Camera3D();
+            camera.position = new Vector3(1.0f, 1.0f, 1.0f);
+            camera.target = new Vector3(4.0f, 1.0f, 4.0f);
+            camera.up = new Vector3(0.0f, 1.0f, 0.0f);
+            camera.fovy = 45.0f;
+            camera.projection = CameraProjection.CAMERA_PERSPECTIVE;
 
             // Load skybox model
             Mesh cube = GenMeshCube(1.0f, 1.0f, 1.0f);
@@ -60,8 +63,6 @@ namespace Examples.Models
             //Raylib.SetMaterialTexture(ref skybox, 0, MATERIAL_MAP_CUBEMAP, ref cubemap);
             UnloadTexture(panorama);      // Texture not required anymore, cubemap already generated
 
-            SetCameraMode(camera, CAMERA_FIRST_PERSON);  // Set a first person camera mode
-
             SetTargetFPS(60);                       // Set our game to run at 60 frames-per-second
             //--------------------------------------------------------------------------------------
 
@@ -70,7 +71,7 @@ namespace Examples.Models
             {
                 // Update
                 //----------------------------------------------------------------------------------
-                UpdateCamera(ref camera);              // Update camera
+                UpdateCamera(ref camera, CameraMode.CAMERA_FIRST_PERSON);
 
                 // Load new cubemap texture on drag & drop
                 if (IsFileDropped())

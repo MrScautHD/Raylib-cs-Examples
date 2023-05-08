@@ -31,8 +31,6 @@ using static Raylib_cs.Raylib;
 using static Raylib_cs.Raymath;
 using static Raylib_cs.Color;
 using static Raylib_cs.ConfigFlags;
-using static Raylib_cs.CameraMode;
-using static Raylib_cs.CameraProjection;
 using static Raylib_cs.KeyboardKey;
 using static Raylib_cs.ShaderLocationIndex;
 using static Examples.Rlights;
@@ -59,7 +57,7 @@ namespace Examples.Shaders
             camera.target = new Vector3(0.0f, 0.5f, 0.0f);
             camera.up = new Vector3(0.0f, 1.0f, 0.0f);
             camera.fovy = 45.0f;
-            camera.projection = CAMERA_PERSPECTIVE;
+            camera.projection = CameraProjection.CAMERA_PERSPECTIVE;
 
             // Load plane model from a generated mesh
             Model model = LoadModelFromMesh(GenMeshPlane(10.0f, 10.0f, 3, 3));
@@ -87,8 +85,6 @@ namespace Examples.Shaders
             lights[2] = CreateLight(2, LightType.LIGHT_POINT, new Vector3(-2, 1, 2), Vector3.Zero, GREEN, shader);
             lights[3] = CreateLight(3, LightType.LIGHT_POINT, new Vector3(2, 1, -2), Vector3.Zero, BLUE, shader);
 
-            SetCameraMode(camera, CAMERA_ORBITAL);  // Set an orbital camera mode
-
             SetTargetFPS(60);                       // Set our game to run at 60 frames-per-second
             //--------------------------------------------------------------------------------------
 
@@ -97,7 +93,7 @@ namespace Examples.Shaders
             {
                 // Update
                 //----------------------------------------------------------------------------------
-                UpdateCamera(ref camera);              // Update camera
+                UpdateCamera(ref camera, CameraMode.CAMERA_ORBITAL);
 
                 if (IsKeyPressed(KEY_Y))
                 {

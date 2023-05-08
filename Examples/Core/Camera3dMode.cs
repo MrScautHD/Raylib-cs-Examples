@@ -13,7 +13,6 @@ using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
 using static Raylib_cs.Color;
-using static Raylib_cs.CameraProjection;
 
 namespace Examples.Core
 {
@@ -34,7 +33,7 @@ namespace Examples.Core
             camera.target = new Vector3(0.0f, 0.0f, 0.0f);      // Camera looking at point
             camera.up = new Vector3(0.0f, 1.0f, 0.0f);          // Camera up vector (rotation towards target)
             camera.fovy = 45.0f;                                // Camera field-of-view Y
-            camera.projection = CAMERA_PERSPECTIVE;                   // Camera mode type
+            camera.projection = CameraProjection.CAMERA_PERSPECTIVE;                   // Camera mode type
 
             Vector3 cubePosition = new Vector3(0.0f, 0.0f, 0.0f);
 

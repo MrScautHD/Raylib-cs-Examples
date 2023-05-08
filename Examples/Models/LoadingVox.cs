@@ -71,7 +71,6 @@ namespace Examples.Models
             }
 
             int currentModel = 0;
-            SetCameraMode(camera, CameraMode.CAMERA_ORBITAL);
 
             SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
             //--------------------------------------------------------------------------------------
@@ -81,7 +80,7 @@ namespace Examples.Models
             {
                 // Update
                 //----------------------------------------------------------------------------------
-                UpdateCamera(ref camera);      // Update our camera to orbit
+                UpdateCamera(ref camera, CameraMode.CAMERA_ORBITAL);
 
                 // Cycle between models on mouse click
                 if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))

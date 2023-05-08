@@ -13,7 +13,6 @@ using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
 using static Raylib_cs.Color;
-using static Raylib_cs.CameraMode;
 using static Raylib_cs.MaterialMapIndex;
 
 namespace Examples.Models
@@ -54,8 +53,6 @@ namespace Examples.Models
 
             UnloadImage(image);     // Unload cubesmap image from RAM, already uploaded to VRAM
 
-            SetCameraMode(camera, CAMERA_ORBITAL);  // Set an orbital camera mode
-
             SetTargetFPS(60);                       // Set our game to run at 60 frames-per-second
             //--------------------------------------------------------------------------------------
 
@@ -64,7 +61,7 @@ namespace Examples.Models
             {
                 // Update
                 //----------------------------------------------------------------------------------
-                UpdateCamera(ref camera);              // Update camera
+                UpdateCamera(ref camera, CameraMode.CAMERA_ORBITAL);
                 //----------------------------------------------------------------------------------
 
                 // Draw

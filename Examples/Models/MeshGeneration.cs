@@ -13,7 +13,6 @@ using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
 using static Raylib_cs.Color;
-using static Raylib_cs.CameraMode;
 using static Raylib_cs.MaterialMapIndex;
 using static Raylib_cs.MouseButton;
 
@@ -62,8 +61,6 @@ namespace Examples.Models
 
             int currentModel = 0;
 
-            SetCameraMode(camera, CAMERA_ORBITAL);  // Set a orbital camera mode
-
             SetTargetFPS(60);                       // Set our game to run at 60 frames-per-second
             //--------------------------------------------------------------------------------------
 
@@ -72,7 +69,7 @@ namespace Examples.Models
             {
                 // Update
                 //----------------------------------------------------------------------------------
-                UpdateCamera(ref camera);      // Update internal camera and our camera
+                UpdateCamera(ref camera, CameraMode.CAMERA_ORBITAL);      // Update internal camera and our camera
 
                 if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
                 {

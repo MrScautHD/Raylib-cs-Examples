@@ -15,7 +15,6 @@ using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
 using static Raylib_cs.Color;
-using static Raylib_cs.CameraProjection;
 using static Raylib_cs.KeyboardKey;
 
 namespace Examples.Models
@@ -35,7 +34,12 @@ namespace Examples.Models
             InitWindow(screenWidth, screenHeight, "raylib [models] example - geometric shapes");
 
             // Define the camera to look into our 3d world
-            Camera3D camera = new Camera3D(new Vector3(0.0f, 10.0f, 10.0f), new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 1.0f, 0.0f), FOVY_PERSPECTIVE, CAMERA_PERSPECTIVE);
+            Camera3D camera = new Camera3D();
+            camera.position = new Vector3(0.0f, 10.0f, 10.0f);
+            camera.target = new Vector3(0.0f, 0.0f, 0.0f);
+            camera.up = new Vector3(0.0f, 1.0f, 0.0f);
+            camera.fovy = FOVY_PERSPECTIVE;
+            camera.projection = CameraProjection.CAMERA_PERSPECTIVE;
 
             SetTargetFPS(60);   // Set our game to run at 60 frames-per-second
             //--------------------------------------------------------------------------------------
@@ -47,15 +51,15 @@ namespace Examples.Models
                 //----------------------------------------------------------------------------------
                 if (IsKeyPressed(KEY_SPACE))
                 {
-                    if (camera.projection == CAMERA_PERSPECTIVE)
+                    if (camera.projection == CameraProjection.CAMERA_PERSPECTIVE)
                     {
                         camera.fovy = WIDTH_ORTHOGRAPHIC;
-                        camera.projection = CAMERA_ORTHOGRAPHIC;
+                        camera.projection = CameraProjection.CAMERA_ORTHOGRAPHIC;
                     }
                     else
                     {
                         camera.fovy = FOVY_PERSPECTIVE;
-                        camera.projection = CAMERA_PERSPECTIVE;
+                        camera.projection = CameraProjection.CAMERA_PERSPECTIVE;
                     }
                 }
                 //----------------------------------------------------------------------------------
@@ -87,11 +91,11 @@ namespace Examples.Models
 
                 DrawText("Press Spacebar to switch camera type", 10, GetScreenHeight() - 30, 20, DARKGRAY);
 
-                if (camera.projection == CAMERA_ORTHOGRAPHIC)
+                if (camera.projection == CameraProjection.CAMERA_ORTHOGRAPHIC)
                 {
                     DrawText("ORTHOGRAPHIC", 10, 40, 20, BLACK);
                 }
-                else if (camera.projection == CAMERA_PERSPECTIVE)
+                else if (camera.projection == CameraProjection.CAMERA_PERSPECTIVE)
                 {
                     DrawText("PERSPECTIVE", 10, 40, 20, BLACK);
                 }

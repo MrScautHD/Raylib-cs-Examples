@@ -22,8 +22,6 @@ using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
 using static Raylib_cs.Color;
-using static Raylib_cs.CameraProjection;
-using static Raylib_cs.CameraMode;
 using static Raylib_cs.KeyboardKey;
 using static Raylib_cs.MaterialMapIndex;
 
@@ -46,7 +44,7 @@ namespace Examples.Models
             camera.target = new Vector3(0.0f, 0.0f, 0.0f);      // Camera looking at point
             camera.up = new Vector3(0.0f, 1.0f, 0.0f);          // Camera up vector (rotation towards target)
             camera.fovy = 45.0f;                                // Camera field-of-view Y
-            camera.projection = CAMERA_PERSPECTIVE;                   // Camera mode type
+            camera.projection = CameraProjection.CAMERA_PERSPECTIVE;                   // Camera mode type
 
             Model model = LoadModel("resources/models/iqm/guy.iqm");                // Load the animated model mesh and basic data
             Texture2D texture = LoadTexture("resources/models/iqm/guytex.png");     // Load model texture and set material
@@ -59,8 +57,6 @@ namespace Examples.Models
             var anims = LoadModelAnimations("resources/models/iqm/guyanim.iqm", ref animsCount);
             int animFrameCounter = 0;
 
-            SetCameraMode(camera, CAMERA_FREE); // Set free camera mode
-
             SetTargetFPS(60);                   // Set our game to run at 60 frames-per-second
             //--------------------------------------------------------------------------------------
 
@@ -69,7 +65,7 @@ namespace Examples.Models
             {
                 // Update
                 //----------------------------------------------------------------------------------
-                UpdateCamera(ref camera);
+                UpdateCamera(ref camera, CameraMode.CAMERA_FREE);
 
                 // Play animation when spacebar is held down
                 if (IsKeyDown(KEY_SPACE))

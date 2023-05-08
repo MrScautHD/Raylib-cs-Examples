@@ -20,10 +20,8 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.CameraProjection;
 using static Raylib_cs.Color;
 using static Raylib_cs.KeyboardKey;
-using static Raylib_cs.CameraMode;
 
 namespace Examples.Models
 {
@@ -40,30 +38,28 @@ namespace Examples.Models
 
             // Define the camera to look into our 3d world
             Camera3D camera;
-            camera.position = new Vector3(10.0f, 10.0f, 10.0f);
-            camera.target = new Vector3(0.0f, 0.0f, 0.0f);
+            camera.position = new Vector3(5.0f, 5.0f, 5.0f);
+            camera.target = new Vector3(0.0f, 2.0f, 0.0f);
             camera.up = new Vector3(0.0f, 1.0f, 0.0f);
             camera.fovy = 45.0f;
-            camera.projection = CAMERA_PERSPECTIVE;
+            camera.projection = CameraProjection.CAMERA_PERSPECTIVE;
 
-            const int modelCount = 6;
-            Model[] model = new Model[modelCount];
+            // Load gltf model
+            Model model = LoadModel("resources/models/gltf/robot.glb");
 
-            model[0] = LoadModel("resources/models/gltf/raylib_32x32.glb");
-            model[1] = LoadModel("resources/models/gltf/rigged_figure.glb");
-            model[2] = LoadModel("resources/models/gltf/GearboxAssy.glb");
-            model[3] = LoadModel("resources/models/gltf/BoxAnimated.glb");
-            model[4] = LoadModel("resources/models/gltf/AnimatedTriangle.gltf");
-            model[5] = LoadModel("resources/models/gltf/AnimatedMorphCube.glb");
-
-            int currentModel = 0;
+            // Load gltf model animations
+            uint animsCount = 0;
+            uint animIndex = 0;
+            uint animCurrentFrame = 0;
+            var modelAnimations = LoadModelAnimations("resources/models/gltf/robot.glb", ref animsCount);
 
             // Set model position
             Vector3 position = new Vector3(0.0f, 0.0f, 0.0f);
 
-            SetCameraMode(camera, CAMERA_FREE);
+            // Limit cursor to relative movement inside the window
+            DisableCursor();
 
-            SetTargetFPS(30);                   // Set our game to run at 60 frames-per-second
+            SetTargetFPS(60);                   // Set our game to run at 60 frames-per-second
             //--------------------------------------------------------------------------------------
 
             // Main game loop
@@ -71,25 +67,23 @@ namespace Examples.Models
             {
                 // Update
                 //----------------------------------------------------------------------------------
-                UpdateCamera(ref camera);
+                UpdateCamera(ref camera, CameraMode.CAMERA_FREE);
 
-                if (IsKeyReleased(KEY_RIGHT))
+                // Select current animation
+                if (IsKeyReleased(KEY_UP))
                 {
-                    currentModel += 1;
-                    if (currentModel == modelCount)
-                    {
-                        currentModel = 0;
-                    }
+                    animIndex = (animIndex + 1) % animsCount;
                 }
 
-                if (IsKeyReleased(KEY_LEFT))
+                if (IsKeyReleased(KEY_DOWN))
                 {
-                    currentModel -= 1;
-                    if (currentModel < 0)
-                    {
-                        currentModel = modelCount - 1;
-                    }
+                    animIndex = (animIndex + animsCount - 1) % animsCount;
                 }
+
+                // Update model animation
+                ModelAnimation anim = modelAnimations[(int)animIndex];
+                animCurrentFrame = (animCurrentFrame + 1) % (uint)anim.frameCount;
+                UpdateModelAnimation(model, anim, (int)animCurrentFrame);
                 //----------------------------------------------------------------------------------
 
                 // Draw
@@ -99,7 +93,7 @@ namespace Examples.Models
 
                 BeginMode3D(camera);
 
-                DrawModelEx(model[currentModel], position, new Vector3(0.0f, 1.0f, 0.0f), 180.0f, new Vector3(2.0f, 2.0f, 2.0f), WHITE);
+                DrawModel(model, position, 1.0f, WHITE);
                 DrawGrid(10, 1.0f);
 
                 EndMode3D();
@@ -111,11 +105,8 @@ namespace Examples.Models
             // De-Initialization
             //--------------------------------------------------------------------------------------
 
-            // Unload model animations data
-            for (int i = 0; i < modelCount; i++)
-            {
-                UnloadModel(model[i]);  // Unload models
-            }
+            // Unload model and meshes/material
+            UnloadModel(model);
 
             CloseWindow();              // Close window and OpenGL context
             //--------------------------------------------------------------------------------------

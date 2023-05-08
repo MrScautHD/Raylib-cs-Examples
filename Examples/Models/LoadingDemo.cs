@@ -22,8 +22,6 @@ using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
 using static Raylib_cs.Color;
-using static Raylib_cs.CameraMode;
-using static Raylib_cs.CameraProjection;
 using static Raylib_cs.MouseButton;
 using static Raylib_cs.MaterialMapIndex;
 
@@ -46,7 +44,7 @@ namespace Examples.Models
             camera.target = new Vector3(0.0f, 10.0f, 0.0f);
             camera.up = new Vector3(0.0f, 1.0f, 0.0f);
             camera.fovy = 45.0f;
-            camera.projection = CAMERA_PERSPECTIVE;
+            camera.projection = CameraProjection.CAMERA_PERSPECTIVE;
 
             Model model = LoadModel("resources/models/obj/castle.obj");
             Texture2D texture = LoadTexture("resources/models/obj/castle_diffuse.png");
@@ -60,8 +58,6 @@ namespace Examples.Models
             // NOTE: bounds are calculated from the original size of the model,
             // if model is scaled on drawing, bounds must be also scaled
 
-            SetCameraMode(camera, CAMERA_FREE);
-
             bool selected = false;
 
             SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
@@ -72,7 +68,7 @@ namespace Examples.Models
             {
                 // Update
                 //----------------------------------------------------------------------------------
-                UpdateCamera(ref camera);
+                UpdateCamera(ref camera, CameraMode.CAMERA_FREE);
 
                 // Load new models/textures on dragref
                 if (IsFileDropped())

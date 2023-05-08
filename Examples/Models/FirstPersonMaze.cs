@@ -15,7 +15,6 @@ using Raylib_cs;
 using static Raylib_cs.Raylib;
 using static Raylib_cs.Color;
 using static Raylib_cs.MaterialMapIndex;
-using static Raylib_cs.CameraMode;
 
 namespace Examples.Models
 {
@@ -57,8 +56,6 @@ namespace Examples.Models
             Vector3 mapPosition = new Vector3(-16.0f, 0.0f, -8.0f);  // Set model position
             Vector3 playerPosition = camera.position;       // Set player position
 
-            SetCameraMode(camera, CAMERA_FIRST_PERSON);     // Set camera mode
-
             SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
             //--------------------------------------------------------------------------------------
 
@@ -69,7 +66,7 @@ namespace Examples.Models
                 //----------------------------------------------------------------------------------
                 Vector3 oldCamPos = camera.position;    // Store old camera position
 
-                UpdateCamera(ref camera);      // Update camera
+                UpdateCamera(ref camera, CameraMode.CAMERA_FIRST_PERSON);
 
                 // Check player collision (we simplify to 2D collision detection)
                 Vector2 playerPos = new Vector2(camera.position.X, camera.position.Z);

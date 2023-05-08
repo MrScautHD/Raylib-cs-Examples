@@ -20,7 +20,6 @@ using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
 using static Raylib_cs.Color;
-using static Raylib_cs.CameraMode;
 using static Raylib_cs.MaterialMapIndex;
 using static Raylib_cs.KeyboardKey;
 
@@ -112,9 +111,6 @@ namespace Examples.Shaders
             // Create a RenderTexture2D to be used for render to texture
             RenderTexture2D target = LoadRenderTexture(screenWidth, screenHeight);
 
-            // Setup orbital camera
-            SetCameraMode(camera, CAMERA_ORBITAL);  // Set an orbital camera mode
-
             SetTargetFPS(60);                       // Set our game to run at 60 frames-per-second
             //--------------------------------------------------------------------------------------
 
@@ -123,7 +119,7 @@ namespace Examples.Shaders
             {
                 // Update
                 //----------------------------------------------------------------------------------
-                UpdateCamera(ref camera);              // Update camera
+                UpdateCamera(ref camera, CameraMode.CAMERA_ORBITAL);
 
                 if (IsKeyPressed(KEY_RIGHT))
                 {
