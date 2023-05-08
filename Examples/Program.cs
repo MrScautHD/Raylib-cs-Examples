@@ -136,6 +136,7 @@ namespace Examples
             Eratosthenes.Main();
             Fog.Main();
             HotReloading.Main();
+            HybridRender.Main();
             JuliaSet.Main();
             ModelShader.Main();
             MultiSample2d.Main();
