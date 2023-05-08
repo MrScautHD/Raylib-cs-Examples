@@ -149,6 +149,7 @@ namespace Examples
             TextureDrawing.Main();
             TextureOutline.Main();
             TextureWaves.Main();
+            WriteDepth.Main();
         }
 
         static void RunAudioExamples()
