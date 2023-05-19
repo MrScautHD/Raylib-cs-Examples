@@ -121,7 +121,7 @@ namespace Examples
             LoadingVox.Main();
             LoadingDemo.Main();
             MeshGeneration.Main();
-            // MeshPicking.Main();
+            MeshPicking.Main();
             OrthographicProjection.Main();
             SolarSystem.Main();
             SkyboxDemo.Main();

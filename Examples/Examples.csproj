@@ -10,7 +10,6 @@
   <ItemGroup>
     <Compile Remove="Core/LoadingThread.cs" />
     <Compile Remove="Text/Unicode.cs" />
-    <Compile Remove="Models/MeshPicking.cs" />
   </ItemGroup>
 
   <ItemGroup>
