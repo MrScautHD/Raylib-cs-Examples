@@ -72,7 +72,7 @@ namespace Examples
             MousePainting.Main,
             NpatchDrawing.Main,
             ParticlesBlending.Main,
-            TexturedCurve.Main,
+            // TexturedCurve.Main,
             Polygon.Main,
             RawData.Main,
             SpriteAnim.Main,
