@@ -1,8 +1,12 @@
-# version 330
+#version 100
+#extension GL_EXT_frag_depth : enable           //Extension required for writing depth
+#extension GL_OES_standard_derivatives : enable //Extension used for fwidth()
+precision mediump float;                // Precision required for OpenGL ES2 (WebGL)
+
 
 // Input vertex attributes (from vertex shader)
-in vec2 fragTexCoord;
-in vec4 fragColor;
+varying vec2 fragTexCoord;
+varying vec4 fragColor;
 
 // Input uniform values
 uniform sampler2D texture0;
@@ -280,5 +284,5 @@ void main()
         depth = CalcDepth(rd,res.w);
     }
     gl_FragColor = vec4(color , 1.0);
-	gl_FragDepth = depth;
+	gl_FragDepthEXT = depth;
 }
