@@ -14,8 +14,6 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.MouseButton;
 
 namespace Examples.Core
 {
@@ -30,11 +28,8 @@ namespace Examples.Core
 
             InitWindow(screenWidth, screenHeight, "raylib [core] example - input multitouch");
 
-            Vector2 ballPosition = new Vector2(-100.0f, -100.0f);
-            Color ballColor = BEIGE;
-
-            int touchCounter = 0;
-            Vector2 touchPosition = new Vector2(0.0f, 0.0f);
+            const int MaxTouchPoints = 10;
+            Vector2[] touchPositions = new Vector2[MaxTouchPoints];
 
             SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
             //---------------------------------------------------------------------------------------
@@ -44,69 +39,44 @@ namespace Examples.Core
             {
                 // Update
                 //----------------------------------------------------------------------------------
-                ballPosition = GetMousePosition();
+                // Get the touch point count (h ow many fingers are touching the screen )
+                int tCount = GetTouchPointCount();
 
-                ballColor = BEIGE;
-
-                if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+                // Clamp touch points available (set the maximum touch points allowed )
+                if (tCount > MaxTouchPoints)
                 {
-                    ballColor = MAROON;
+                    tCount = MaxTouchPoints;
                 }
 
-                if (IsMouseButtonDown(MOUSE_MIDDLE_BUTTON))
+                // Get touch points positions
+                for (int i = 0; i < tCount; i++)
                 {
-                    ballColor = LIME;
-                }
-
-                if (IsMouseButtonDown(MOUSE_RIGHT_BUTTON))
-                {
-                    ballColor = DARKBLUE;
-                }
-
-                if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-                {
-                    touchCounter = 10;
-                }
-
-                if (IsMouseButtonPressed(MOUSE_MIDDLE_BUTTON))
-                {
-                    touchCounter = 10;
-                }
-
-                if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
-                {
-                    touchCounter = 10;
-                }
-
-                if (touchCounter > 0)
-                {
-                    touchCounter--;
+                    touchPositions[i] = GetTouchPosition(i);
                 }
                 //----------------------------------------------------------------------------------
 
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
-                // Multitouch
-                for (int i = 0; i < 10; ++i)
+                for (int i = 0; i < tCount; i++)
                 {
-                    touchPosition = GetTouchPosition(i);                    // Get the touch point
-
-                    if ((touchPosition.X >= 0) && (touchPosition.Y >= 0))   // Make sure point is not (-1,-1) as this means there is no touch for it
+                    // Make sure point is not (0, 0) as this means there is no touch for it
+                    if ((touchPositions[i].X > 0) && (touchPositions[i].Y > 0))
                     {
                         // Draw circle and touch index number
-                        DrawCircleV(touchPosition, 34, ORANGE);
-                        DrawText($"{i}", (int)(touchPosition.X - 10), (int)(touchPosition.Y - 70), 40, BLACK);
+                        DrawCircleV(touchPositions[i], 34, Color.ORANGE);
+                        DrawText(i.ToString(),
+                            (int)touchPositions[i].X - 10,
+                            (int)touchPositions[i].Y - 70,
+                            40,
+                            Color.BLACK
+                        );
                     }
                 }
 
-                // Draw the normal mouse location
-                DrawCircleV(ballPosition, 30 + (touchCounter * 3), ballColor);
-
-                DrawText("move ball with mouse and click mouse button to change color", 10, 10, 20, DARKGRAY);
-                DrawText("touch the screen at multiple locations to get multiple balls", 10, 30, 20, DARKGRAY);
+                DrawText("touch the screen at multiple locations to get multiple balls", 10, 10, 20, Color.DARKGRAY);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
