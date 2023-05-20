@@ -28,11 +28,6 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Raymath;
-using static Raylib_cs.Color;
-using static Raylib_cs.ConfigFlags;
-using static Raylib_cs.KeyboardKey;
-using static Raylib_cs.ShaderLocationIndex;
 using static Examples.Rlights;
 
 namespace Examples.Shaders
@@ -48,7 +43,8 @@ namespace Examples.Shaders
             const int screenWidth = 800;
             const int screenHeight = 450;
 
-            SetConfigFlags(FLAG_MSAA_4X_HINT);  // Enable Multi Sampling Anti Aliasing 4x (if available)
+            // Enable Multi Sampling Anti Aliasing 4x (if available)
+            SetConfigFlags(ConfigFlags.FLAG_MSAA_4X_HINT);
             InitWindow(screenWidth, screenHeight, "raylib [shaders] example - basic lighting");
 
             // Define the camera to look into our 3d world
@@ -63,11 +59,13 @@ namespace Examples.Shaders
             Model model = LoadModelFromMesh(GenMeshPlane(10.0f, 10.0f, 3, 3));
             Model cube = LoadModelFromMesh(GenMeshCube(2.0f, 4.0f, 2.0f));
 
-            Shader shader = LoadShader("resources/shaders/glsl330/base_lighting.vs",
-                                       "resources/shaders/glsl330/lighting.fs");
+            Shader shader = LoadShader(
+                "resources/shaders/glsl330/lighting.vs",
+                "resources/shaders/glsl330/lighting.fs"
+            );
 
             // Get some required shader loactions
-            shader.locs[(int)SHADER_LOC_VECTOR_VIEW] = GetShaderLocation(shader, "viewPos");
+            shader.locs[(int)ShaderLocationIndex.SHADER_LOC_VECTOR_VIEW] = GetShaderLocation(shader, "viewPos");
 
             // ambient light level
             int ambientLoc = GetShaderLocation(shader, "ambient");
@@ -80,10 +78,38 @@ namespace Examples.Shaders
 
             // Using 4 point lights: gold, red, green and blue
             Light[] lights = new Light[4];
-            lights[0] = CreateLight(0, LightType.LIGHT_POINT, new Vector3(-2, 1, -2), Vector3.Zero, YELLOW, shader);
-            lights[1] = CreateLight(1, LightType.LIGHT_POINT, new Vector3(2, 1, 2), Vector3.Zero, RED, shader);
-            lights[2] = CreateLight(2, LightType.LIGHT_POINT, new Vector3(-2, 1, 2), Vector3.Zero, GREEN, shader);
-            lights[3] = CreateLight(3, LightType.LIGHT_POINT, new Vector3(2, 1, -2), Vector3.Zero, BLUE, shader);
+            lights[0] = CreateLight(
+                0,
+                LightType.LIGHT_POINT,
+                new Vector3(-2, 1, -2),
+                Vector3.Zero,
+                Color.YELLOW,
+                shader
+            );
+            lights[1] = CreateLight(
+                1,
+                LightType.LIGHT_POINT,
+                new Vector3(2, 1, 2),
+                Vector3.Zero,
+                Color.RED,
+                shader
+            );
+            lights[2] = CreateLight(
+                2,
+                LightType.LIGHT_POINT,
+                new Vector3(-2, 1, 2),
+                Vector3.Zero,
+                Color.GREEN,
+                shader
+            );
+            lights[3] = CreateLight(
+                3,
+                LightType.LIGHT_POINT,
+                new Vector3(2, 1, -2),
+                Vector3.Zero,
+                Color.BLUE,
+                shader
+            );
 
             SetTargetFPS(60);                       // Set our game to run at 60 frames-per-second
             //--------------------------------------------------------------------------------------
@@ -95,19 +121,19 @@ namespace Examples.Shaders
                 //----------------------------------------------------------------------------------
                 UpdateCamera(ref camera, CameraMode.CAMERA_ORBITAL);
 
-                if (IsKeyPressed(KEY_Y))
+                if (IsKeyPressed(KeyboardKey.KEY_Y))
                 {
                     lights[0].enabled = !lights[0].enabled;
                 }
-                if (IsKeyPressed(KEY_R))
+                if (IsKeyPressed(KeyboardKey.KEY_R))
                 {
                     lights[1].enabled = !lights[1].enabled;
                 }
-                if (IsKeyPressed(KEY_G))
+                if (IsKeyPressed(KeyboardKey.KEY_G))
                 {
                     lights[2].enabled = !lights[2].enabled;
                 }
-                if (IsKeyPressed(KEY_B))
+                if (IsKeyPressed(KeyboardKey.KEY_B))
                 {
                     lights[3].enabled = !lights[3].enabled;
                 }
@@ -119,54 +145,59 @@ namespace Examples.Shaders
                 UpdateLightValues(shader, lights[3]);
 
                 // Update the light shader with the camera view position
-                Raylib.SetShaderValue(shader, shader.locs[(int)SHADER_LOC_VECTOR_VIEW], camera.position, ShaderUniformDataType.SHADER_UNIFORM_VEC3);
+                Raylib.SetShaderValue(
+                    shader,
+                    shader.locs[(int)ShaderLocationIndex.SHADER_LOC_VECTOR_VIEW],
+                    camera.position,
+                    ShaderUniformDataType.SHADER_UNIFORM_VEC3
+                );
                 //----------------------------------------------------------------------------------
 
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 BeginMode3D(camera);
 
-                DrawModel(model, Vector3Zero(), 1.0f, WHITE);
-                DrawModel(cube, Vector3Zero(), 1.0f, WHITE);
+                DrawModel(model, Vector3.Zero, 1.0f, Color.WHITE);
+                DrawModel(cube, Vector3.Zero, 1.0f, Color.WHITE);
 
                 // Draw markers to show where the lights are
                 if (lights[0].enabled)
                 {
-                    DrawSphereEx(lights[0].position, 0.2f, 8, 8, YELLOW);
+                    DrawSphereEx(lights[0].position, 0.2f, 8, 8, Color.YELLOW);
                 }
                 else
                 {
-                    DrawSphereWires(lights[0].position, 0.2f, 8, 8, ColorAlpha(YELLOW, 0.3f));
+                    DrawSphereWires(lights[0].position, 0.2f, 8, 8, ColorAlpha(Color.YELLOW, 0.3f));
                 }
 
                 if (lights[1].enabled)
                 {
-                    DrawSphereEx(lights[1].position, 0.2f, 8, 8, RED);
+                    DrawSphereEx(lights[1].position, 0.2f, 8, 8, Color.RED);
                 }
                 else
                 {
-                    DrawSphereWires(lights[1].position, 0.2f, 8, 8, ColorAlpha(RED, 0.3f));
+                    DrawSphereWires(lights[1].position, 0.2f, 8, 8, ColorAlpha(Color.RED, 0.3f));
                 }
 
                 if (lights[2].enabled)
                 {
-                    DrawSphereEx(lights[2].position, 0.2f, 8, 8, GREEN);
+                    DrawSphereEx(lights[2].position, 0.2f, 8, 8, Color.GREEN);
                 }
                 else
                 {
-                    DrawSphereWires(lights[2].position, 0.2f, 8, 8, ColorAlpha(GREEN, 0.3f));
+                    DrawSphereWires(lights[2].position, 0.2f, 8, 8, ColorAlpha(Color.GREEN, 0.3f));
                 }
 
                 if (lights[3].enabled)
                 {
-                    DrawSphereEx(lights[3].position, 0.2f, 8, 8, BLUE);
+                    DrawSphereEx(lights[3].position, 0.2f, 8, 8, Color.BLUE);
                 }
                 else
                 {
-                    DrawSphereWires(lights[3].position, 0.2f, 8, 8, ColorAlpha(BLUE, 0.3f));
+                    DrawSphereWires(lights[3].position, 0.2f, 8, 8, ColorAlpha(Color.BLUE, 0.3f));
                 }
 
                 DrawGrid(10, 1.0f);
@@ -174,7 +205,7 @@ namespace Examples.Shaders
                 EndMode3D();
 
                 DrawFPS(10, 10);
-                DrawText("Use keys [Y][R][G][B] to toggle lights", 10, 40, 20, DARKGRAY);
+                DrawText("Use keys [Y][R][G][B] to toggle lights", 10, 40, 20, Color.DARKGRAY);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------

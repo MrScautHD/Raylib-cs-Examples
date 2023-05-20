@@ -17,12 +17,6 @@ using System;
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.ConfigFlags;
-using static Raylib_cs.Color;
-using static Raylib_cs.ShaderLocationIndex;
-using static Raylib_cs.ShaderUniformDataType;
-using static Raylib_cs.MaterialMapIndex;
-using static Raylib_cs.KeyboardKey;
 
 namespace Examples.Shaders
 {
@@ -36,14 +30,20 @@ namespace Examples.Shaders
             const int screenHeight = 450;
             const int fps = 60;
 
-            SetConfigFlags(FLAG_MSAA_4X_HINT);  // Enable Multi Sampling Anti Aliasing 4x (if available)
+            // Enable Multi Sampling Anti Aliasing 4x (if available)
+            SetConfigFlags(ConfigFlags.FLAG_MSAA_4X_HINT);
             InitWindow(screenWidth, screenHeight, "raylib [shaders] example - rlgl mesh instanced");
 
-            int speed = 30;                 // Speed of jump animation
-            int groups = 2;                 // Count of separate groups jumping around
-            float amp = 10;                 // Maximum amplitude of jump
-            float variance = 0.8f;          // Global variance in jump height
-            float loop = 0.0f;              // Individual cube's computed loop timer
+            // Speed of jump animation
+            int speed = 30;
+            // Count of separate groups jumping around
+            int groups = 2;
+            // Maximum amplitude of jump
+            float amp = 10;
+            // Global variance in jump height
+            float variance = 0.8f;
+            // Individual cube's computed loop timer
+            float loop = 0.0f;
 
             // Used for various 3D coordinate & vector ops
             float x = 0.0f;
@@ -62,9 +62,12 @@ namespace Examples.Shaders
             const int instances = 10000;
             Mesh cube = GenMeshCube(1.0f, 1.0f, 1.0f);
 
-            Matrix4x4[] rotations = new Matrix4x4[instances];    // Rotation state of instances
-            Matrix4x4[] rotationsInc = new Matrix4x4[instances]; // Per-frame rotation animation of instances
-            Matrix4x4[] translations = new Matrix4x4[instances]; // Locations of instances
+            // Rotation state of instances
+            Matrix4x4[] rotations = new Matrix4x4[instances];
+            // Per-frame rotation animation of instances
+            Matrix4x4[] rotationsInc = new Matrix4x4[instances];
+            // Locations of instances
+            Matrix4x4[] translations = new Matrix4x4[instances];
 
             // Scatter random cubes around
             for (int i = 0; i < instances; i++)
@@ -85,28 +88,43 @@ namespace Examples.Shaders
             }
 
             Matrix4x4[] transforms = new Matrix4x4[instances];   // Pre-multiplied transformations passed to rlgl
-            Shader shader = LoadShader("resources/shaders/glsl330/base_lighting_instanced.vs", "resources/shaders/glsl330/lighting.fs");
+            Shader shader = LoadShader("resources/shaders/glsl330/lighting_instancing.vs", "resources/shaders/glsl330/lighting.fs");
 
             // Get some shader loactions
             unsafe
             {
                 int* locs = (int*)shader.locs;
-                locs[(int)SHADER_LOC_MATRIX_MVP] = GetShaderLocation(shader, "mvp");
-                locs[(int)SHADER_LOC_VECTOR_VIEW] = GetShaderLocation(shader, "viewPos");
-                locs[(int)SHADER_LOC_MATRIX_MODEL] = GetShaderLocationAttrib(shader, "instanceTransform");
+                locs[(int)ShaderLocationIndex.SHADER_LOC_MATRIX_MVP] = GetShaderLocation(shader, "mvp");
+                locs[(int)ShaderLocationIndex.SHADER_LOC_VECTOR_VIEW] = GetShaderLocation(shader, "viewPos");
+                locs[(int)ShaderLocationIndex.SHADER_LOC_MATRIX_MODEL] = GetShaderLocationAttrib(
+                    shader,
+                    "instanceTransform"
+                );
             }
 
             // Ambient light level
             int ambientLoc = GetShaderLocation(shader, "ambient");
-            Raylib.SetShaderValue(shader, ambientLoc, new float[] { 0.2f, 0.2f, 0.2f, 1.0f }, SHADER_UNIFORM_VEC4);
+            Raylib.SetShaderValue(
+                shader,
+                ambientLoc,
+                new float[] { 0.2f, 0.2f, 0.2f, 1.0f },
+                ShaderUniformDataType.SHADER_UNIFORM_VEC4
+            );
 
-            Rlights.CreateLight(0, LightType.LIGHT_DIRECTIONAL, new Vector3(50, 50, 0), Vector3.Zero, WHITE, shader);
+            Rlights.CreateLight(
+                0,
+                LightType.LIGHT_DIRECTIONAL,
+                new Vector3(50, 50, 0),
+                Vector3.Zero,
+                Color.WHITE,
+                shader
+            );
 
             Material material = LoadMaterialDefault();
             material.shader = shader;
             unsafe
             {
-                material.maps[(int)MATERIAL_MAP_DIFFUSE].color = RED;
+                material.maps[(int)MaterialMapIndex.MATERIAL_MAP_DIFFUSE].color = Color.RED;
             }
 
             int textPositionY = 300;
@@ -127,72 +145,72 @@ namespace Examples.Shaders
                 textPositionY = 300;
                 framesCounter += 1;
 
-                if (IsKeyDown(KEY_UP))
+                if (IsKeyDown(KeyboardKey.KEY_UP))
                 {
                     amp += 0.5f;
                 }
 
-                if (IsKeyDown(KEY_DOWN))
+                if (IsKeyDown(KeyboardKey.KEY_DOWN))
                 {
                     amp = (amp <= 1) ? 1.0f : (amp - 1.0f);
                 }
 
-                if (IsKeyDown(KEY_LEFT))
+                if (IsKeyDown(KeyboardKey.KEY_LEFT))
                 {
                     variance = (variance <= 0.0f) ? 0.0f : (variance - 0.01f);
                 }
 
-                if (IsKeyDown(KEY_RIGHT))
+                if (IsKeyDown(KeyboardKey.KEY_RIGHT))
                 {
                     variance = (variance >= 1.0f) ? 1.0f : (variance + 0.01f);
                 }
 
-                if (IsKeyDown(KEY_ONE))
+                if (IsKeyDown(KeyboardKey.KEY_ONE))
                 {
                     groups = 1;
                 }
 
-                if (IsKeyDown(KEY_TWO))
+                if (IsKeyDown(KeyboardKey.KEY_TWO))
                 {
                     groups = 2;
                 }
 
-                if (IsKeyDown(KEY_THREE))
+                if (IsKeyDown(KeyboardKey.KEY_THREE))
                 {
                     groups = 3;
                 }
 
-                if (IsKeyDown(KEY_FOUR))
+                if (IsKeyDown(KeyboardKey.KEY_FOUR))
                 {
                     groups = 4;
                 }
 
-                if (IsKeyDown(KEY_FIVE))
+                if (IsKeyDown(KeyboardKey.KEY_FIVE))
                 {
                     groups = 5;
                 }
 
-                if (IsKeyDown(KEY_SIX))
+                if (IsKeyDown(KeyboardKey.KEY_SIX))
                 {
                     groups = 6;
                 }
 
-                if (IsKeyDown(KEY_SEVEN))
+                if (IsKeyDown(KeyboardKey.KEY_SEVEN))
                 {
                     groups = 7;
                 }
 
-                if (IsKeyDown(KEY_EIGHT))
+                if (IsKeyDown(KeyboardKey.KEY_EIGHT))
                 {
                     groups = 8;
                 }
 
-                if (IsKeyDown(KEY_NINE))
+                if (IsKeyDown(KeyboardKey.KEY_NINE))
                 {
                     groups = 9;
                 }
 
-                if (IsKeyDown(KEY_W))
+                if (IsKeyDown(KeyboardKey.KEY_W))
                 {
                     groups = 7;
                     amp = 25;
@@ -200,29 +218,34 @@ namespace Examples.Shaders
                     variance = 0.70f;
                 }
 
-                if (IsKeyDown(KEY_EQUAL))
+                if (IsKeyDown(KeyboardKey.KEY_EQUAL))
                 {
                     speed = (speed <= (int)(fps * 0.25f)) ? (int)(fps * 0.25f) : (int)(speed * 0.95f);
                 }
 
-                if (IsKeyDown(KEY_KP_ADD))
+                if (IsKeyDown(KeyboardKey.KEY_KP_ADD))
                 {
                     speed = (speed <= (int)(fps * 0.25f)) ? (int)(fps * 0.25f) : (int)(speed * 0.95f);
                 }
 
-                if (IsKeyDown(KEY_MINUS))
+                if (IsKeyDown(KeyboardKey.KEY_MINUS))
                 {
                     speed = (int)MathF.Max(speed * 1.02f, speed + 1);
                 }
 
-                if (IsKeyDown(KEY_KP_SUBTRACT))
+                if (IsKeyDown(KeyboardKey.KEY_KP_SUBTRACT))
                 {
                     speed = (int)MathF.Max(speed * 1.02f, speed + 1);
                 }
 
                 // Update the light shader with the camera view position
                 float[] cameraPos = { camera.position.X, camera.position.Y, camera.position.Z };
-                Raylib.SetShaderValue(shader, (int)SHADER_LOC_VECTOR_VIEW, cameraPos, SHADER_UNIFORM_VEC3);
+                Raylib.SetShaderValue(
+                    shader,
+                    (int)ShaderLocationIndex.SHADER_LOC_VECTOR_VIEW,
+                    cameraPos,
+                    ShaderUniformDataType.SHADER_UNIFORM_VEC3
+                );
 
                 // Apply per-instance transformations
                 for (int i = 0; i < instances; i++)
@@ -247,42 +270,42 @@ namespace Examples.Shaders
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 BeginMode3D(camera);
                 DrawMeshInstanced(cube, material, transforms, instances);
                 EndMode3D();
 
-                DrawText("A CUBE OF DANCING CUBES!", 490, 10, 20, MAROON);
-                DrawText("PRESS KEYS:", 10, textPositionY, 20, BLACK);
+                DrawText("A CUBE OF DANCING CUBES!", 490, 10, 20, Color.MAROON);
+                DrawText("PRESS KEYS:", 10, textPositionY, 20, Color.BLACK);
 
-                DrawText("1 - 9", 10, textPositionY += 25, 10, BLACK);
-                DrawText(": Number of groups", 50, textPositionY, 10, BLACK);
-                DrawText($": {groups}", 160, textPositionY, 10, BLACK);
+                DrawText("1 - 9", 10, textPositionY += 25, 10, Color.BLACK);
+                DrawText(": Number of groups", 50, textPositionY, 10, Color.BLACK);
+                DrawText($": {groups}", 160, textPositionY, 10, Color.BLACK);
 
-                DrawText("UP", 10, textPositionY += 15, 10, BLACK);
-                DrawText(": increase amplitude", 50, textPositionY, 10, BLACK);
-                DrawText($": {amp}%.2f", 160, textPositionY, 10, BLACK);
+                DrawText("UP", 10, textPositionY += 15, 10, Color.BLACK);
+                DrawText(": increase amplitude", 50, textPositionY, 10, Color.BLACK);
+                DrawText($": {amp}%.2f", 160, textPositionY, 10, Color.BLACK);
 
-                DrawText("DOWN", 10, textPositionY += 15, 10, BLACK);
-                DrawText(": decrease amplitude", 50, textPositionY, 10, BLACK);
+                DrawText("DOWN", 10, textPositionY += 15, 10, Color.BLACK);
+                DrawText(": decrease amplitude", 50, textPositionY, 10, Color.BLACK);
 
-                DrawText("LEFT", 10, textPositionY += 15, 10, BLACK);
-                DrawText(": decrease variance", 50, textPositionY, 10, BLACK);
-                DrawText($": {variance}.2f", 160, textPositionY, 10, BLACK);
+                DrawText("LEFT", 10, textPositionY += 15, 10, Color.BLACK);
+                DrawText(": decrease variance", 50, textPositionY, 10, Color.BLACK);
+                DrawText($": {variance}.2f", 160, textPositionY, 10, Color.BLACK);
 
-                DrawText("RIGHT", 10, textPositionY += 15, 10, BLACK);
-                DrawText(": increase variance", 50, textPositionY, 10, BLACK);
+                DrawText("RIGHT", 10, textPositionY += 15, 10, Color.BLACK);
+                DrawText(": increase variance", 50, textPositionY, 10, Color.BLACK);
 
-                DrawText("+/=", 10, textPositionY += 15, 10, BLACK);
-                DrawText(": increase speed", 50, textPositionY, 10, BLACK);
-                DrawText($": {speed} = {((float)fps / speed)} loops/sec", 160, textPositionY, 10, BLACK);
+                DrawText("+/=", 10, textPositionY += 15, 10, Color.BLACK);
+                DrawText(": increase speed", 50, textPositionY, 10, Color.BLACK);
+                DrawText($": {speed} = {((float)fps / speed)} loops/sec", 160, textPositionY, 10, Color.BLACK);
 
-                DrawText("-", 10, textPositionY += 15, 10, BLACK);
-                DrawText(": decrease speed", 50, textPositionY, 10, BLACK);
+                DrawText("-", 10, textPositionY += 15, 10, Color.BLACK);
+                DrawText(": decrease speed", 50, textPositionY, 10, Color.BLACK);
 
-                DrawText("W", 10, textPositionY += 15, 10, BLACK);
-                DrawText(": Wild setup!", 50, textPositionY, 10, BLACK);
+                DrawText("W", 10, textPositionY += 15, 10, Color.BLACK);
+                DrawText(": Wild setup!", 50, textPositionY, 10, Color.BLACK);
 
                 DrawFPS(10, 10);
 
