@@ -12,7 +12,6 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
 
 namespace Examples.Models
 {
@@ -38,8 +37,27 @@ namespace Examples.Models
             // Our texture billboard
             Texture2D bill = LoadTexture("resources/billboard.png");
 
-            // Position to draw billboard
-            Vector3 billPosition = new Vector3(0.0f, 2.0f, 0.0f);
+            // Position of billboard billboard
+            Vector3 billPositionStatic = new Vector3(0.0f, 2.0f, 0.0f);
+            Vector3 billPositionRotating = new Vector3(1.0f, 2.0f, 1.0f);
+
+            // Entire billboard texture, source is used to take a segment from a larger texture.
+            Rectangle source = new Rectangle(0.0f, 0.0f, (float)bill.width, (float)bill.height);
+
+            // NOTE: Billboard locked on axis-Y
+            Vector3 billUp = new Vector3(0.0f, 1.0f, 0.0f);
+
+            // Rotate around origin
+            // Here we choose to rotate around the image center
+            // NOTE: (-1, 1) is the range where origin.x, origin.y is inside the texture
+            Vector2 rotateOrigin = Vector2.Zero;
+
+            // Distance is needed for the correct billboard draw order
+            // Larger distance (further away from the camera) should be drawn prior to smaller distance.
+            float distanceStatic = 0.0f;
+            float distanceRotating = 0.0f;
+
+            float rotation = 0.0f;
 
             SetTargetFPS(60);                       // Set our game to run at 60 frames-per-second
             //--------------------------------------------------------------------------------------
@@ -50,17 +68,51 @@ namespace Examples.Models
                 // Update
                 //----------------------------------------------------------------------------------
                 UpdateCamera(ref camera, CameraMode.CAMERA_ORBITAL);
+                rotation += 0.4f;
+                distanceStatic = Vector3.Distance(camera.position, billPositionStatic);
+                distanceRotating = Vector3.Distance(camera.position, billPositionRotating);
                 //----------------------------------------------------------------------------------
 
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 BeginMode3D(camera);
 
                 DrawGrid(10, 1.0f);
-                DrawBillboard(camera, bill, billPosition, 2.0f, WHITE);
+
+                // Draw order matters!
+                if (distanceStatic > distanceRotating)
+                {
+                    DrawBillboard(camera, bill, billPositionStatic, 2.0f, Color.WHITE);
+                    DrawBillboardPro(
+                        camera,
+                        bill,
+                        source,
+                        billPositionRotating,
+                        billUp,
+                        new Vector2(1.0f, 1.0f),
+                        rotateOrigin,
+                        rotation,
+                        Color.WHITE
+                    );
+                }
+                else
+                {
+                    DrawBillboardPro(
+                        camera,
+                        bill,
+                        source,
+                        billPositionRotating,
+                        billUp,
+                        new Vector2(1.0f, 1.0f),
+                        rotateOrigin,
+                        rotation,
+                        Color.WHITE
+                    );
+                    DrawBillboard(camera, bill, billPositionStatic, 2.0f, Color.WHITE);
+                }
 
                 EndMode3D();
 
