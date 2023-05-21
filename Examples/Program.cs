@@ -84,6 +84,7 @@ namespace Examples
 
         public static Func<int>[] TextExamples = new Func<int>[]
         {
+            CodepointsLoading.Main,
             FontFilters.Main,
             FontLoading.Main,
             FontSdf.Main,
