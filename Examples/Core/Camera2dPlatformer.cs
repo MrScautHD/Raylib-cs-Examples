@@ -16,8 +16,6 @@ using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
 using static Raylib_cs.Raymath;
-using static Raylib_cs.Color;
-using static Raylib_cs.KeyboardKey;
 
 namespace Examples.Core
 {
@@ -64,12 +62,13 @@ namespace Examples.Core
             player.speed = 0;
             player.canJump = false;
 
-            EnvItem[] envItems = new EnvItem[] {
-                new EnvItem(new Rectangle(0, 0, 1000, 400), 0, LIGHTGRAY),
-                new EnvItem(new Rectangle(0, 400, 1000, 200), 1, GRAY),
-                new EnvItem(new Rectangle(300, 200, 400, 10), 1, GRAY),
-                new EnvItem(new Rectangle(250, 300, 100, 10), 1, GRAY),
-                new EnvItem(new Rectangle(650, 300, 100, 10), 1, GRAY)
+            EnvItem[] envItems = new EnvItem[]
+            {
+                new EnvItem(new Rectangle(0, 0, 1000, 400), 0, Color.LIGHTGRAY),
+                new EnvItem(new Rectangle(0, 400, 1000, 200), 1, Color.GRAY),
+                new EnvItem(new Rectangle(300, 200, 400, 10), 1, Color.GRAY),
+                new EnvItem(new Rectangle(250, 300, 100, 10), 1, Color.GRAY),
+                new EnvItem(new Rectangle(650, 300, 100, 10), 1, Color.GRAY)
             };
 
             Camera2D camera = new Camera2D();
@@ -79,7 +78,8 @@ namespace Examples.Core
             camera.zoom = 1.0f;
 
             // Store callbacks to the multiple update camera functions
-            CameraUpdaterCallback[] cameraUpdaters = new CameraUpdaterCallback[] {
+            CameraUpdaterCallback[] cameraUpdaters = new CameraUpdaterCallback[]
+            {
                 UpdateCameraCenter,
                 UpdateCameraCenterInsideMap,
                 UpdateCameraCenterSmoothFollow,
@@ -94,7 +94,7 @@ namespace Examples.Core
                 "Follow player center",
                 "Follow player center, but clamp to map edges",
                 "Follow player center; smoothed",
-                "Follow player center horizontally; updateplayer center vertically after landing",
+                "Follow player center horizontally; update player center vertically after landing",
                 "Player push camera on getting too close to screen edge"
             };
 
@@ -121,13 +121,13 @@ namespace Examples.Core
                     camera.zoom = 0.25f;
                 }
 
-                if (IsKeyPressed(KEY_R))
+                if (IsKeyPressed(KeyboardKey.KEY_R))
                 {
                     camera.zoom = 1.0f;
                     player.position = new Vector2(400, 280);
                 }
 
-                if (IsKeyPressed(KEY_C))
+                if (IsKeyPressed(KeyboardKey.KEY_C))
                 {
                     cameraOption = (cameraOption + 1) % cameraUpdatersLength;
                 }
@@ -139,7 +139,7 @@ namespace Examples.Core
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(LIGHTGRAY);
+                ClearBackground(Color.LIGHTGRAY);
 
                 BeginMode2D(camera);
 
@@ -149,17 +149,17 @@ namespace Examples.Core
                 }
 
                 Rectangle playerRect = new Rectangle(player.position.X - 20, player.position.Y - 40, 40, 40);
-                DrawRectangleRec(playerRect, RED);
+                DrawRectangleRec(playerRect, Color.RED);
 
                 EndMode2D();
 
-                DrawText("Controls:", 20, 20, 10, BLACK);
-                DrawText("- Right/Left to move", 40, 40, 10, DARKGRAY);
-                DrawText("- Space to jump", 40, 60, 10, DARKGRAY);
-                DrawText("- Mouse Wheel to Zoom in-out, R to reset zoom", 40, 80, 10, DARKGRAY);
-                DrawText("- C to change camera mode", 40, 100, 10, DARKGRAY);
-                DrawText("Current camera mode:", 20, 120, 10, BLACK);
-                DrawText(cameraDescriptions[cameraOption], 40, 140, 10, DARKGRAY);
+                DrawText("Controls:", 20, 20, 10, Color.BLACK);
+                DrawText("- Right/Left to move", 40, 40, 10, Color.DARKGRAY);
+                DrawText("- Space to jump", 40, 60, 10, Color.DARKGRAY);
+                DrawText("- Mouse Wheel to Zoom in-out, R to reset zoom", 40, 80, 10, Color.DARKGRAY);
+                DrawText("- C to change camera mode", 40, 100, 10, Color.DARKGRAY);
+                DrawText("Current camera mode:", 20, 120, 10, Color.BLACK);
+                DrawText(cameraDescriptions[cameraOption], 40, 140, 10, Color.DARKGRAY);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -175,17 +175,17 @@ namespace Examples.Core
 
         static void UpdatePlayer(ref Player player, EnvItem[] envItems, float delta)
         {
-            if (IsKeyDown(KEY_LEFT))
+            if (IsKeyDown(KeyboardKey.KEY_LEFT))
             {
                 player.position.X -= PLAYER_HOR_SPD * delta;
             }
 
-            if (IsKeyDown(KEY_RIGHT))
+            if (IsKeyDown(KeyboardKey.KEY_RIGHT))
             {
                 player.position.X += PLAYER_HOR_SPD * delta;
             }
 
-            if (IsKeyDown(KEY_SPACE) && player.canJump)
+            if (IsKeyDown(KeyboardKey.KEY_SPACE) && player.canJump)
             {
                 player.speed = -PLAYER_JUMP_SPD;
                 player.canJump = false;
@@ -200,7 +200,7 @@ namespace Examples.Core
                     ei.rect.x <= p.X &&
                     ei.rect.x + ei.rect.width >= p.X &&
                     ei.rect.y >= p.Y &&
-                    ei.rect.y < p.Y + player.speed * delta)
+                    ei.rect.y <= p.Y + player.speed * delta)
                 {
                     hitObstacle = 1;
                     player.speed = 0.0f;
@@ -220,13 +220,26 @@ namespace Examples.Core
             }
         }
 
-        static void UpdateCameraCenter(ref Camera2D camera, ref Player player, EnvItem[] envItems, float delta, int width, int height)
+        static void UpdateCameraCenter(
+            ref Camera2D camera,
+            ref Player player,
+            EnvItem[] envItems,
+            float delta,
+            int width,
+            int height
+        )
         {
             camera.offset = new Vector2(width / 2, height / 2);
             camera.target = player.position;
         }
 
-        static void UpdateCameraCenterInsideMap(ref Camera2D camera, ref Player player, EnvItem[] envItems, float delta, int width, int height)
+        static void UpdateCameraCenterInsideMap(
+            ref Camera2D camera,
+            ref Player player,
+            EnvItem[] envItems,
+            float delta,
+            int width,
+            int height)
         {
             camera.target = player.position;
             camera.offset = new Vector2(width / 2, height / 2);
@@ -265,7 +278,14 @@ namespace Examples.Core
             }
         }
 
-        static void UpdateCameraCenterSmoothFollow(ref Camera2D camera, ref Player player, EnvItem[] envItems, float delta, int width, int height)
+        static void UpdateCameraCenterSmoothFollow(
+            ref Camera2D camera,
+            ref Player player,
+            EnvItem[] envItems,
+            float delta,
+            int width,
+            int height
+        )
         {
             const float minSpeed = 30;
             const float minEffectLength = 10;
@@ -282,7 +302,14 @@ namespace Examples.Core
             }
         }
 
-        static void UpdateCameraEvenOutOnLanding(ref Camera2D camera, ref Player player, EnvItem[] envItems, float delta, int width, int height)
+        static void UpdateCameraEvenOutOnLanding(
+            ref Camera2D camera,
+            ref Player player,
+            EnvItem[] envItems,
+            float delta,
+            int width,
+            int height
+        )
         {
             float evenOutSpeed = 700;
             int eveningOut = 0;
@@ -324,12 +351,26 @@ namespace Examples.Core
             }
         }
 
-        static void UpdateCameraPlayerBoundsPush(ref Camera2D camera, ref Player player, EnvItem[] envItems, float delta, int width, int height)
+        static void UpdateCameraPlayerBoundsPush(
+            ref Camera2D camera,
+            ref Player player,
+            EnvItem[] envItems,
+            float delta,
+            int width,
+            int height
+        )
         {
             Vector2 bbox = new Vector2(0.2f, 0.2f);
 
-            Vector2 bboxWorldMin = GetScreenToWorld2D(new Vector2((1 - bbox.X) * 0.5f * width, (1 - bbox.Y) * 0.5f * height), camera);
-            Vector2 bboxWorldMax = GetScreenToWorld2D(new Vector2((1 + bbox.X) * 0.5f * width, (1 + bbox.Y) * 0.5f * height), camera);
+            Vector2 bboxWorldMin = GetScreenToWorld2D(
+                new Vector2((1 - bbox.X) * 0.5f * width, (1 - bbox.Y) * 0.5f * height),
+                camera
+            );
+            Vector2 bboxWorldMax = GetScreenToWorld2D(
+                new Vector2((1 + bbox.X) * 0.5f * width,
+                (1 + bbox.Y) * 0.5f * height),
+                camera
+            );
             camera.offset = new Vector2((1 - bbox.X) * 0.5f * width, (1 - bbox.Y) * 0.5f * height);
 
             if (player.position.X < bboxWorldMin.X)
