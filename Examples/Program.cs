@@ -146,7 +146,6 @@ namespace Examples
         {
             ModulePlaying.Main,
             MusicStreamDemo.Main,
-            RawStream.Main,
             SoundLoading.Main,
         };
     }
