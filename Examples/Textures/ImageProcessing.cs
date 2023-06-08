@@ -13,27 +13,24 @@
 
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.KeyboardKey;
-using static Raylib_cs.MouseButton;
-using static Raylib_cs.PixelFormat;
 
 namespace Examples.Textures
 {
     public class ImageProcessing
     {
-        public const int NUM_PROCESSES = 8;
+        public const int NumProcesses = 9;
 
         enum ImageProcess
         {
-            NONE = 0,
-            COLOR_GRAYSCALE,
-            COLOR_TINT,
-            COLOR_INVERT,
-            COLOR_CONTRAST,
-            COLOR_BRIGHTNESS,
-            FLIP_VERTICAL,
-            FLIP_HORIZONTAL
+            None = 0,
+            ColorGrayScale,
+            ColorTint,
+            ColorInvert,
+            ColorContrast,
+            ColorBrightness,
+            GaussianBlur,
+            FlipVertical,
+            FlipHorizontal
         }
 
         static string[] processText = {
@@ -43,6 +40,7 @@ namespace Examples.Textures
             "COLOR INVERT",
             "COLOR CONTRAST",
             "COLOR BRIGHTNESS",
+            "GAUSSIAN BLUR",
             "FLIP VERTICAL",
             "FLIP HORIZONTAL"
         };
@@ -57,18 +55,19 @@ namespace Examples.Textures
             InitWindow(screenWidth, screenHeight, "raylib [textures] example - image processing");
 
             // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
+            Image imageOrigin = LoadImage("resources/parrots.png");
+            ImageFormat(ref imageOrigin, PixelFormat.PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
+            Texture2D texture = LoadTextureFromImage(imageOrigin);
 
-            Image image = LoadImage("resources/parrots.png");
-            ImageFormat(ref image, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
-            Texture2D texture = LoadTextureFromImage(image);
+            Image imageCopy = ImageCopy(imageOrigin);
 
-            int currentProcess = (int)ImageProcess.NONE;
+            ImageProcess currentProcess = ImageProcess.None;
             bool textureReload = false;
 
-            Rectangle[] toggleRecs = new Rectangle[NUM_PROCESSES];
+            Rectangle[] toggleRecs = new Rectangle[NumProcesses];
             int mouseHoverRec = -1;
 
-            for (int i = 0; i < NUM_PROCESSES; i++)
+            for (int i = 0; i < NumProcesses; i++)
             {
                 toggleRecs[i] = new Rectangle(40, 50 + 32 * i, 150, 30);
             }
@@ -83,15 +82,15 @@ namespace Examples.Textures
                 //----------------------------------------------------------------------------------
 
                 // Mouse toggle group logic
-                for (int i = 0; i < NUM_PROCESSES; i++)
+                for (int i = 0; i < NumProcesses; i++)
                 {
                     if (CheckCollisionPointRec(GetMousePosition(), toggleRecs[i]))
                     {
                         mouseHoverRec = i;
 
-                        if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON))
+                        if (IsMouseButtonReleased(MouseButton.MOUSE_LEFT_BUTTON))
                         {
-                            currentProcess = i;
+                            currentProcess = (ImageProcess)i;
                             textureReload = true;
                         }
                         break;
@@ -102,22 +101,23 @@ namespace Examples.Textures
                     }
                 }
 
-                if (IsKeyPressed(KEY_DOWN))
+                // Keyboard toggle group logic
+                if (IsKeyPressed(KeyboardKey.KEY_DOWN))
                 {
                     currentProcess++;
-                    if (currentProcess > 7)
+                    if ((int)currentProcess > (NumProcesses - 1))
                     {
                         currentProcess = 0;
                     }
 
                     textureReload = true;
                 }
-                else if (IsKeyPressed(KEY_UP))
+                else if (IsKeyPressed(KeyboardKey.KEY_UP))
                 {
                     currentProcess--;
                     if (currentProcess < 0)
                     {
-                        currentProcess = 7;
+                        currentProcess = ImageProcess.FlipHorizontal;
                     }
 
                     textureReload = true;
@@ -125,41 +125,44 @@ namespace Examples.Textures
 
                 if (textureReload)
                 {
-                    UnloadImage(image);
-                    image = LoadImage("resources/parrots.png");
+                    UnloadImage(imageCopy);
+                    imageCopy = ImageCopy(imageOrigin);
 
                     // NOTE: Image processing is a costly CPU process to be done every frame,
                     // If image processing is required in a frame-basis, it should be done
                     // with a texture and by shaders
                     switch (currentProcess)
                     {
-                        case (int)ImageProcess.COLOR_GRAYSCALE:
-                            ImageColorGrayscale(ref image);
+                        case ImageProcess.ColorGrayScale:
+                            ImageColorGrayscale(ref imageCopy);
                             break;
-                        case (int)ImageProcess.COLOR_TINT:
-                            ImageColorTint(ref image, GREEN);
+                        case ImageProcess.ColorTint:
+                            ImageColorTint(ref imageCopy, Color.GREEN);
                             break;
-                        case (int)ImageProcess.COLOR_INVERT:
-                            ImageColorInvert(ref image);
+                        case ImageProcess.ColorInvert:
+                            ImageColorInvert(ref imageCopy);
                             break;
-                        case (int)ImageProcess.COLOR_CONTRAST:
-                            ImageColorContrast(ref image, -40);
+                        case ImageProcess.ColorContrast:
+                            ImageColorContrast(ref imageCopy, -40);
                             break;
-                        case (int)ImageProcess.COLOR_BRIGHTNESS:
-                            ImageColorBrightness(ref image, -80);
+                        case ImageProcess.ColorBrightness:
+                            ImageColorBrightness(ref imageCopy, -80);
                             break;
-                        case (int)ImageProcess.FLIP_VERTICAL:
-                            ImageFlipVertical(ref image);
+                        case ImageProcess.GaussianBlur:
+                            ImageBlurGaussian(ref imageCopy, 10);
                             break;
-                        case (int)ImageProcess.FLIP_HORIZONTAL:
-                            ImageFlipHorizontal(ref image);
+                        case ImageProcess.FlipVertical:
+                            ImageFlipVertical(ref imageCopy);
+                            break;
+                        case ImageProcess.FlipHorizontal:
+                            ImageFlipHorizontal(ref imageCopy);
                             break;
                         default:
                             break;
                     }
 
                     // Get pixel data from image (RGBA 32bit)
-                    Color* pixels = LoadImageColors(image);
+                    Color* pixels = LoadImageColors(imageCopy);
                     UpdateTexture(texture, pixels);
                     UnloadImageColors(pixels);
 
@@ -170,34 +173,36 @@ namespace Examples.Textures
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
-                DrawText("IMAGE PROCESSING:", 40, 30, 10, DARKGRAY);
+                DrawText("IMAGE PROCESSING:", 40, 30, 10, Color.DARKGRAY);
 
                 // Draw rectangles
-                for (int i = 0; i < NUM_PROCESSES; i++)
+                for (int i = 0; i < NumProcesses; i++)
                 {
-                    DrawRectangleRec(toggleRecs[i], (i == currentProcess) ? SKYBLUE : LIGHTGRAY);
+                    DrawRectangleRec(toggleRecs[i], (i == (int)currentProcess) ? Color.SKYBLUE : Color.LIGHTGRAY);
                     DrawRectangleLines(
                         (int)toggleRecs[i].x,
                         (int)toggleRecs[i].y,
                         (int)toggleRecs[i].width,
                         (int)toggleRecs[i].height,
-                        (i == currentProcess) ? BLUE : GRAY
+                        (i == (int)currentProcess) ? Color.BLUE : Color.GRAY
                     );
+
+                    int labelX = (int)(toggleRecs[i].x + toggleRecs[i].width / 2);
                     DrawText(
                         processText[i],
-                        (int)(toggleRecs[i].x + toggleRecs[i].width / 2 - MeasureText(processText[i], 10) / 2),
+                        (int)(labelX - MeasureText(processText[i], 10) / 2),
                         (int)toggleRecs[i].y + 11,
                         10,
-                        (i == currentProcess) ? DARKBLUE : DARKGRAY
+                        (i == (int)currentProcess) ? Color.DARKBLUE : Color.DARKGRAY
                     );
                 }
 
                 int x = screenWidth - texture.width - 60;
                 int y = screenHeight / 2 - texture.height / 2;
-                DrawTexture(texture, x, y, WHITE);
-                DrawRectangleLines(x, y, texture.width, texture.height, BLACK);
+                DrawTexture(texture, x, y, Color.WHITE);
+                DrawRectangleLines(x, y, texture.width, texture.height, Color.BLACK);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -205,8 +210,9 @@ namespace Examples.Textures
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadTexture(texture);       // Unload texture from VRAM
-            UnloadImage(image);           // Unload image from RAM
+            UnloadTexture(texture);
+            UnloadImage(imageOrigin);
+            UnloadImage(imageCopy);
 
             CloseWindow();                // Close window and OpenGL context
             //--------------------------------------------------------------------------------------
