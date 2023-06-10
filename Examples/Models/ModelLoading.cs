@@ -21,13 +21,10 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.MouseButton;
-using static Raylib_cs.MaterialMapIndex;
 
 namespace Examples.Models
 {
-    public class LoadingDemo
+    public class ModelLoading
     {
         public unsafe static int Main()
         {
@@ -50,7 +47,7 @@ namespace Examples.Models
             Texture2D texture = LoadTexture("resources/models/obj/castle_diffuse.png");
 
             // Set map diffuse texture
-            Raylib.SetMaterialTexture(ref model, 0, MATERIAL_MAP_ALBEDO, ref texture);
+            Raylib.SetMaterialTexture(ref model, 0, MaterialMapIndex.MATERIAL_MAP_ALBEDO, ref texture);
 
             Vector3 position = new Vector3(0.0f, 0.0f, 0.0f);
             BoundingBox bounds = GetMeshBoundingBox(model.meshes[0]);
@@ -70,39 +67,39 @@ namespace Examples.Models
                 //----------------------------------------------------------------------------------
                 UpdateCamera(ref camera, CameraMode.CAMERA_FREE);
 
-                // Load new models/textures on dragref
                 if (IsFileDropped())
                 {
                     string[] files = Raylib.GetDroppedFiles();
 
-                    if (files.Length == 1) // Only support one file dropped
+                    if (files.Length == 1)
                     {
                         if (IsFileExtension(files[0], ".obj") ||
                             IsFileExtension(files[0], ".gltf") ||
-                            IsFileExtension(files[0], ".iqm"))       // Model file formats supported
+                            IsFileExtension(files[0], ".iqm")
+                        )
                         {
-                            UnloadModel(model);                     // Unload previous model
-                            model = LoadModel(files[0]);     // Load new model
+                            UnloadModel(model);
+                            model = LoadModel(files[0]);
 
                             // Set current map diffuse texture
-                            Raylib.SetMaterialTexture(ref model, 0, MATERIAL_MAP_ALBEDO, ref texture);
+                            Raylib.SetMaterialTexture(ref model, 0, MaterialMapIndex.MATERIAL_MAP_ALBEDO, ref texture);
 
                             bounds = GetMeshBoundingBox(model.meshes[0]);
 
                             // TODO: Move camera position from target enough distance to visualize model properly
                         }
-                        else if (IsFileExtension(files[0], ".png"))  // Texture file formats supported
+                        else if (IsFileExtension(files[0], ".png"))
                         {
                             // Unload current model texture and load new one
                             UnloadTexture(texture);
                             texture = LoadTexture(files[0]);
-                            Raylib.SetMaterialTexture(ref model, 0, MATERIAL_MAP_ALBEDO, ref texture);
+                            Raylib.SetMaterialTexture(ref model, 0, MaterialMapIndex.MATERIAL_MAP_ALBEDO, ref texture);
                         }
                     }
                 }
 
                 // Select model on mouse click
-                if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+                if (IsMouseButtonPressed(MouseButton.MOUSE_LEFT_BUTTON))
                 {
                     // Check collision between ray and box
                     if (GetRayCollisionBox(GetMouseRay(GetMousePosition(), camera), bounds).hit)
@@ -119,28 +116,28 @@ namespace Examples.Models
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 BeginMode3D(camera);
 
-                DrawModel(model, position, 1.0f, WHITE);        // Draw 3d model with texture
+                DrawModel(model, position, 1.0f, Color.WHITE);
 
-                DrawGrid(20, 10.0f);                            // Draw a grid
+                DrawGrid(20, 10.0f);
 
                 if (selected)
                 {
-                    DrawBoundingBox(bounds, GREEN);   // Draw selection box
+                    DrawBoundingBox(bounds, Color.GREEN);
                 }
 
                 EndMode3D();
 
-                DrawText("Drag & drop model to load mesh/texture.", 10, GetScreenHeight() - 20, 10, DARKGRAY);
+                DrawText("Drag & drop model to load mesh/texture.", 10, GetScreenHeight() - 20, 10, Color.DARKGRAY);
                 if (selected)
                 {
-                    DrawText("MODEL SELECTED", GetScreenWidth() - 110, 10, 10, GREEN);
+                    DrawText("MODEL SELECTED", GetScreenWidth() - 110, 10, 10, Color.GREEN);
                 }
 
-                DrawText("(c) Castle 3D model by Alberto Cano", screenWidth - 200, screenHeight - 20, 10, GRAY);
+                DrawText("(c) Castle 3D model by Alberto Cano", screenWidth - 200, screenHeight - 20, 10, Color.GRAY);
 
                 DrawFPS(10, 10);
 
@@ -150,8 +147,8 @@ namespace Examples.Models
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadTexture(texture);     // Unload texture
-            UnloadModel(model);         // Unload model
+            UnloadTexture(texture);
+            UnloadModel(model);
 
             CloseWindow();              // Close window and OpenGL context
             //--------------------------------------------------------------------------------------
