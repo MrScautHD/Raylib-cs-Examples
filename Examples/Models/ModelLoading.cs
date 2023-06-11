@@ -61,7 +61,7 @@ namespace Examples.Models
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -90,7 +90,7 @@ namespace Examples.Models
                         }
                         else if (IsFileExtension(files[0], ".png"))
                         {
-                            // Unload current model texture and load new one
+                            // Unload model texture and load new one
                             UnloadTexture(texture);
                             texture = LoadTexture(files[0]);
                             Raylib.SetMaterialTexture(ref model, 0, MaterialMapIndex.MATERIAL_MAP_ALBEDO, ref texture);
@@ -150,7 +150,7 @@ namespace Examples.Models
             UnloadTexture(texture);
             UnloadModel(model);
 
-            CloseWindow();              // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

@@ -14,14 +14,12 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.KeyboardKey;
 
 namespace Examples.Audio
 {
     public class ModulePlaying
     {
-        const int MAX_CIRCLES = 64;
+        const int MaxCircles = 64;
 
         struct CircleWave
         {
@@ -43,15 +41,29 @@ namespace Examples.Audio
 
             InitWindow(screenWidth, screenHeight, "raylib [audio] example - module playing (streaming)");
 
-            InitAudioDevice();              // Initialize audio device
+            InitAudioDevice();
 
-            Color[] colors = new Color[14] { ORANGE, RED, GOLD, LIME, BLUE, VIOLET, BROWN, LIGHTGRAY, PINK,
-                             YELLOW, GREEN, SKYBLUE, PURPLE, BEIGE };
+            Color[] colors = new Color[14] {
+                Color.ORANGE,
+                Color.RED,
+                Color.GOLD,
+                Color.LIME,
+                Color.BLUE,
+                Color.VIOLET,
+                Color.BROWN,
+                Color.LIGHTGRAY,
+                Color.PINK,
+                Color.YELLOW,
+                Color.GREEN,
+                Color.SKYBLUE,
+                Color.PURPLE,
+                Color.BEIGE
+            };
 
             // Creates ome circles for visual effect
-            CircleWave[] circles = new CircleWave[MAX_CIRCLES];
+            CircleWave[] circles = new CircleWave[MaxCircles];
 
-            for (int i = MAX_CIRCLES - 1; i >= 0; i--)
+            for (int i = MaxCircles - 1; i >= 0; i--)
             {
                 circles[i].alpha = 0.0f;
                 circles[i].radius = GetRandomValue(10, 40);
@@ -74,21 +86,21 @@ namespace Examples.Audio
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
                 UpdateMusicStream(music);        // Update music buffer with new stream data
 
                 // Restart music playing (stop and play)
-                if (IsKeyPressed(KEY_SPACE))
+                if (IsKeyPressed(KeyboardKey.KEY_SPACE))
                 {
                     StopMusicStream(music);
                     PlayMusicStream(music);
                 }
 
                 // Pause/Resume music playing
-                if (IsKeyPressed(KEY_P))
+                if (IsKeyPressed(KeyboardKey.KEY_P))
                 {
                     pause = !pause;
 
@@ -102,11 +114,11 @@ namespace Examples.Audio
                     }
                 }
 
-                if (IsKeyDown(KEY_DOWN))
+                if (IsKeyDown(KeyboardKey.KEY_DOWN))
                 {
                     pitch -= 0.01f;
                 }
-                else if (IsKeyDown(KEY_UP))
+                else if (IsKeyDown(KeyboardKey.KEY_UP))
                 {
                     pitch += 0.01f;
                 }
@@ -117,7 +129,7 @@ namespace Examples.Audio
                 timePlayed = GetMusicTimePlayed(music) / GetMusicTimeLength(music) * (screenWidth - 40);
 
                 // Color circles animation
-                for (int i = MAX_CIRCLES - 1; (i >= 0) && !pause; i--)
+                for (int i = MaxCircles - 1; (i >= 0) && !pause; i--)
                 {
                     circles[i].alpha += circles[i].speed;
                     circles[i].radius += circles[i].speed * 10.0f;
@@ -131,8 +143,14 @@ namespace Examples.Audio
                     {
                         circles[i].alpha = 0.0f;
                         circles[i].radius = GetRandomValue(10, 40);
-                        circles[i].position.X = GetRandomValue((int)circles[i].radius, screenWidth - (int)circles[i].radius);
-                        circles[i].position.Y = GetRandomValue((int)circles[i].radius, screenHeight - (int)circles[i].radius);
+                        circles[i].position.X = GetRandomValue(
+                            (int)circles[i].radius,
+                            screenWidth - (int)circles[i].radius
+                        );
+                        circles[i].position.Y = GetRandomValue(
+                            (int)circles[i].radius,
+                            screenHeight - (int)circles[i].radius
+                        );
                         circles[i].color = colors[GetRandomValue(0, 13)];
                         circles[i].speed = (float)GetRandomValue(1, 100) / 2000.0f;
                     }
@@ -142,17 +160,21 @@ namespace Examples.Audio
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
-                for (int i = MAX_CIRCLES - 1; i >= 0; i--)
+                for (int i = MaxCircles - 1; i >= 0; i--)
                 {
-                    DrawCircleV(circles[i].position, circles[i].radius, ColorAlpha(circles[i].color, circles[i].alpha));
+                    DrawCircleV(
+                        circles[i].position,
+                        circles[i].radius,
+                        ColorAlpha(circles[i].color, circles[i].alpha)
+                    );
                 }
 
                 // Draw time bar
-                DrawRectangle(20, screenHeight - 20 - 12, screenWidth - 40, 12, LIGHTGRAY);
-                DrawRectangle(20, screenHeight - 20 - 12, (int)timePlayed, 12, MAROON);
-                DrawRectangleLines(20, screenHeight - 20 - 12, screenWidth - 40, 12, GRAY);
+                DrawRectangle(20, screenHeight - 20 - 12, screenWidth - 40, 12, Color.LIGHTGRAY);
+                DrawRectangle(20, screenHeight - 20 - 12, (int)timePlayed, 12, Color.MAROON);
+                DrawRectangleLines(20, screenHeight - 20 - 12, screenWidth - 40, 12, Color.GRAY);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -160,11 +182,11 @@ namespace Examples.Audio
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadMusicStream(music);          // Unload music stream buffers from RAM
+            UnloadMusicStream(music);
 
-            CloseAudioDevice();     // Close audio device (music streaming is automatically stopped)
+            CloseAudioDevice();
 
-            CloseWindow();          // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

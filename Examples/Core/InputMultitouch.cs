@@ -35,7 +35,7 @@ namespace Examples.Core
             //---------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -84,7 +84,7 @@ namespace Examples.Core
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

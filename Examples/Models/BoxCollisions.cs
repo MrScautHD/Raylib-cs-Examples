@@ -12,8 +12,6 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.KeyboardKey;
 
 namespace Examples.Models
 {
@@ -29,17 +27,16 @@ namespace Examples.Models
             InitWindow(screenWidth, screenHeight, "raylib [models] example - box collisions");
 
             // Define the camera to look into our 3d world
-            Camera3D camera = new Camera3D(
-                new Vector3(0.0f, 10.0f, 10.0f),
-                new Vector3(0.0f, 0.0f, 0.0f),
-                new Vector3(0.0f, 1.0f, 0.0f),
-                45.0f,
-                CameraProjection.CAMERA_PERSPECTIVE
-            );
+            Camera3D camera = new Camera3D();
+            camera.position = new Vector3(0.0f, 10.0f, 10.0f);
+            camera.target = new Vector3(0.0f, 0.0f, 0.0f);
+            camera.up = new Vector3(0.0f, 1.0f, 0.0f);
+            camera.fovy = 45.0f;
+            camera.projection = CameraProjection.CAMERA_PERSPECTIVE;
 
             Vector3 playerPosition = new Vector3(0.0f, 1.0f, 2.0f);
             Vector3 playerSize = new Vector3(1.0f, 2.0f, 1.0f);
-            Color playerColor = GREEN;
+            Color playerColor = Color.GREEN;
 
             Vector3 enemyBoxPos = new Vector3(-4.0f, 1.0f, 0.0f);
             Vector3 enemyBoxSize = new Vector3(2.0f, 2.0f, 2.0f);
@@ -53,25 +50,25 @@ namespace Examples.Models
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
 
                 // Move player
-                if (IsKeyDown(KEY_RIGHT))
+                if (IsKeyDown(KeyboardKey.KEY_RIGHT))
                 {
                     playerPosition.X += 0.2f;
                 }
-                else if (IsKeyDown(KEY_LEFT))
+                else if (IsKeyDown(KeyboardKey.KEY_LEFT))
                 {
                     playerPosition.X -= 0.2f;
                 }
-                else if (IsKeyDown(KEY_DOWN))
+                else if (IsKeyDown(KeyboardKey.KEY_DOWN))
                 {
                     playerPosition.Z += 0.2f;
                 }
-                else if (IsKeyDown(KEY_UP))
+                else if (IsKeyDown(KeyboardKey.KEY_UP))
                 {
                     playerPosition.Z -= 0.2f;
                 }
@@ -101,37 +98,37 @@ namespace Examples.Models
 
                 if (collision)
                 {
-                    playerColor = RED;
+                    playerColor = Color.RED;
                 }
                 else
                 {
-                    playerColor = GREEN;
+                    playerColor = Color.GREEN;
                 }
                 //----------------------------------------------------------------------------------
 
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 BeginMode3D(camera);
 
                 // Draw enemy-box
-                DrawCube(enemyBoxPos, enemyBoxSize.X, enemyBoxSize.Y, enemyBoxSize.Z, GRAY);
-                DrawCubeWires(enemyBoxPos, enemyBoxSize.X, enemyBoxSize.Y, enemyBoxSize.Z, DARKGRAY);
+                DrawCube(enemyBoxPos, enemyBoxSize.X, enemyBoxSize.Y, enemyBoxSize.Z, Color.GRAY);
+                DrawCubeWires(enemyBoxPos, enemyBoxSize.X, enemyBoxSize.Y, enemyBoxSize.Z, Color.DARKGRAY);
 
                 // Draw enemy-sphere
-                DrawSphere(enemySpherePos, enemySphereSize, GRAY);
-                DrawSphereWires(enemySpherePos, enemySphereSize, 16, 16, DARKGRAY);
+                DrawSphere(enemySpherePos, enemySphereSize, Color.GRAY);
+                DrawSphereWires(enemySpherePos, enemySphereSize, 16, 16, Color.DARKGRAY);
 
                 // Draw player
                 DrawCubeV(playerPosition, playerSize, playerColor);
 
-                DrawGrid(10, 1.0f);        // Draw a grid
+                DrawGrid(10, 1.0f);
 
                 EndMode3D();
 
-                DrawText("Move player with cursors to collide", 220, 40, 20, GRAY);
+                DrawText("Move player with cursors to collide", 220, 40, 20, Color.GRAY);
                 DrawFPS(10, 10);
 
                 EndDrawing();
@@ -140,7 +137,7 @@ namespace Examples.Models
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

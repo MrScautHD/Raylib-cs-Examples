@@ -21,7 +21,6 @@
 
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
 
 namespace Examples.Core
 {
@@ -40,7 +39,7 @@ namespace Examples.Core
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -50,9 +49,9 @@ namespace Examples.Core
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
-                DrawText("Congrats! You created your first window!", 190, 200, 20, MAROON);
+                DrawText("Congrats! You created your first window!", 190, 200, 20, Color.MAROON);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -60,7 +59,7 @@ namespace Examples.Core
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

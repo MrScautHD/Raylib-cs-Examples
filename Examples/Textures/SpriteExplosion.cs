@@ -12,15 +12,13 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.MouseButton;
 
 namespace Examples.Textures
 {
     public class SpriteExplosion
     {
-        const int NUM_FRAMES_PER_LINE = 5;
-        const int NUM_LINES = 5;
+        const int NumFramesPerLine = 5;
+        const int NumLines = 5;
 
         public static int Main()
         {
@@ -41,10 +39,10 @@ namespace Examples.Textures
             // Init variables for animation
 
             // Sprite one frame rectangle width
-            int frameWidth = explosion.width / NUM_FRAMES_PER_LINE;
+            int frameWidth = explosion.width / NumFramesPerLine;
 
             // Sprite one frame rectangle height
-            int frameHeight = explosion.height / NUM_LINES;
+            int frameHeight = explosion.height / NumLines;
 
             int currentFrame = 0;
             int currentLine = 0;
@@ -59,13 +57,13 @@ namespace Examples.Textures
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
 
                 // Check for mouse button pressed and activate explosion (if not active)
-                if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && !active)
+                if (IsMouseButtonPressed(MouseButton.MOUSE_LEFT_BUTTON) && !active)
                 {
                     position = GetMousePosition();
                     active = true;
@@ -85,12 +83,12 @@ namespace Examples.Textures
                     {
                         currentFrame++;
 
-                        if (currentFrame >= NUM_FRAMES_PER_LINE)
+                        if (currentFrame >= NumFramesPerLine)
                         {
                             currentFrame = 0;
                             currentLine++;
 
-                            if (currentLine >= NUM_LINES)
+                            if (currentLine >= NumLines)
                             {
                                 currentLine = 0;
                                 active = false;
@@ -108,12 +106,12 @@ namespace Examples.Textures
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 // Draw explosion required frame rectangle
                 if (active)
                 {
-                    DrawTextureRec(explosion, frameRec, position, WHITE);
+                    DrawTextureRec(explosion, frameRec, position, Color.WHITE);
                 }
 
                 EndDrawing();
@@ -122,12 +120,12 @@ namespace Examples.Textures
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadTexture(explosion);   // Unload texture
-            UnloadSound(fxBoom);        // Unload sound
+            UnloadTexture(explosion);
+            UnloadSound(fxBoom);
 
             CloseAudioDevice();
 
-            CloseWindow();              // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

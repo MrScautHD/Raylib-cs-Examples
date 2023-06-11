@@ -12,15 +12,11 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.KeyboardKey;
 
 namespace Examples.Shapes
 {
     public class ColorsPalette
     {
-        const int MAX_COLORS_COUNT = 21;
-
         public static int Main()
         {
             // Initialization
@@ -32,23 +28,59 @@ namespace Examples.Shapes
 
             Color[] colors = new[]
             {
-                DARKGRAY, MAROON, ORANGE, DARKGREEN, DARKBLUE, DARKPURPLE, DARKBROWN,
-                GRAY, RED, GOLD, LIME, BLUE, VIOLET, BROWN, LIGHTGRAY, PINK, YELLOW,
-                GREEN, SKYBLUE, PURPLE, BEIGE
+                Color.DARKGRAY,
+                Color.MAROON,
+                Color.ORANGE,
+                Color.DARKGREEN,
+                Color.DARKBLUE,
+                Color.DARKPURPLE,
+                Color.DARKBROWN,
+                Color.GRAY,
+                Color.RED,
+                Color.GOLD,
+                Color.LIME,
+                Color.BLUE,
+                Color.VIOLET,
+                Color.BROWN,
+                Color.LIGHTGRAY,
+                Color.PINK,
+                Color.YELLOW,
+                Color.GREEN,
+                Color.SKYBLUE,
+                Color.PURPLE,
+                Color.BEIGE
             };
 
             string[] colorNames = new[]
             {
-                "DARKGRAY", "MAROON", "ORANGE", "DARKGREEN", "DARKBLUE", "DARKPURPLE",
-                "DARKBROWN", "GRAY", "RED", "GOLD", "LIME", "BLUE", "VIOLET", "BROWN",
-                "LIGHTGRAY", "PINK", "YELLOW", "GREEN", "SKYBLUE", "PURPLE", "BEIGE"
+                "DARKGRAY",
+                "MAROON",
+                "ORANGE",
+                "DARKGREEN",
+                "DARKBLUE",
+                "DARKPURPLE",
+                "DARKBROWN",
+                "GRAY",
+                "RED",
+                "GOLD",
+                "LIME",
+                "BLUE",
+                "VIOLET",
+                "BROWN",
+                "LIGHTGRAY",
+                "PINK",
+                "YELLOW",
+                "GREEN",
+                "SKYBLUE",
+                "PURPLE",
+                "BEIGE"
             };
 
             // Rectangles array
-            Rectangle[] colorsRecs = new Rectangle[MAX_COLORS_COUNT];
+            Rectangle[] colorsRecs = new Rectangle[colors.Length];
 
             // Fills colorsRecs data (for every rectangle)
-            for (int i = 0; i < MAX_COLORS_COUNT; i++)
+            for (int i = 0; i < colorsRecs.Length; i++)
             {
                 colorsRecs[i].x = 20 + 100 * (i % 7) + 10 * (i % 7);
                 colorsRecs[i].y = 80 + 100 * (i / 7) + 10 * (i / 7);
@@ -57,7 +89,7 @@ namespace Examples.Shapes
             }
 
             // Color state: 0-DEFAULT, 1-MOUSE_HOVER
-            int[] colorState = new int[MAX_COLORS_COUNT];
+            int[] colorState = new int[colors.Length];
 
             Vector2 mousePoint = new Vector2(0.0f, 0.0f);
 
@@ -65,13 +97,13 @@ namespace Examples.Shapes
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
                 mousePoint = GetMousePosition();
 
-                for (int i = 0; i < MAX_COLORS_COUNT; i++)
+                for (int i = 0; i < colors.Length; i++)
                 {
                     if (CheckCollisionPointRec(mousePoint, colorsRecs[i]))
                     {
@@ -87,25 +119,32 @@ namespace Examples.Shapes
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
-                DrawText("raylib colors palette", 28, 42, 20, BLACK);
-                DrawText("press SPACE to see all colors", GetScreenWidth() - 180, GetScreenHeight() - 40, 10, GRAY);
+                DrawText("raylib colors palette", 28, 42, 20, Color.BLACK);
+                DrawText(
+                    "press SPACE to see all colors",
+                    GetScreenWidth() - 180,
+                    GetScreenHeight() - 40,
+                    10,
+                    Color.GRAY
+                );
 
-                for (int i = 0; i < MAX_COLORS_COUNT; i++)    // Draw all rectangles
+                // Draw all rectangles
+                for (int i = 0; i < colorsRecs.Length; i++)
                 {
                     DrawRectangleRec(colorsRecs[i], ColorAlpha(colors[i], colorState[i] != 0 ? 0.6f : 1.0f));
 
-                    if (IsKeyDown(KEY_SPACE) || colorState[i] != 0)
+                    if (IsKeyDown(KeyboardKey.KEY_SPACE) || colorState[i] != 0)
                     {
                         DrawRectangle(
                             (int)colorsRecs[i].x,
                             (int)(colorsRecs[i].y + colorsRecs[i].height - 26),
                             (int)colorsRecs[i].width,
                             20,
-                            BLACK
+                            Color.BLACK
                         );
-                        DrawRectangleLinesEx(colorsRecs[i], 6, ColorAlpha(BLACK, 0.3f));
+                        DrawRectangleLinesEx(colorsRecs[i], 6, ColorAlpha(Color.BLACK, 0.3f));
                         DrawText(
                             colorNames[i],
                             (int)(colorsRecs[i].x + colorsRecs[i].width - MeasureText(colorNames[i], 10) - 12),
@@ -122,7 +161,7 @@ namespace Examples.Shapes
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            CloseWindow();                // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

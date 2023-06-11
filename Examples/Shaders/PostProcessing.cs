@@ -19,34 +19,29 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.MaterialMapIndex;
-using static Raylib_cs.KeyboardKey;
 
 namespace Examples.Shaders
 {
     public class PostProcessing
     {
         public const int GLSL_VERSION = 330;
-        // public const int GLSL_VERSION = 100;
-
-        public const int MAX_POSTPRO_SHADERS = 12;
 
         enum PostproShader
         {
-            FX_GRAYSCALE = 0,
-            FX_POSTERIZATION,
-            FX_DREAM_VISION,
-            FX_PIXELIZER,
-            FX_CROSS_HATCHING,
-            FX_CROSS_STITCHING,
-            FX_PREDATOR_VIEW,
-            FX_SCANLINES,
-            FX_FISHEYE,
-            FX_SOBEL,
-            FX_BLOOM,
-            FX_BLUR,
+            FxGrayScale = 0,
+            FxPosterization,
+            FxDreamVision,
+            FxPixelizer,
+            FxCrossHatching,
+            FxCrossStiching,
+            FxPredatorView,
+            FxScanLines,
+            FxFishEye,
+            FxSobel,
+            FxBloom,
+            FxBlur,
             //FX_FXAA
+            Max
         }
 
         static string[] postproShaderText = new string[] {
@@ -72,41 +67,47 @@ namespace Examples.Shaders
             const int screenWidth = 800;
             const int screenHeight = 450;
 
-            SetConfigFlags(ConfigFlags.FLAG_MSAA_4X_HINT);      // Enable Multi Sampling Anti Aliasing 4x (if available)
+            // Enable Multi Sampling Anti Aliasing 4x (if available)
+            SetConfigFlags(ConfigFlags.FLAG_MSAA_4X_HINT);
             InitWindow(screenWidth, screenHeight, "raylib [shaders] example - postprocessing shader");
 
             // Define the camera to look into our 3d world
-            Camera3D camera = new Camera3D(new Vector3(2.0f, 3.0f, 2.0f), new Vector3(0.0f, 1.0f, 0.0f), new Vector3(0.0f, 1.0f, 0.0f), 45.0f, 0);
+            Camera3D camera = new Camera3D();
+            camera.position = new Vector3(2.0f, 3.0f, 2.0f);
+            camera.target = new Vector3(0.0f, 1.0f, 0.0f);
+            camera.up = new Vector3(0.0f, 1.0f, 0.0f);
+            camera.fovy = 45.0f;
+            camera.projection = CameraProjection.CAMERA_PERSPECTIVE;
 
-            Model model = LoadModel("resources/models/church.obj");                 // Load OBJ model
-            Texture2D texture = LoadTexture("resources/models/church_diffuse.png"); // Load model texture (diffuse map)
+            Model model = LoadModel("resources/models/church.obj");
+            Texture2D texture = LoadTexture("resources/models/church_diffuse.png");
 
             // Set model diffuse texture
-            Raylib.SetMaterialTexture(ref model, 0, MATERIAL_MAP_ALBEDO, ref texture);
+            Raylib.SetMaterialTexture(ref model, 0, MaterialMapIndex.MATERIAL_MAP_ALBEDO, ref texture);
 
-            Vector3 position = new Vector3(0.0f, 0.0f, 0.0f);                             // Set model position
+            Vector3 position = new Vector3(0.0f, 0.0f, 0.0f);
 
             // Load all postpro shaders
             // NOTE 1: All postpro shader use the base vertex shader (DEFAULT_VERTEX_SHADER)
             // NOTE 2: We load the correct shader depending on GLSL version
-            Shader[] shaders = new Shader[MAX_POSTPRO_SHADERS];
+            Shader[] shaders = new Shader[(int)PostproShader.Max];
 
             // NOTE: Defining null (NULL) for vertex shader forces usage of internal default vertex shader
             string shaderPath = "resources/shaders/glsl330";
-            shaders[(int)PostproShader.FX_GRAYSCALE] = LoadShader(null, $"{shaderPath}/grayscale.fs");
-            shaders[(int)PostproShader.FX_POSTERIZATION] = LoadShader(null, $"{shaderPath}/posterization.fs");
-            shaders[(int)PostproShader.FX_DREAM_VISION] = LoadShader(null, $"{shaderPath}/dream_vision.fs");
-            shaders[(int)PostproShader.FX_PIXELIZER] = LoadShader(null, $"{shaderPath}/pixelizer.fs");
-            shaders[(int)PostproShader.FX_CROSS_HATCHING] = LoadShader(null, $"{shaderPath}/cross_hatching.fs");
-            shaders[(int)PostproShader.FX_CROSS_STITCHING] = LoadShader(null, $"{shaderPath}/cross_stitching.fs");
-            shaders[(int)PostproShader.FX_PREDATOR_VIEW] = LoadShader(null, $"{shaderPath}/predator.fs");
-            shaders[(int)PostproShader.FX_SCANLINES] = LoadShader(null, $"{shaderPath}/scanlines.fs");
-            shaders[(int)PostproShader.FX_FISHEYE] = LoadShader(null, $"{shaderPath}/fisheye.fs");
-            shaders[(int)PostproShader.FX_SOBEL] = LoadShader(null, $"{shaderPath}/sobel.fs");
-            shaders[(int)PostproShader.FX_BLOOM] = LoadShader(null, $"{shaderPath}/bloom.fs");
-            shaders[(int)PostproShader.FX_BLUR] = LoadShader(null, $"{shaderPath}/blur.fs");
+            shaders[(int)PostproShader.FxGrayScale] = LoadShader(null, $"{shaderPath}/grayscale.fs");
+            shaders[(int)PostproShader.FxPosterization] = LoadShader(null, $"{shaderPath}/posterization.fs");
+            shaders[(int)PostproShader.FxDreamVision] = LoadShader(null, $"{shaderPath}/dream_vision.fs");
+            shaders[(int)PostproShader.FxPixelizer] = LoadShader(null, $"{shaderPath}/pixelizer.fs");
+            shaders[(int)PostproShader.FxCrossHatching] = LoadShader(null, $"{shaderPath}/cross_hatching.fs");
+            shaders[(int)PostproShader.FxCrossStiching] = LoadShader(null, $"{shaderPath}/cross_stitching.fs");
+            shaders[(int)PostproShader.FxPredatorView] = LoadShader(null, $"{shaderPath}/predator.fs");
+            shaders[(int)PostproShader.FxScanLines] = LoadShader(null, $"{shaderPath}/scanlines.fs");
+            shaders[(int)PostproShader.FxFishEye] = LoadShader(null, $"{shaderPath}/fisheye.fs");
+            shaders[(int)PostproShader.FxSobel] = LoadShader(null, $"{shaderPath}/sobel.fs");
+            shaders[(int)PostproShader.FxBloom] = LoadShader(null, $"{shaderPath}/bloom.fs");
+            shaders[(int)PostproShader.FxBlur] = LoadShader(null, $"{shaderPath}/blur.fs");
 
-            int currentShader = (int)PostproShader.FX_GRAYSCALE;
+            int currentShader = (int)PostproShader.FxGrayScale;
 
             // Create a RenderTexture2D to be used for render to texture
             RenderTexture2D target = LoadRenderTexture(screenWidth, screenHeight);
@@ -115,64 +116,71 @@ namespace Examples.Shaders
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())            // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
                 UpdateCamera(ref camera, CameraMode.CAMERA_ORBITAL);
 
-                if (IsKeyPressed(KEY_RIGHT))
+                if (IsKeyPressed(KeyboardKey.KEY_RIGHT))
                 {
                     currentShader++;
                 }
-                else if (IsKeyPressed(KEY_LEFT))
+                else if (IsKeyPressed(KeyboardKey.KEY_LEFT))
                 {
                     currentShader--;
                 }
 
-                if (currentShader >= MAX_POSTPRO_SHADERS)
+                if (currentShader >= (int)PostproShader.Max)
                 {
                     currentShader = 0;
                 }
                 else if (currentShader < 0)
                 {
-                    currentShader = MAX_POSTPRO_SHADERS - 1;
+                    currentShader = (int)PostproShader.Max - 1;
                 }
                 //----------------------------------------------------------------------------------
 
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
-                BeginTextureMode(target);   // Enable drawing to texture
-                ClearBackground(RAYWHITE);
+                // Enable drawing to texture
+                BeginTextureMode(target);
+                ClearBackground(Color.RAYWHITE);
 
                 BeginMode3D(camera);
 
-                DrawModel(model, position, 0.1f, WHITE);   // Draw 3d model with texture
+                DrawModel(model, position, 0.1f, Color.WHITE);
 
-                DrawGrid(10, 1.0f);     // Draw a grid
+                DrawGrid(10, 1.0f);
 
                 EndMode3D();
 
-                EndTextureMode();           // End drawing to texture (now we have a texture available for next passes)
+                // End drawing to texture (now we have a texture available for next passes)
+                EndTextureMode();
 
                 // Render previously generated texture using selected postpro shader
                 BeginShaderMode(shaders[currentShader]);
 
                 // NOTE: Render texture must be y-flipped due to default OpenGL coordinates (left-bottom)
-                DrawTextureRec(target.texture, new Rectangle(0, 0, target.texture.width, -target.texture.height), new Vector2(0, 0), WHITE);
+                DrawTextureRec(
+                    target.texture,
+                    new Rectangle(0, 0, target.texture.width, -target.texture.height),
+                    new Vector2(0, 0),
+                    Color.WHITE
+                );
 
                 EndShaderMode();
 
-                DrawRectangle(0, 9, 580, 30, ColorAlpha(LIGHTGRAY, 0.7f));
+                DrawRectangle(0, 9, 580, 30, ColorAlpha(Color.LIGHTGRAY, 0.7f));
 
-                DrawText("(c) Church 3D model by Alberto Cano", screenWidth - 200, screenHeight - 20, 10, GRAY);
+                DrawText("(c) Church 3D model by Alberto Cano", screenWidth - 200, screenHeight - 20, 10, Color.GRAY);
 
-                DrawText("CURRENT POSTPRO SHADER:", 10, 15, 20, BLACK);
-                DrawText(postproShaderText[currentShader], 330, 15, 20, RED);
-                DrawText("< >", 540, 10, 30, DARKBLUE);
+                DrawText("CURRENT POSTPRO SHADER:", 10, 15, 20, Color.BLACK);
+                DrawText(postproShaderText[currentShader], 330, 15, 20, Color.RED);
+                DrawText("< >", 540, 10, 30, Color.DARKBLUE);
 
                 DrawFPS(700, 15);
 
@@ -182,18 +190,16 @@ namespace Examples.Shaders
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-
-            // Unload all postpro shaders
-            for (int i = 0; i < MAX_POSTPRO_SHADERS; i++)
+            for (int i = 0; i < (int)PostproShader.Max; i++)
             {
                 UnloadShader(shaders[i]);
             }
 
-            UnloadTexture(texture);         // Unload texture
-            UnloadModel(model);             // Unload model
-            UnloadRenderTexture(target);    // Unload render texture
+            UnloadTexture(texture);
+            UnloadModel(model);
+            UnloadRenderTexture(target);
 
-            CloseWindow();                  // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

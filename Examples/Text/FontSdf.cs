@@ -14,9 +14,6 @@ using System.Numerics;
 using System.Runtime.InteropServices;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.KeyboardKey;
-using static Raylib_cs.TextureFilter;
 
 namespace Examples.Text
 {
@@ -68,7 +65,7 @@ namespace Examples.Text
             // Load SDF required shader (we use default vertex shader)
             Shader shader = LoadShader(null, "resources/shaders/glsl330/sdf.fs");
             // Required for SDF font
-            SetTextureFilter(fontSDF.texture, TEXTURE_FILTER_BILINEAR);
+            SetTextureFilter(fontSDF.texture, TextureFilter.TEXTURE_FILTER_BILINEAR);
 
             Vector2 fontPosition = new Vector2(40, screenHeight / 2 - 50);
             Vector2 textSize = new Vector2(0.0f);
@@ -80,7 +77,7 @@ namespace Examples.Text
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -91,7 +88,7 @@ namespace Examples.Text
                     fontSize = 6;
                 }
 
-                if (IsKeyDown(KEY_SPACE))
+                if (IsKeyDown(KeyboardKey.KEY_SPACE))
                 {
                     currentFont = 1;
                 }
@@ -116,37 +113,37 @@ namespace Examples.Text
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 if (currentFont == 1)
                 {
                     // NOTE: SDF fonts require a custom SDf shader to compute fragment color
                     BeginShaderMode(shader);
-                    DrawTextEx(fontSDF, msg, fontPosition, fontSize, 0, BLACK);
+                    DrawTextEx(fontSDF, msg, fontPosition, fontSize, 0, Color.BLACK);
                     EndShaderMode();
 
-                    DrawTexture(fontSDF.texture, 10, 10, BLACK);
+                    DrawTexture(fontSDF.texture, 10, 10, Color.BLACK);
                 }
                 else
                 {
-                    DrawTextEx(fontDefault, msg, fontPosition, fontSize, 0, BLACK);
-                    DrawTexture(fontDefault.texture, 10, 10, BLACK);
+                    DrawTextEx(fontDefault, msg, fontPosition, fontSize, 0, Color.BLACK);
+                    DrawTexture(fontDefault.texture, 10, 10, Color.BLACK);
                 }
 
                 if (currentFont == 1)
                 {
-                    DrawText("SDF!", 320, 20, 80, RED);
+                    DrawText("SDF!", 320, 20, 80, Color.RED);
                 }
                 else
                 {
-                    DrawText("default font", 315, 40, 30, GRAY);
+                    DrawText("default font", 315, 40, 30, Color.GRAY);
                 }
 
-                DrawText("FONT SIZE: 16.0", GetScreenWidth() - 240, 20, 20, DARKGRAY);
-                DrawText(string.Format("RENDER SIZE: {0:00.00}", fontSize), GetScreenWidth() - 240, 50, 20, DARKGRAY);
-                DrawText("Use MOUSE WHEEL to SCALE TEXT!", GetScreenWidth() - 240, 90, 10, DARKGRAY);
+                DrawText("FONT SIZE: 16.0", GetScreenWidth() - 240, 20, 20, Color.DARKGRAY);
+                DrawText($"RENDER SIZE: {fontSize:2F}", GetScreenWidth() - 240, 50, 20, Color.DARKGRAY);
+                DrawText("Use MOUSE WHEEL to SCALE TEXT!", GetScreenWidth() - 240, 90, 10, Color.DARKGRAY);
 
-                DrawText("PRESS SPACE to USE SDF FONT VERSION!", 340, GetScreenHeight() - 30, 20, MAROON);
+                DrawText("PRESS SPACE to USE SDF FONT VERSION!", 340, GetScreenHeight() - 30, 20, Color.MAROON);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -154,11 +151,11 @@ namespace Examples.Text
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadFont(fontDefault);    // Default font unloading
-            UnloadFont(fontSDF);        // SDF font unloading
-            UnloadShader(shader);       // Unload SDF shader
+            UnloadFont(fontDefault);
+            UnloadFont(fontSDF);
+            UnloadShader(shader);
 
-            CloseWindow();              // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

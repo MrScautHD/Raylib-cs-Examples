@@ -89,13 +89,13 @@ namespace Examples.Shaders
             Raylib.SetMaterialShader(ref modelC, 0, ref shader);
 
             // Using just 1 point lights
-            CreateLight(0, LightType.LIGHT_POINT, new Vector3(0, 2, 6), Vector3.Zero, Color.WHITE, shader);
+            CreateLight(0, LightType.Point, new Vector3(0, 2, 6), Vector3.Zero, Color.WHITE, shader);
 
             SetTargetFPS(60);                       // Set our game to run at 60 frames-per-second
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())            // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -154,7 +154,7 @@ namespace Examples.Shaders
                 EndMode3D();
 
                 DrawText(
-                    $"Use (KEY_UP/(KEY_DOWN to change fog density [{fogDensity.ToString("F2")}]",
+                    $"Use up/down to change fog density [{fogDensity:F2}]",
                     10,
                     10,
                     20,
@@ -167,13 +167,14 @@ namespace Examples.Shaders
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadModel(modelA);        // Unload the model A
-            UnloadModel(modelB);        // Unload the model B
-            UnloadModel(modelC);        // Unload the model C
-            UnloadTexture(texture);     // Unload the texture
-            UnloadShader(shader);       // Unload shader
+            UnloadModel(modelA);
+            UnloadModel(modelB);
+            UnloadModel(modelC);
 
-            CloseWindow();              // Close window and OpenGL context
+            UnloadTexture(texture);
+            UnloadShader(shader);
+
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

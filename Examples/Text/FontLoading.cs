@@ -21,8 +21,6 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.KeyboardKey;
 
 namespace Examples.Text
 {
@@ -56,11 +54,11 @@ namespace Examples.Text
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
-                if (IsKeyDown(KEY_SPACE))
+                if (IsKeyDown(KeyboardKey.KEY_SPACE))
                 {
                     useTtf = true;
                 }
@@ -73,19 +71,19 @@ namespace Examples.Text
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
-                DrawText("Hold SPACE to use TTF generated font", 20, 20, 20, LIGHTGRAY);
+                DrawText("Hold SPACE to use TTF generated font", 20, 20, 20, Color.LIGHTGRAY);
 
                 if (!useTtf)
                 {
-                    DrawTextEx(fontBm, msg, new Vector2(20.0f, 100.0f), fontBm.baseSize, 2, MAROON);
-                    DrawText("Using BMFont (Angelcode) imported", 20, GetScreenHeight() - 30, 20, GRAY);
+                    DrawTextEx(fontBm, msg, new Vector2(20.0f, 100.0f), fontBm.baseSize, 2, Color.MAROON);
+                    DrawText("Using BMFont (Angelcode) imported", 20, GetScreenHeight() - 30, 20, Color.GRAY);
                 }
                 else
                 {
-                    DrawTextEx(fontTtf, msg, new Vector2(20.0f, 100.0f), fontTtf.baseSize, 2, LIME);
-                    DrawText("Using TTF font generated", 20, GetScreenHeight() - 30, 20, GRAY);
+                    DrawTextEx(fontTtf, msg, new Vector2(20.0f, 100.0f), fontTtf.baseSize, 2, Color.LIME);
+                    DrawText("Using TTF font generated", 20, GetScreenHeight() - 30, 20, Color.GRAY);
                 }
 
                 EndDrawing();
@@ -94,10 +92,10 @@ namespace Examples.Text
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadFont(fontBm);     // AngelCode Font unloading
-            UnloadFont(fontTtf);    // TTF Font unloading
+            UnloadFont(fontBm);
+            UnloadFont(fontTtf);
 
-            CloseWindow();          // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

@@ -11,7 +11,6 @@
 
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
 
 namespace Examples.Core
 {
@@ -27,13 +26,15 @@ namespace Examples.Core
             InitWindow(screenWidth, screenHeight, "raylib [core] example - input mouse wheel");
 
             int boxPositionY = screenHeight / 2 - 40;
-            int scrollSpeed = 4;            // Scrolling speed in pixels
+
+            // Scrolling speed in pixels
+            int scrollSpeed = 4;
 
             SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -43,12 +44,12 @@ namespace Examples.Core
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
-                DrawRectangle(screenWidth / 2 - 40, boxPositionY, 80, 80, MAROON);
+                DrawRectangle(screenWidth / 2 - 40, boxPositionY, 80, 80, Color.MAROON);
 
-                DrawText("Use mouse wheel to move the cube up and down!", 10, 10, 20, GRAY);
-                DrawText($"Box position Y: {boxPositionY}", 10, 40, 20, LIGHTGRAY);
+                DrawText("Use mouse wheel to move the cube up and down!", 10, 10, 20, Color.GRAY);
+                DrawText($"Box position Y: {boxPositionY}", 10, 40, 20, Color.LIGHTGRAY);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -56,7 +57,7 @@ namespace Examples.Core
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

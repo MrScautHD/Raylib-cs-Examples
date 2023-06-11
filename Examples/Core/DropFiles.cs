@@ -13,7 +13,6 @@
 
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
 
 namespace Examples.Core
 {
@@ -34,7 +33,7 @@ namespace Examples.Core
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -47,30 +46,30 @@ namespace Examples.Core
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 if (files.Length == 0)
                 {
-                    DrawText("Drop your files to this window!", 100, 40, 20, DARKGRAY);
+                    DrawText("Drop your files to this window!", 100, 40, 20, Color.DARKGRAY);
                 }
                 else
                 {
-                    DrawText("Dropped files:", 100, 40, 20, DARKGRAY);
+                    DrawText("Dropped files:", 100, 40, 20, Color.DARKGRAY);
 
                     for (int i = 0; i < files.Length; i++)
                     {
                         if (i % 2 == 0)
                         {
-                            DrawRectangle(0, 85 + 40 * i, screenWidth, 40, ColorAlpha(LIGHTGRAY, 0.5f));
+                            DrawRectangle(0, 85 + 40 * i, screenWidth, 40, ColorAlpha(Color.LIGHTGRAY, 0.5f));
                         }
                         else
                         {
-                            DrawRectangle(0, 85 + 40 * i, screenWidth, 40, ColorAlpha(LIGHTGRAY, 0.3f));
+                            DrawRectangle(0, 85 + 40 * i, screenWidth, 40, ColorAlpha(Color.LIGHTGRAY, 0.3f));
                         }
-                        DrawText(files[i], 120, 100 + 40 * i, 10, GRAY);
+                        DrawText(files[i], 120, 100 + 40 * i, 10, Color.GRAY);
                     }
 
-                    DrawText("Drop new files...", 100, 110 + 40 * files.Length, 20, DARKGRAY);
+                    DrawText("Drop new files...", 100, 110 + 40 * files.Length, 20, Color.DARKGRAY);
                 }
 
                 EndDrawing();
@@ -79,7 +78,7 @@ namespace Examples.Core
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            CloseWindow();          // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

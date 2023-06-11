@@ -63,7 +63,7 @@ namespace Examples.Models
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())            // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -124,9 +124,9 @@ namespace Examples.Models
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadTexture(bill);        // Unload texture
+            UnloadTexture(bill);
 
-            CloseWindow();              // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

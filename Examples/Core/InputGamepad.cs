@@ -47,7 +47,7 @@ namespace Examples.Core
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -284,7 +284,13 @@ namespace Examples.Core
 
                     for (int i = 0; i < GetGamepadAxisCount(0); i++)
                     {
-                        DrawText($"AXIS {i}: {GetGamepadAxisMovement(0, (GamepadAxis)i)}", 20, 70 + 20 * i, 10, Color.DARKGRAY);
+                        DrawText(
+                            $"AXIS {i}: {GetGamepadAxisMovement(0, (GamepadAxis)i)}",
+                            20,
+                            70 + 20 * i,
+                            10,
+                            Color.DARKGRAY
+                        );
                     }
 
                     if (GetGamepadButtonPressed() != (int)GamepadButton.GAMEPAD_BUTTON_UNKNOWN)
@@ -311,7 +317,7 @@ namespace Examples.Core
             UnloadTexture(texPs3Pad);
             UnloadTexture(texXboxPad);
 
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

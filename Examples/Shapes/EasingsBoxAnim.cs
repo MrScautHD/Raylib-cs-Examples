@@ -12,8 +12,6 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.KeyboardKey;
 
 namespace Examples.Shapes
 {
@@ -40,7 +38,7 @@ namespace Examples.Shapes
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -110,7 +108,7 @@ namespace Examples.Shapes
                 }
 
                 // Reset animation at any moment
-                if (IsKeyPressed(KEY_SPACE))
+                if (IsKeyPressed(KeyboardKey.KEY_SPACE))
                 {
                     rec = new Rectangle(GetScreenWidth() / 2, -100, 100, 100);
                     rotation = 0.0f;
@@ -123,10 +121,15 @@ namespace Examples.Shapes
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
-                DrawRectanglePro(rec, new Vector2(rec.width / 2, rec.height / 2), rotation, ColorAlpha(BLACK, alpha));
-                DrawText("PRESS [SPACE] TO RESET BOX ANIMATION!", 10, GetScreenHeight() - 25, 20, LIGHTGRAY);
+                DrawRectanglePro(
+                    rec,
+                    new Vector2(rec.width / 2, rec.height / 2),
+                    rotation,
+                    ColorAlpha(Color.BLACK, alpha)
+                );
+                DrawText("PRESS [SPACE] TO RESET BOX ANIMATION!", 10, GetScreenHeight() - 25, 20, Color.LIGHTGRAY);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -134,7 +137,7 @@ namespace Examples.Shapes
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

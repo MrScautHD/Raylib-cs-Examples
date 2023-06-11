@@ -12,7 +12,6 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
 
 namespace Examples.Core
 {
@@ -29,11 +28,11 @@ namespace Examples.Core
 
             // Define the camera to look into our 3d world
             Camera3D camera = new Camera3D();
-            camera.position = new Vector3(0.0f, 10.0f, 10.0f);  // Camera position
-            camera.target = new Vector3(0.0f, 0.0f, 0.0f);      // Camera looking at point
-            camera.up = new Vector3(0.0f, 1.0f, 0.0f);          // Camera up vector (rotation towards target)
-            camera.fovy = 45.0f;                                // Camera field-of-view Y
-            camera.projection = CameraProjection.CAMERA_PERSPECTIVE;                   // Camera mode type
+            camera.position = new Vector3(0.0f, 10.0f, 10.0f);
+            camera.target = new Vector3(0.0f, 0.0f, 0.0f);
+            camera.up = new Vector3(0.0f, 1.0f, 0.0f);
+            camera.fovy = 45.0f;
+            camera.projection = CameraProjection.CAMERA_PERSPECTIVE;
 
             Vector3 cubePosition = new Vector3(0.0f, 0.0f, 0.0f);
 
@@ -41,7 +40,7 @@ namespace Examples.Core
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -51,18 +50,18 @@ namespace Examples.Core
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 BeginMode3D(camera);
 
-                DrawCube(cubePosition, 2.0f, 2.0f, 2.0f, RED);
-                DrawCubeWires(cubePosition, 2.0f, 2.0f, 2.0f, MAROON);
+                DrawCube(cubePosition, 2.0f, 2.0f, 2.0f, Color.RED);
+                DrawCubeWires(cubePosition, 2.0f, 2.0f, 2.0f, Color.MAROON);
 
                 DrawGrid(10, 1.0f);
 
                 EndMode3D();
 
-                DrawText("Welcome to the third dimension!", 10, 40, 20, DARKGRAY);
+                DrawText("Welcome to the third dimension!", 10, 40, 20, Color.DARKGRAY);
 
                 DrawFPS(10, 10);
 
@@ -72,7 +71,7 @@ namespace Examples.Core
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

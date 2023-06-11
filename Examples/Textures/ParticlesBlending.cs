@@ -12,15 +12,12 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.BlendMode;
-using static Raylib_cs.Color;
-using static Raylib_cs.KeyboardKey;
 
 namespace Examples.Textures
 {
     public class ParticlesBlending
     {
-        public const int MAX_PARTICLES = 200;
+        public const int MaxParticles = 200;
 
         // Particle structure with basic data
         struct Particle
@@ -44,10 +41,10 @@ namespace Examples.Textures
             InitWindow(screenWidth, screenHeight, "raylib [textures] example - particles blending");
 
             // Particles pool, reuse them!
-            Particle[] mouseTail = new Particle[MAX_PARTICLES];
+            Particle[] mouseTail = new Particle[MaxParticles];
 
             // Initialize particles
-            for (int i = 0; i < MAX_PARTICLES; i++)
+            for (int i = 0; i < mouseTail.Length; i++)
             {
                 mouseTail[i].position = new Vector2(0, 0);
                 mouseTail[i].color = new Color(
@@ -70,7 +67,7 @@ namespace Examples.Textures
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -79,18 +76,18 @@ namespace Examples.Textures
                 // NOTE: Particles initial position should be mouse position when activated
                 // NOTE: Particles fall down with gravity and rotation... and disappear after 2 seconds (alpha = 0)
                 // NOTE: When a particle disappears, active = false and it can be reused.
-                for (int i = 0; i < MAX_PARTICLES; i++)
+                for (int i = 0; i < mouseTail.Length; i++)
                 {
                     if (!mouseTail[i].active)
                     {
                         mouseTail[i].active = true;
                         mouseTail[i].alpha = 1.0f;
                         mouseTail[i].position = GetMousePosition();
-                        i = MAX_PARTICLES;
+                        i = mouseTail.Length;
                     }
                 }
 
-                for (int i = 0; i < MAX_PARTICLES; i++)
+                for (int i = 0; i < mouseTail.Length; i++)
                 {
                     if (mouseTail[i].active)
                     {
@@ -106,7 +103,7 @@ namespace Examples.Textures
                     }
                 }
 
-                if (IsKeyPressed(KEY_SPACE))
+                if (IsKeyPressed(KeyboardKey.KEY_SPACE))
                 {
                     if (blending == BlendMode.BLEND_ALPHA)
                     {
@@ -122,12 +119,12 @@ namespace Examples.Textures
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(DARKGRAY);
+                ClearBackground(Color.DARKGRAY);
 
                 BeginBlendMode(blending);
 
                 // Draw active particles
-                for (int i = 0; i < MAX_PARTICLES; i++)
+                for (int i = 0; i < mouseTail.Length; i++)
                 {
                     if (mouseTail[i].active)
                     {
@@ -149,15 +146,15 @@ namespace Examples.Textures
 
                 EndBlendMode();
 
-                DrawText("PRESS SPACE to CHANGE BLENDING MODE", 180, 20, 20, BLACK);
+                DrawText("PRESS SPACE to CHANGE BLENDING MODE", 180, 20, 20, Color.BLACK);
 
-                if (blending == BLEND_ALPHA)
+                if (blending == BlendMode.BLEND_ALPHA)
                 {
-                    DrawText("ALPHA BLENDING", 290, screenHeight - 40, 20, BLACK);
+                    DrawText("ALPHA BLENDING", 290, screenHeight - 40, 20, Color.BLACK);
                 }
                 else
                 {
-                    DrawText("ADDITIVE BLENDING", 280, screenHeight - 40, 20, RAYWHITE);
+                    DrawText("ADDITIVE BLENDING", 280, screenHeight - 40, 20, Color.RAYWHITE);
                 }
 
                 EndDrawing();
@@ -168,7 +165,7 @@ namespace Examples.Textures
             //--------------------------------------------------------------------------------------
             UnloadTexture(smoke);
 
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

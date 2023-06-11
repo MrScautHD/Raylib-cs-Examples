@@ -12,8 +12,6 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.KeyboardKey;
 
 namespace Examples.Textures
 {
@@ -34,7 +32,15 @@ namespace Examples.Textures
             Image parrots = LoadImage("resources/parrots.png");
 
             // Draw over image using custom font
-            ImageDrawTextEx(ref parrots, font, "[Parrots font drawing]", new Vector2(20, 20), font.baseSize, 0, WHITE);
+            ImageDrawTextEx(
+                ref parrots,
+                font,
+                "[Parrots font drawing]",
+                new Vector2(20, 20),
+                font.baseSize,
+                0,
+                Color.WHITE
+            );
 
             // Image converted to texture, uploaded to GPU memory (VRAM)
             Texture2D texture = LoadTextureFromImage(parrots);
@@ -51,11 +57,11 @@ namespace Examples.Textures
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
-                if (IsKeyDown(KEY_SPACE))
+                if (IsKeyDown(KeyboardKey.KEY_SPACE))
                 {
                     showFont = true;
                 }
@@ -68,23 +74,23 @@ namespace Examples.Textures
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 if (!showFont)
                 {
                     // Draw texture with text already drawn inside
-                    DrawTextureV(texture, position, WHITE);
+                    DrawTextureV(texture, position, Color.WHITE);
 
                     // Draw text directly using sprite font
                     Vector2 textPosition = new Vector2(position.X + 20, position.Y + 20 + 280);
-                    DrawTextEx(font, "[Parrots font drawing]", textPosition, font.baseSize, 0, WHITE);
+                    DrawTextEx(font, "[Parrots font drawing]", textPosition, font.baseSize, 0, Color.WHITE);
                 }
                 else
                 {
-                    DrawTexture(font.texture, screenWidth / 2 - font.texture.width / 2, 50, BLACK);
+                    DrawTexture(font.texture, screenWidth / 2 - font.texture.width / 2, 50, Color.BLACK);
                 }
 
-                DrawText("PRESS SPACE to SEE USED SPRITEFONT ", 290, 420, 10, DARKGRAY);
+                DrawText("PRESS SPACE to SEE USED SPRITEFONT ", 290, 420, 10, Color.DARKGRAY);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -95,7 +101,7 @@ namespace Examples.Textures
             UnloadTexture(texture);
             UnloadFont(font);
 
-            CloseWindow();              // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

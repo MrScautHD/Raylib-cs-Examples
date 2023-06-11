@@ -12,7 +12,6 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
 
 namespace Examples.Textures
 {
@@ -41,7 +40,7 @@ namespace Examples.Textures
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose()) // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -71,22 +70,34 @@ namespace Examples.Textures
 
                 // Draw background image twice
                 // NOTE: Texture is scaled twice its size
-                DrawTextureEx(background, new Vector2(scrollingBack, 20), 0.0f, 2.0f, WHITE);
-                DrawTextureEx(background, new Vector2(background.width * 2 + scrollingBack, 20), 0.0f, 2.0f, WHITE);
+                DrawTextureEx(background, new Vector2(scrollingBack, 20), 0.0f, 2.0f, Color.WHITE);
+                DrawTextureEx(
+                    background,
+                    new Vector2(background.width * 2 + scrollingBack, 20),
+                    0.0f,
+                    2.0f,
+                    Color.WHITE
+                );
 
                 // Draw midground image twice
-                DrawTextureEx(midground, new Vector2(scrollingMid, 20), 0.0f, 2.0f, WHITE);
-                DrawTextureEx(midground, new Vector2(midground.width * 2 + scrollingMid, 20), 0.0f, 2.0f, WHITE);
+                DrawTextureEx(midground, new Vector2(scrollingMid, 20), 0.0f, 2.0f, Color.WHITE);
+                DrawTextureEx(midground, new Vector2(midground.width * 2 + scrollingMid, 20), 0.0f, 2.0f, Color.WHITE);
 
                 // Draw foreground image twice
-                DrawTextureEx(foreground, new Vector2(scrollingFore, 70), 0.0f, 2.0f, WHITE);
-                DrawTextureEx(foreground, new Vector2(foreground.width * 2 + scrollingFore, 70), 0.0f, 2.0f, WHITE);
+                DrawTextureEx(foreground, new Vector2(scrollingFore, 70), 0.0f, 2.0f, Color.WHITE);
+                DrawTextureEx(
+                    foreground,
+                    new Vector2(foreground.width * 2 + scrollingFore, 70),
+                    0.0f,
+                    2.0f,
+                    Color.WHITE
+                );
 
-                DrawText("BACKGROUND SCROLLING & PARALLAX", 10, 10, 20, RED);
+                DrawText("BACKGROUND SCROLLING & PARALLAX", 10, 10, 20, Color.RED);
 
                 int x = screenWidth - 330;
                 int y = screenHeight - 20;
-                DrawText("(c) Cyberpunk Street Environment by Luis Zuno (@ansimuz)", x, y, 10, RAYWHITE);
+                DrawText("(c) Cyberpunk Street Environment by Luis Zuno (@ansimuz)", x, y, 10, Color.RAYWHITE);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -94,11 +105,11 @@ namespace Examples.Textures
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadTexture(background);  // Unload background texture
-            UnloadTexture(midground);   // Unload midground texture
-            UnloadTexture(foreground);  // Unload foreground texture
+            UnloadTexture(background);
+            UnloadTexture(midground);
+            UnloadTexture(foreground);
 
-            CloseWindow();              // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

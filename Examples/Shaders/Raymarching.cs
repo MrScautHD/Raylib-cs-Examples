@@ -20,15 +20,12 @@ using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
 using static Raylib_cs.ConfigFlags;
-using static Raylib_cs.Color;
-using static Raylib_cs.ShaderUniformDataType;
 
 namespace Examples.Shaders
 {
     public class Raymarching
     {
-        public const int GLSL_VERSION = 330;
-        // public const int GLSL_VERSION = 100;
+        public const int GlslVersion = 330;
 
         public static int Main()
         {
@@ -41,14 +38,14 @@ namespace Examples.Shaders
             InitWindow(screenWidth, screenHeight, "raylib [shaders] example - raymarching shapes");
 
             Camera3D camera = new Camera3D();
-            camera.position = new Vector3(2.5f, 2.5f, 3.0f);    // Camera position
-            camera.target = new Vector3(0.0f, 0.0f, 0.7f);      // Camera looking at point
-            camera.up = new Vector3(0.0f, 1.0f, 0.0f);          // Camera up vector (rotation towards target)
-            camera.fovy = 65.0f;                                // Camera field-of-view Y
+            camera.position = new Vector3(2.5f, 2.5f, 3.0f);
+            camera.target = new Vector3(0.0f, 0.0f, 0.7f);
+            camera.up = new Vector3(0.0f, 1.0f, 0.0f);
+            camera.fovy = 65.0f;
 
             // Load raymarching shader
             // NOTE: Defining 0 (NULL) for vertex shader forces usage of internal default vertex shader
-            Shader shader = LoadShader(null, string.Format("resources/shaders/glsl{0}/raymarching.fs", GLSL_VERSION));
+            Shader shader = LoadShader(null, $"resources/shaders/glsl{GlslVersion}/raymarching.fs");
 
             // Get shader locations for required uniforms
             int viewEyeLoc = GetShaderLocation(shader, "viewEye");
@@ -57,7 +54,7 @@ namespace Examples.Shaders
             int resolutionLoc = GetShaderLocation(shader, "resolution");
 
             float[] resolution = { (float)screenWidth, (float)screenHeight };
-            Raylib.SetShaderValue(shader, resolutionLoc, resolution, SHADER_UNIFORM_VEC2);
+            Raylib.SetShaderValue(shader, resolutionLoc, resolution, ShaderUniformDataType.SHADER_UNIFORM_VEC2);
 
             float runTime = 0.0f;
 
@@ -65,7 +62,7 @@ namespace Examples.Shaders
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())            // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Check if screen is resized
                 //----------------------------------------------------------------------------------
@@ -74,7 +71,7 @@ namespace Examples.Shaders
                     screenWidth = GetScreenWidth();
                     screenHeight = GetScreenHeight();
                     resolution = new float[] { (float)screenWidth, (float)screenHeight };
-                    Raylib.SetShaderValue(shader, resolutionLoc, resolution, SHADER_UNIFORM_VEC2);
+                    Raylib.SetShaderValue(shader, resolutionLoc, resolution, ShaderUniformDataType.SHADER_UNIFORM_VEC2);
                 }
 
                 // Update
@@ -85,23 +82,29 @@ namespace Examples.Shaders
                 runTime += deltaTime;
 
                 // Set shader required uniform values
-                Raylib.SetShaderValue(shader, viewEyeLoc, camera.position, SHADER_UNIFORM_VEC3);
-                Raylib.SetShaderValue(shader, viewCenterLoc, camera.target, SHADER_UNIFORM_VEC3);
-                Raylib.SetShaderValue(shader, runTimeLoc, runTime, SHADER_UNIFORM_FLOAT);
+                Raylib.SetShaderValue(shader, viewEyeLoc, camera.position, ShaderUniformDataType.SHADER_UNIFORM_VEC3);
+                Raylib.SetShaderValue(shader, viewCenterLoc, camera.target, ShaderUniformDataType.SHADER_UNIFORM_VEC3);
+                Raylib.SetShaderValue(shader, runTimeLoc, runTime, ShaderUniformDataType.SHADER_UNIFORM_FLOAT);
                 //----------------------------------------------------------------------------------
 
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 // We only draw a white full-screen rectangle,
                 // frame is generated in shader using raymarching
                 BeginShaderMode(shader);
-                DrawRectangle(0, 0, screenWidth, screenHeight, WHITE);
+                DrawRectangle(0, 0, screenWidth, screenHeight, Color.WHITE);
                 EndShaderMode();
 
-                DrawText("(c) Raymarching shader by Iñigo Quilez. MIT License.", screenWidth - 280, screenHeight - 20, 10, BLACK);
+                DrawText(
+                    "(c) Raymarching shader by Iñigo Quilez. MIT License.",
+                    screenWidth - 280,
+                    screenHeight - 20,
+                    10,
+                    Color.BLACK
+                );
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -109,9 +112,9 @@ namespace Examples.Shaders
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadShader(shader);           // Unload shader
+            UnloadShader(shader);
 
-            CloseWindow();                  // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

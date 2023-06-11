@@ -12,15 +12,12 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.MouseButton;
 
 namespace Examples.Textures
 {
     public class Bunnymark
     {
-        // 50K bunnies limit
-        public const int MAX_BUNNIES = 50000;
+        public const int MaxBunnies = 50000;
 
         // This is the maximum amount of elements (quads) per batch
         // NOTE: This value is defined in [rlgl] module and can be changed there
@@ -45,23 +42,24 @@ namespace Examples.Textures
             // Load bunny texture
             Texture2D texBunny = LoadTexture("resources/wabbit_alpha.png");
 
-            Bunny[] bunnies = new Bunny[MAX_BUNNIES];
+            // 50K bunnies limit
+            Bunny[] bunnies = new Bunny[MaxBunnies];
             int bunniesCount = 0;
 
             SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
-                if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+                if (IsMouseButtonDown(MouseButton.MOUSE_LEFT_BUTTON))
                 {
                     // Create more bunnies
                     for (int i = 0; i < 100; i++)
                     {
-                        if (bunniesCount < MAX_BUNNIES)
+                        if (bunniesCount < MaxBunnies)
                         {
                             bunnies[bunniesCount].position = GetMousePosition();
                             bunnies[bunniesCount].speed.X = (float)GetRandomValue(-250, 250) / 60.0f;
@@ -101,7 +99,7 @@ namespace Examples.Textures
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 for (int i = 0; i < bunniesCount; i++)
                 {
@@ -114,9 +112,9 @@ namespace Examples.Textures
                     DrawTexture(texBunny, (int)bunnies[i].position.X, (int)bunnies[i].position.Y, bunnies[i].color);
                 }
 
-                DrawRectangle(0, 0, screenWidth, 40, BLACK);
-                DrawText($"bunnies: {bunniesCount}", 120, 10, 20, GREEN);
-                DrawText($"batched draw calls: {1 + bunniesCount / MAX_BATCH_ELEMENTS}", 320, 10, 20, MAROON);
+                DrawRectangle(0, 0, screenWidth, 40, Color.BLACK);
+                DrawText($"bunnies: {bunniesCount}", 120, 10, 20, Color.GREEN);
+                DrawText($"batched draw calls: {1 + bunniesCount / MAX_BATCH_ELEMENTS}", 320, 10, 20, Color.MAROON);
 
                 DrawFPS(10, 10);
 
@@ -126,9 +124,9 @@ namespace Examples.Textures
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadTexture(texBunny);    // Unload bunny texture
+            UnloadTexture(texBunny);
 
-            CloseWindow();              // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

@@ -12,7 +12,6 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
 
 namespace Examples.Textures
 {
@@ -49,7 +48,7 @@ namespace Examples.Textures
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -59,19 +58,19 @@ namespace Examples.Textures
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 // NOTE: Using DrawTexturePro() we can easily rotate and scale the part of the texture we draw
                 // sourceRec defines the part of the texture we use for drawing
                 // destRec defines the rectangle where our texture part will fit (scaling it to fit)
                 // origin defines the point of the texture used as reference for rotation and scaling
                 // rotation defines the texture rotation (using origin as rotation point)
-                DrawTexturePro(scarfy, sourceRec, destRec, origin, rotation, WHITE);
+                DrawTexturePro(scarfy, sourceRec, destRec, origin, rotation, Color.WHITE);
 
-                DrawLine((int)destRec.x, 0, (int)destRec.x, screenHeight, GRAY);
-                DrawLine(0, (int)destRec.y, screenWidth, (int)destRec.y, GRAY);
+                DrawLine((int)destRec.x, 0, (int)destRec.x, screenHeight, Color.GRAY);
+                DrawLine(0, (int)destRec.y, screenWidth, (int)destRec.y, Color.GRAY);
 
-                DrawText("(c) Scarfy sprite by Eiden Marsal", screenWidth - 200, screenHeight - 20, 10, GRAY);
+                DrawText("(c) Scarfy sprite by Eiden Marsal", screenWidth - 200, screenHeight - 20, 10, Color.GRAY);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -79,9 +78,9 @@ namespace Examples.Textures
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadTexture(scarfy);        // Texture unloading
+            UnloadTexture(scarfy);
 
-            CloseWindow();                // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

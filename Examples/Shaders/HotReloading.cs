@@ -15,10 +15,6 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.KeyboardKey;
-using static Raylib_cs.MouseButton;
-using static Raylib_cs.ShaderUniformDataType;
 
 namespace Examples.Shaders
 {
@@ -46,7 +42,7 @@ namespace Examples.Shaders
             int timeLoc = GetShaderLocation(shader, "time");
 
             float[] resolution = new[] { (float)screenWidth, (float)screenHeight };
-            Raylib.SetShaderValue(shader, resolutionLoc, resolution, SHADER_UNIFORM_VEC2);
+            Raylib.SetShaderValue(shader, resolutionLoc, resolution, ShaderUniformDataType.SHADER_UNIFORM_VEC2);
 
             float totalTime = 0.0f;
             bool shaderAutoReloading = false;
@@ -55,7 +51,7 @@ namespace Examples.Shaders
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())            // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -64,11 +60,11 @@ namespace Examples.Shaders
                 float[] mousePos = new[] { mouse.X, mouse.Y };
 
                 // Set shader required uniform values
-                Raylib.SetShaderValue(shader, timeLoc, totalTime, SHADER_UNIFORM_FLOAT);
-                Raylib.SetShaderValue(shader, mouseLoc, mousePos, SHADER_UNIFORM_VEC2);
+                Raylib.SetShaderValue(shader, timeLoc, totalTime, ShaderUniformDataType.SHADER_UNIFORM_FLOAT);
+                Raylib.SetShaderValue(shader, mouseLoc, mousePos, ShaderUniformDataType.SHADER_UNIFORM_VEC2);
 
                 // Hot shader reloading
-                if (shaderAutoReloading || (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)))
+                if (shaderAutoReloading || (IsMouseButtonPressed(MouseButton.MOUSE_LEFT_BUTTON)))
                 {
                     long currentFragShaderModTime = GetFileModTime(fragShaderFileName);
 
@@ -90,14 +86,19 @@ namespace Examples.Shaders
                             timeLoc = GetShaderLocation(shader, "time");
 
                             // Reset required uniforms
-                            Raylib.SetShaderValue(shader, resolutionLoc, resolution, SHADER_UNIFORM_VEC2);
+                            Raylib.SetShaderValue(
+                                shader,
+                                resolutionLoc,
+                                resolution,
+                                ShaderUniformDataType.SHADER_UNIFORM_VEC2
+                            );
                         }
 
                         fragShaderFileModTime = currentFragShaderModTime;
                     }
                 }
 
-                if (IsKeyPressed(KEY_A))
+                if (IsKeyPressed(KeyboardKey.KEY_A))
                 {
                     shaderAutoReloading = !shaderAutoReloading;
                 }
@@ -106,21 +107,21 @@ namespace Examples.Shaders
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 // We only draw a white full-screen rectangle, frame is generated in shader
                 BeginShaderMode(shader);
-                DrawRectangle(0, 0, screenWidth, screenHeight, WHITE);
+                DrawRectangle(0, 0, screenWidth, screenHeight, Color.WHITE);
                 EndShaderMode();
 
                 string info = $"PRESS [A] to TOGGLE SHADER AUTOLOADING: {(shaderAutoReloading ? "AUTO" : "MANUAL")}";
-                DrawText(info, 10, 10, 10, shaderAutoReloading ? RED : BLACK);
+                DrawText(info, 10, 10, 10, shaderAutoReloading ? Color.RED : Color.BLACK);
                 if (!shaderAutoReloading)
                 {
-                    DrawText("MOUSE CLICK to SHADER RE-LOADING", 10, 30, 10, BLACK);
+                    DrawText("MOUSE CLICK to SHADER RE-LOADING", 10, 30, 10, Color.BLACK);
                 }
 
-                // DrawText($"Shader last modification: ", 10, 430, 10, BLACK);
+                // DrawText($"Shader last modification: ", 10, 430, 10, Color.BLACK);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -128,9 +129,9 @@ namespace Examples.Shaders
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadShader(shader);           // Unload shader
+            UnloadShader(shader);
 
-            CloseWindow();                  // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

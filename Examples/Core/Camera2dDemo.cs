@@ -12,14 +12,12 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.KeyboardKey;
-using static Raylib_cs.Color;
 
 namespace Examples.Core
 {
     public class Camera2dDemo
     {
-        public const int MAX_BUILDINGS = 100;
+        public const int MaxBuildings = 100;
 
         public static int Main()
         {
@@ -31,12 +29,12 @@ namespace Examples.Core
             InitWindow(screenWidth, screenHeight, "raylib [core] example - 2d camera");
 
             Rectangle player = new Rectangle(400, 280, 40, 40);
-            Rectangle[] buildings = new Rectangle[MAX_BUILDINGS];
-            Color[] buildColors = new Color[MAX_BUILDINGS];
+            Rectangle[] buildings = new Rectangle[MaxBuildings];
+            Color[] buildColors = new Color[MaxBuildings];
 
             int spacing = 0;
 
-            for (int i = 0; i < MAX_BUILDINGS; i++)
+            for (int i = 0; i < MaxBuildings; i++)
             {
                 buildings[i].width = GetRandomValue(50, 200);
                 buildings[i].height = GetRandomValue(100, 800);
@@ -45,7 +43,12 @@ namespace Examples.Core
 
                 spacing += (int)buildings[i].width;
 
-                buildColors[i] = new Color(GetRandomValue(200, 240), GetRandomValue(200, 240), GetRandomValue(200, 250), 255);
+                buildColors[i] = new Color(
+                    GetRandomValue(200, 240),
+                    GetRandomValue(200, 240),
+                    GetRandomValue(200, 250),
+                    255
+                );
             }
 
             Camera2D camera = new Camera2D();
@@ -58,17 +61,17 @@ namespace Examples.Core
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
 
                 // Player movement
-                if (IsKeyDown(KEY_RIGHT))
+                if (IsKeyDown(KeyboardKey.KEY_RIGHT))
                 {
                     player.x += 2;
                 }
-                else if (IsKeyDown(KEY_LEFT))
+                else if (IsKeyDown(KeyboardKey.KEY_LEFT))
                 {
                     player.x -= 2;
                 }
@@ -77,11 +80,11 @@ namespace Examples.Core
                 camera.target = new Vector2(player.x + 20, player.y + 20);
 
                 // Camera3D rotation controls
-                if (IsKeyDown(KEY_A))
+                if (IsKeyDown(KeyboardKey.KEY_A))
                 {
                     camera.rotation--;
                 }
-                else if (IsKeyDown(KEY_S))
+                else if (IsKeyDown(KeyboardKey.KEY_S))
                 {
                     camera.rotation++;
                 }
@@ -109,7 +112,7 @@ namespace Examples.Core
                 }
 
                 // Camera3D reset (zoom and rotation)
-                if (IsKeyPressed(KEY_R))
+                if (IsKeyPressed(KeyboardKey.KEY_R))
                 {
                     camera.zoom = 1.0f;
                     camera.rotation = 0.0f;
@@ -119,39 +122,45 @@ namespace Examples.Core
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 BeginMode2D(camera);
 
-                DrawRectangle(-6000, 320, 13000, 8000, DARKGRAY);
+                DrawRectangle(-6000, 320, 13000, 8000, Color.DARKGRAY);
 
-                for (int i = 0; i < MAX_BUILDINGS; i++)
+                for (int i = 0; i < MaxBuildings; i++)
                 {
                     DrawRectangleRec(buildings[i], buildColors[i]);
                 }
 
-                DrawRectangleRec(player, RED);
+                DrawRectangleRec(player, Color.RED);
 
-                DrawRectangle((int)camera.target.X, -500, 1, (int)(screenHeight * 4), GREEN);
-                DrawLine((int)(-screenWidth * 10), (int)camera.target.Y, (int)(screenWidth * 10), (int)camera.target.Y, GREEN);
+                DrawRectangle((int)camera.target.X, -500, 1, (int)(screenHeight * 4), Color.GREEN);
+                DrawLine(
+                    (int)(-screenWidth * 10),
+                    (int)camera.target.Y,
+                    (int)(screenWidth * 10),
+                    (int)camera.target.Y,
+                    Color.GREEN
+                );
 
                 EndMode2D();
 
-                DrawText("SCREEN AREA", 640, 10, 20, RED);
+                DrawText("SCREEN AREA", 640, 10, 20, Color.RED);
 
-                DrawRectangle(0, 0, (int)screenWidth, 5, RED);
-                DrawRectangle(0, 5, 5, (int)screenHeight - 10, RED);
-                DrawRectangle((int)screenWidth - 5, 5, 5, (int)screenHeight - 10, RED);
-                DrawRectangle(0, (int)screenHeight - 5, (int)screenWidth, 5, RED);
+                DrawRectangle(0, 0, (int)screenWidth, 5, Color.RED);
+                DrawRectangle(0, 5, 5, (int)screenHeight - 10, Color.RED);
+                DrawRectangle((int)screenWidth - 5, 5, 5, (int)screenHeight - 10, Color.RED);
+                DrawRectangle(0, (int)screenHeight - 5, (int)screenWidth, 5, Color.RED);
 
-                DrawRectangle(10, 10, 250, 113, ColorAlpha(SKYBLUE, 0.5f));
-                DrawRectangleLines(10, 10, 250, 113, BLUE);
+                DrawRectangle(10, 10, 250, 113, ColorAlpha(Color.SKYBLUE, 0.5f));
+                DrawRectangleLines(10, 10, 250, 113, Color.BLUE);
 
-                DrawText("Free 2d camera controls:", 20, 20, 10, BLACK);
-                DrawText("- Right/Left to move Offset", 40, 40, 10, DARKGRAY);
-                DrawText("- Mouse Wheel to Zoom in-out", 40, 60, 10, DARKGRAY);
-                DrawText("- A / S to Rotate", 40, 80, 10, DARKGRAY);
-                DrawText("- R to reset Zoom and Rotation", 40, 100, 10, DARKGRAY);
+                DrawText("Free 2d camera controls:", 20, 20, 10, Color.BLACK);
+                DrawText("- Right/Left to move Offset", 40, 40, 10, Color.DARKGRAY);
+                DrawText("- Mouse Wheel to Zoom in-out", 40, 60, 10, Color.DARKGRAY);
+                DrawText("- A / S to Rotate", 40, 80, 10, Color.DARKGRAY);
+                DrawText("- R to reset Zoom and Rotation", 40, 100, 10, Color.DARKGRAY);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -159,7 +168,7 @@ namespace Examples.Core
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

@@ -13,8 +13,6 @@
 
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.KeyboardKey;
 
 namespace Examples.Core
 {
@@ -36,11 +34,11 @@ namespace Examples.Core
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
-                if (IsKeyPressed(KEY_S))
+                if (IsKeyPressed(KeyboardKey.KEY_S))
                 {
                     scissorMode = !scissorMode;
                 }
@@ -53,7 +51,7 @@ namespace Examples.Core
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 if (scissorMode)
                 {
@@ -62,16 +60,16 @@ namespace Examples.Core
 
                 // Draw full screen rectangle and some text
                 // NOTE: Only part defined by scissor area will be rendered
-                DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), RED);
-                DrawText("Move the mouse around to reveal this text!", 190, 200, 20, LIGHTGRAY);
+                DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), Color.RED);
+                DrawText("Move the mouse around to reveal this text!", 190, 200, 20, Color.LIGHTGRAY);
 
                 if (scissorMode)
                 {
                     EndScissorMode();
                 }
 
-                DrawRectangleLinesEx(scissorArea, 1, BLACK);
-                DrawText("Press S to toggle scissor test", 10, 10, 20, BLACK);
+                DrawRectangleLinesEx(scissorArea, 1, Color.BLACK);
+                DrawText("Press S to toggle scissor test", 10, 10, 20, Color.BLACK);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -79,7 +77,7 @@ namespace Examples.Core
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

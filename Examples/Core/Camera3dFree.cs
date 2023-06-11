@@ -12,8 +12,6 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.KeyboardKey;
-using static Raylib_cs.Color;
 
 namespace Examples.Core
 {
@@ -30,11 +28,11 @@ namespace Examples.Core
 
             // Define the camera to look into our 3d world
             Camera3D camera;
-            camera.position = new Vector3(10.0f, 10.0f, 10.0f); // Camera3D position
-            camera.target = new Vector3(0.0f, 0.0f, 0.0f);      // Camera3D looking at point
-            camera.up = new Vector3(0.0f, 1.0f, 0.0f);          // Camera3D up vector (rotation towards target)
-            camera.fovy = 45.0f;                                // Camera3D field-of-view Y
-            camera.projection = CameraProjection.CAMERA_PERSPECTIVE;                   // Camera3D mode type
+            camera.position = new Vector3(10.0f, 10.0f, 10.0f);
+            camera.target = new Vector3(0.0f, 0.0f, 0.0f);
+            camera.up = new Vector3(0.0f, 1.0f, 0.0f);
+            camera.fovy = 45.0f;
+            camera.projection = CameraProjection.CAMERA_PERSPECTIVE;
 
             Vector3 cubePosition = new Vector3(0.0f, 0.0f, 0.0f);
 
@@ -42,13 +40,13 @@ namespace Examples.Core
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose()) // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
                 UpdateCamera(ref camera, CameraMode.CAMERA_FREE);
 
-                if (IsKeyDown(KEY_Z))
+                if (IsKeyDown(KeyboardKey.KEY_Z))
                 {
                     camera.target = new Vector3(0.0f, 0.0f, 0.0f);
                 }
@@ -57,26 +55,26 @@ namespace Examples.Core
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 BeginMode3D(camera);
 
-                DrawCube(cubePosition, 2.0f, 2.0f, 2.0f, RED);
-                DrawCubeWires(cubePosition, 2.0f, 2.0f, 2.0f, MAROON);
+                DrawCube(cubePosition, 2.0f, 2.0f, 2.0f, Color.RED);
+                DrawCubeWires(cubePosition, 2.0f, 2.0f, 2.0f, Color.MAROON);
 
                 DrawGrid(10, 1.0f);
 
                 EndMode3D();
 
-                DrawRectangle(10, 10, 320, 133, ColorAlpha(SKYBLUE, 0.5f));
-                DrawRectangleLines(10, 10, 320, 133, BLUE);
+                DrawRectangle(10, 10, 320, 133, ColorAlpha(Color.SKYBLUE, 0.5f));
+                DrawRectangleLines(10, 10, 320, 133, Color.BLUE);
 
-                DrawText("Free camera default controls:", 20, 20, 10, BLACK);
-                DrawText("- Mouse Wheel to Zoom in-out", 40, 40, 10, DARKGRAY);
-                DrawText("- Mouse Wheel Pressed to Pan", 40, 60, 10, DARKGRAY);
-                DrawText("- Alt + Mouse Wheel Pressed to Rotate", 40, 80, 10, DARKGRAY);
-                DrawText("- Alt + Ctrl + Mouse Wheel Pressed for Smooth Zoom", 40, 100, 10, DARKGRAY);
-                DrawText("- Z to zoom to (0, 0, 0)", 40, 120, 10, DARKGRAY);
+                DrawText("Free camera default controls:", 20, 20, 10, Color.BLACK);
+                DrawText("- Mouse Wheel to Zoom in-out", 40, 40, 10, Color.DARKGRAY);
+                DrawText("- Mouse Wheel Pressed to Pan", 40, 60, 10, Color.DARKGRAY);
+                DrawText("- Alt + Mouse Wheel Pressed to Rotate", 40, 80, 10, Color.DARKGRAY);
+                DrawText("- Alt + Ctrl + Mouse Wheel Pressed for Smooth Zoom", 40, 100, 10, Color.DARKGRAY);
+                DrawText("- Z to zoom to (0, 0, 0)", 40, 120, 10, Color.DARKGRAY);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -84,7 +82,7 @@ namespace Examples.Core
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

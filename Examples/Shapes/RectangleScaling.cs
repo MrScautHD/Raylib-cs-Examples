@@ -14,8 +14,6 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.MouseButton;
 
 namespace Examples.Shapes
 {
@@ -42,7 +40,7 @@ namespace Examples.Shapes
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -59,7 +57,7 @@ namespace Examples.Shapes
                     CheckCollisionPointRec(mousePosition, area))
                 {
                     mouseScaleReady = true;
-                    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+                    if (IsMouseButtonPressed(MouseButton.MOUSE_LEFT_BUTTON))
                     {
                         mouseScaleMode = true;
                     }
@@ -85,7 +83,7 @@ namespace Examples.Shapes
                         rec.height = MOUSE_SCALE_MARK_SIZE;
                     }
 
-                    if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON))
+                    if (IsMouseButtonReleased(MouseButton.MOUSE_LEFT_BUTTON))
                     {
                         mouseScaleMode = false;
                     }
@@ -95,18 +93,19 @@ namespace Examples.Shapes
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
-                DrawText("Scale rectangle dragging from bottom-right corner!", 10, 10, 20, GRAY);
-                DrawRectangleRec(rec, ColorAlpha(GREEN, 0.5f));
+                DrawText("Scale rectangle dragging from bottom-right corner!", 10, 10, 20, Color.GRAY);
+                DrawRectangleRec(rec, ColorAlpha(Color.GREEN, 0.5f));
 
                 if (mouseScaleReady)
                 {
-                    DrawRectangleLinesEx(rec, 1, RED);
+                    DrawRectangleLinesEx(rec, 1, Color.RED);
                     DrawTriangle(
                         new Vector2(rec.x + rec.width - MOUSE_SCALE_MARK_SIZE, rec.y + rec.height),
                         new Vector2(rec.x + rec.width, rec.y + rec.height),
-                        new Vector2(rec.x + rec.width, rec.y + rec.height - MOUSE_SCALE_MARK_SIZE), RED
+                        new Vector2(rec.x + rec.width, rec.y + rec.height - MOUSE_SCALE_MARK_SIZE),
+                        Color.RED
                     );
                 }
 
@@ -116,7 +115,7 @@ namespace Examples.Shapes
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

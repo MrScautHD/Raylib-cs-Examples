@@ -83,7 +83,7 @@ namespace Examples.Shaders
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -150,7 +150,7 @@ namespace Examples.Shaders
             UnloadShader(shdrRaymarch);
             UnloadShader(shdrRaster);
 
-            CloseWindow();                  // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

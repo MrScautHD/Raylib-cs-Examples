@@ -13,15 +13,13 @@ using System;
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.KeyboardKey;
 
 namespace Examples.Textures
 {
     public class SpriteAnim
     {
-        public const int MAX_FRAME_SPEED = 15;
-        public const int MIN_FRAME_SPEED = 1;
+        public const int MaxFrameSpeed = 15;
+        public const int MinFrameSpeed = 1;
 
         public static int Main()
         {
@@ -48,7 +46,7 @@ namespace Examples.Textures
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -67,49 +65,49 @@ namespace Examples.Textures
                     frameRec.x = (float)currentFrame * (float)scarfy.width / 6;
                 }
 
-                if (IsKeyPressed(KEY_RIGHT))
+                if (IsKeyPressed(KeyboardKey.KEY_RIGHT))
                 {
                     framesSpeed++;
                 }
-                else if (IsKeyPressed(KEY_LEFT))
+                else if (IsKeyPressed(KeyboardKey.KEY_LEFT))
                 {
                     framesSpeed--;
                 }
 
-                framesSpeed = Math.Clamp(framesSpeed, MIN_FRAME_SPEED, MAX_FRAME_SPEED);
+                framesSpeed = Math.Clamp(framesSpeed, MinFrameSpeed, MaxFrameSpeed);
                 //----------------------------------------------------------------------------------
 
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
-                DrawTexture(scarfy, 15, 40, WHITE);
-                DrawRectangleLines(15, 40, scarfy.width, scarfy.height, LIME);
+                DrawTexture(scarfy, 15, 40, Color.WHITE);
+                DrawRectangleLines(15, 40, scarfy.width, scarfy.height, Color.LIME);
                 DrawRectangleLines(
                     15 + (int)frameRec.x,
                     40 + (int)frameRec.y,
                     (int)frameRec.width,
                     (int)frameRec.height,
-                    RED
+                    Color.RED
                 );
 
-                DrawText("FRAME SPEED: ", 165, 210, 10, DARKGRAY);
-                DrawText(string.Format("{0:00} FPS", framesSpeed), 575, 210, 10, DARKGRAY);
-                DrawText("PRESS RIGHT/LEFT KEYS to CHANGE SPEED!", 290, 240, 10, DARKGRAY);
+                DrawText("FRAME SPEED: ", 165, 210, 10, Color.DARKGRAY);
+                DrawText($"{framesSpeed:2F} FPS", 575, 210, 10, Color.DARKGRAY);
+                DrawText("PRESS RIGHT/LEFT KEYS to CHANGE SPEED!", 290, 240, 10, Color.DARKGRAY);
 
-                for (int i = 0; i < MAX_FRAME_SPEED; i++)
+                for (int i = 0; i < MaxFrameSpeed; i++)
                 {
                     if (i < framesSpeed)
                     {
-                        DrawRectangle(250 + 21 * i, 205, 20, 20, RED);
+                        DrawRectangle(250 + 21 * i, 205, 20, 20, Color.RED);
                     }
-                    DrawRectangleLines(250 + 21 * i, 205, 20, 20, MAROON);
+                    DrawRectangleLines(250 + 21 * i, 205, 20, 20, Color.MAROON);
                 }
 
                 // Draw part of the texture
-                DrawTextureRec(scarfy, frameRec, position, WHITE);
-                DrawText("(c) Scarfy sprite by Eiden Marsal", screenWidth - 200, screenHeight - 20, 10, GRAY);
+                DrawTextureRec(scarfy, frameRec, position, Color.WHITE);
+                DrawText("(c) Scarfy sprite by Eiden Marsal", screenWidth - 200, screenHeight - 20, 10, Color.GRAY);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -117,9 +115,9 @@ namespace Examples.Textures
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadTexture(scarfy);       // Texture unloading
+            UnloadTexture(scarfy);
 
-            CloseWindow();                // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

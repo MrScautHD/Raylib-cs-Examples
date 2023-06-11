@@ -12,10 +12,6 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.KeyboardKey;
-using static Raylib_cs.ConfigFlags;
-using static Raylib_cs.TextureFilter;
-using static Raylib_cs.MouseButton;
 
 namespace Examples.Textures
 {
@@ -32,14 +28,14 @@ namespace Examples.Textures
             int screenWidth = 800;
             int screenHeight = 450;
 
-            SetConfigFlags(FLAG_WINDOW_RESIZABLE);
+            SetConfigFlags(ConfigFlags.FLAG_WINDOW_RESIZABLE);
             InitWindow(screenWidth, screenHeight, "raylib [textures] example - Draw part of a texture tiled");
 
             // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
             Texture2D texPattern = LoadTexture("resources/patterns.png");
 
             // Makes the texture smoother when upscaled
-            SetTextureFilter(texPattern, TEXTURE_FILTER_TRILINEAR);
+            SetTextureFilter(texPattern, TextureFilter.TEXTURE_FILTER_TRILINEAR);
 
             // Coordinates for all patterns inside the texture
             Rectangle[] recPattern = new[] {
@@ -93,7 +89,7 @@ namespace Examples.Textures
             //---------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -101,7 +97,7 @@ namespace Examples.Textures
                 screenHeight = GetScreenHeight();
 
                 // Handle mouse
-                if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+                if (IsMouseButtonPressed(MouseButton.MOUSE_LEFT_BUTTON))
                 {
                     Vector2 mouse = GetMousePosition();
 
@@ -135,11 +131,11 @@ namespace Examples.Textures
                 // Handle keys
 
                 // Change scale
-                if (IsKeyPressed(KEY_UP))
+                if (IsKeyPressed(KeyboardKey.KEY_UP))
                 {
                     scale += 0.25f;
                 }
-                if (IsKeyPressed(KEY_DOWN))
+                if (IsKeyPressed(KeyboardKey.KEY_DOWN))
                 {
                     scale -= 0.25f;
                 }
@@ -153,17 +149,17 @@ namespace Examples.Textures
                 }
 
                 // Change rotation
-                if (IsKeyPressed(KEY_LEFT))
+                if (IsKeyPressed(KeyboardKey.KEY_LEFT))
                 {
                     rotation -= 25.0f;
                 }
-                if (IsKeyPressed(KEY_RIGHT))
+                if (IsKeyPressed(KeyboardKey.KEY_RIGHT))
                 {
                     rotation += 25.0f;
                 }
 
                 // Reset
-                if (IsKeyPressed(KEY_SPACE))
+                if (IsKeyPressed(KeyboardKey.KEY_SPACE))
                 {
                     rotation = 0.0f;
                     scale = 1.0f;
@@ -227,7 +223,7 @@ namespace Examples.Textures
             //--------------------------------------------------------------------------------------
             UnloadTexture(texPattern);
 
-            CloseWindow();              // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

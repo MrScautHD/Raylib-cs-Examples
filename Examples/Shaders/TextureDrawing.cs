@@ -15,14 +15,12 @@
 
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.ShaderUniformDataType;
 
 namespace Examples.Shaders
 {
     public class TextureDrawing
     {
-        const int GLSL_VERSION = 330;
+        const int GlslVersion = 330;
 
         public static int Main()
         {
@@ -33,39 +31,45 @@ namespace Examples.Shaders
 
             InitWindow(screenWidth, screenHeight, "raylib [shaders] example - texture drawing");
 
-            Image imBlank = GenImageColor(1024, 1024, BLANK);
-            Texture2D texture = LoadTextureFromImage(imBlank);  // Load blank texture to fill on shader
+            // Load blank texture to fill on shader
+            Image imBlank = GenImageColor(1024, 1024, Color.BLANK);
+            Texture2D texture = LoadTextureFromImage(imBlank);
             UnloadImage(imBlank);
 
             // NOTE: Using GLSL 330 shader version, on OpenGL ES 2.0 use GLSL 100 shader version
-            Shader shader = LoadShader(null, string.Format("resources/shaders/glsl{0}/cubes_panning.fs", GLSL_VERSION));
+            Shader shader = LoadShader(null, $"resources/shaders/glsl{GlslVersion}/cubes_panning.fs");
 
             float time = 0.0f;
             int timeLoc = GetShaderLocation(shader, "uTime");
-            Raylib.SetShaderValue(shader, timeLoc, time, SHADER_UNIFORM_FLOAT);
+            Raylib.SetShaderValue(shader, timeLoc, time, ShaderUniformDataType.SHADER_UNIFORM_FLOAT);
 
             SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
-            // -------------------------------------------------------------------------------------------------------------
+            //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
                 time = (float)GetTime();
-                Raylib.SetShaderValue(shader, timeLoc, time, SHADER_UNIFORM_FLOAT);
+                Raylib.SetShaderValue(shader, timeLoc, time, ShaderUniformDataType.SHADER_UNIFORM_FLOAT);
                 //----------------------------------------------------------------------------------
 
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
-                BeginShaderMode(shader);    // Enable our custom shader for next shapes/textures drawings
-                DrawTexture(texture, 0, 0, WHITE);  // Drawing BLANK texture, all magic happens on shader
-                EndShaderMode();            // Disable our custom shader, return to default shader
+                // Enable our custom shader for next shapes/textures drawings
+                BeginShaderMode(shader);
 
-                DrawText("BACKGROUND is PAINTED and ANIMATED on SHADER!", 10, 10, 20, MAROON);
+                // Drawing blank texture, all magic happens on shader
+                DrawTexture(texture, 0, 0, Color.WHITE);
+
+                // Disable our custom shader, return to default shader
+                EndShaderMode();
+
+                DrawText("BACKGROUND is PAINTED and ANIMATED on SHADER!", 10, 10, 20, Color.MAROON);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -75,7 +79,7 @@ namespace Examples.Shaders
             //--------------------------------------------------------------------------------------
             UnloadShader(shader);
 
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

@@ -16,9 +16,6 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.KeyboardKey;
-using static Raylib_cs.TextureFilter;
 
 namespace Examples.Text
 {
@@ -49,44 +46,44 @@ namespace Examples.Text
             Vector2 textSize = new Vector2(0.0f, 0.0f);
 
             // Setup texture scaling filter
-            SetTextureFilter(font.texture, TEXTURE_FILTER_POINT);
-            TextureFilter currentFontFilter = TEXTURE_FILTER_POINT;
+            SetTextureFilter(font.texture, TextureFilter.TEXTURE_FILTER_POINT);
+            TextureFilter currentFontFilter = TextureFilter.TEXTURE_FILTER_POINT;
 
             SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
                 fontSize += GetMouseWheelMove() * 4.0f;
 
                 // Choose font texture filter method
-                if (IsKeyPressed(KEY_ONE))
+                if (IsKeyPressed(KeyboardKey.KEY_ONE))
                 {
-                    SetTextureFilter(font.texture, TEXTURE_FILTER_POINT);
-                    currentFontFilter = TEXTURE_FILTER_POINT;
+                    SetTextureFilter(font.texture, TextureFilter.TEXTURE_FILTER_POINT);
+                    currentFontFilter = TextureFilter.TEXTURE_FILTER_POINT;
                 }
-                else if (IsKeyPressed(KEY_TWO))
+                else if (IsKeyPressed(KeyboardKey.KEY_TWO))
                 {
-                    SetTextureFilter(font.texture, TEXTURE_FILTER_BILINEAR);
-                    currentFontFilter = TEXTURE_FILTER_BILINEAR;
+                    SetTextureFilter(font.texture, TextureFilter.TEXTURE_FILTER_BILINEAR);
+                    currentFontFilter = TextureFilter.TEXTURE_FILTER_BILINEAR;
                 }
-                else if (IsKeyPressed(KEY_THREE))
+                else if (IsKeyPressed(KeyboardKey.KEY_THREE))
                 {
                     // NOTE: Trilinear filter won't be noticed on 2D drawing
-                    SetTextureFilter(font.texture, TEXTURE_FILTER_TRILINEAR);
-                    currentFontFilter = TEXTURE_FILTER_TRILINEAR;
+                    SetTextureFilter(font.texture, TextureFilter.TEXTURE_FILTER_TRILINEAR);
+                    currentFontFilter = TextureFilter.TEXTURE_FILTER_TRILINEAR;
                 }
 
                 textSize = MeasureTextEx(font, msg, fontSize, 0);
 
-                if (IsKeyDown(KEY_LEFT))
+                if (IsKeyDown(KeyboardKey.KEY_LEFT))
                 {
                     fontPosition.X -= 10;
                 }
-                else if (IsKeyDown(KEY_RIGHT))
+                else if (IsKeyDown(KeyboardKey.KEY_RIGHT))
                 {
                     fontPosition.X += 10;
                 }
@@ -108,29 +105,29 @@ namespace Examples.Text
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
-                DrawText("Use mouse wheel to change font size", 20, 20, 10, GRAY);
-                DrawText("Use KEY_RIGHT and KEY_LEFT to move text", 20, 40, 10, GRAY);
-                DrawText("Use 1, 2, 3 to change texture filter", 20, 60, 10, GRAY);
-                DrawText("Drop a new TTF font for dynamic loading", 20, 80, 10, DARKGRAY);
+                DrawText("Use mouse wheel to change font size", 20, 20, 10, Color.GRAY);
+                DrawText("Use KEY_RIGHT and KEY_LEFT to move text", 20, 40, 10, Color.GRAY);
+                DrawText("Use 1, 2, 3 to change texture filter", 20, 60, 10, Color.GRAY);
+                DrawText("Drop a new TTF font for dynamic loading", 20, 80, 10, Color.DARKGRAY);
 
-                DrawTextEx(font, msg, fontPosition, fontSize, 0, BLACK);
+                DrawTextEx(font, msg, fontPosition, fontSize, 0, Color.BLACK);
 
-                DrawRectangle(0, screenHeight - 80, screenWidth, 80, LIGHTGRAY);
-                DrawText("CURRENT TEXTURE FILTER:", 250, 400, 20, GRAY);
+                DrawRectangle(0, screenHeight - 80, screenWidth, 80, Color.LIGHTGRAY);
+                DrawText("CURRENT TEXTURE FILTER:", 250, 400, 20, Color.GRAY);
 
-                if (currentFontFilter == TEXTURE_FILTER_POINT)
+                if (currentFontFilter == TextureFilter.TEXTURE_FILTER_POINT)
                 {
-                    DrawText("POINT", 570, 400, 20, BLACK);
+                    DrawText("POINT", 570, 400, 20, Color.BLACK);
                 }
-                else if (currentFontFilter == TEXTURE_FILTER_POINT)
+                else if (currentFontFilter == TextureFilter.TEXTURE_FILTER_POINT)
                 {
-                    DrawText("BILINEAR", 570, 400, 20, BLACK);
+                    DrawText("BILINEAR", 570, 400, 20, Color.BLACK);
                 }
-                else if (currentFontFilter == TEXTURE_FILTER_TRILINEAR)
+                else if (currentFontFilter == TextureFilter.TEXTURE_FILTER_TRILINEAR)
                 {
-                    DrawText("TRILINEAR", 570, 400, 20, BLACK);
+                    DrawText("TRILINEAR", 570, 400, 20, Color.BLACK);
                 }
 
                 EndDrawing();
@@ -139,8 +136,9 @@ namespace Examples.Text
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadFont(font);           // Font unloading
-            CloseWindow();              // Close window and OpenGL context
+            UnloadFont(font);
+
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

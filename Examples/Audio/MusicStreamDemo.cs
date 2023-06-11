@@ -13,8 +13,6 @@
 
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.KeyboardKey;
 
 namespace Examples.Audio
 {
@@ -28,7 +26,7 @@ namespace Examples.Audio
             const int screenHeight = 450;
 
             InitWindow(screenWidth, screenHeight, "raylib [audio] example - music playing (streaming)");
-            InitAudioDevice();              // Initialize audio device
+            InitAudioDevice();
 
             Music music = LoadMusicStream("resources/audio/country.mp3");
             PlayMusicStream(music);
@@ -40,21 +38,21 @@ namespace Examples.Audio
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
                 UpdateMusicStream(music);        // Update music buffer with new stream data
 
                 // Restart music playing (stop and play)
-                if (IsKeyPressed(KEY_SPACE))
+                if (IsKeyPressed(KeyboardKey.KEY_SPACE))
                 {
                     StopMusicStream(music);
                     PlayMusicStream(music);
                 }
 
                 // Pause/Resume music playing
-                if (IsKeyPressed(KEY_P))
+                if (IsKeyPressed(KeyboardKey.KEY_P))
                 {
                     pause = !pause;
 
@@ -80,16 +78,16 @@ namespace Examples.Audio
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
-                DrawText("MUSIC SHOULD BE PLAYING!", 255, 150, 20, LIGHTGRAY);
+                DrawText("MUSIC SHOULD BE PLAYING!", 255, 150, 20, Color.LIGHTGRAY);
 
-                DrawRectangle(200, 200, 400, 12, LIGHTGRAY);
-                DrawRectangle(200, 200, (int)timePlayed, 12, MAROON);
-                DrawRectangleLines(200, 200, 400, 12, GRAY);
+                DrawRectangle(200, 200, 400, 12, Color.LIGHTGRAY);
+                DrawRectangle(200, 200, (int)timePlayed, 12, Color.MAROON);
+                DrawRectangleLines(200, 200, 400, 12, Color.GRAY);
 
-                DrawText("PRESS SPACE TO RESTART MUSIC", 215, 250, 20, LIGHTGRAY);
-                DrawText("PRESS P TO PAUSE/RESUME MUSIC", 208, 280, 20, LIGHTGRAY);
+                DrawText("PRESS SPACE TO RESTART MUSIC", 215, 250, 20, Color.LIGHTGRAY);
+                DrawText("PRESS P TO PAUSE/RESUME MUSIC", 208, 280, 20, Color.LIGHTGRAY);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -97,11 +95,11 @@ namespace Examples.Audio
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadMusicStream(music);   // Unload music stream buffers from RAM
+            UnloadMusicStream(music);
 
-            CloseAudioDevice();         // Close audio device (music streaming is automatically stopped)
+            CloseAudioDevice();
 
-            CloseWindow();              // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

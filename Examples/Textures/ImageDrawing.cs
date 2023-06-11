@@ -14,7 +14,6 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
 
 namespace Examples.Textures
 {
@@ -40,13 +39,13 @@ namespace Examples.Textures
 
             // Draw one image over the other with a scaling of 1.5f
             Rectangle src = new Rectangle(0, 0, cat.width, cat.height);
-            ImageDraw(ref parrots, cat, src, new Rectangle(30, 40, cat.width * 1.5f, cat.height * 1.5f), WHITE);
+            ImageDraw(ref parrots, cat, src, new Rectangle(30, 40, cat.width * 1.5f, cat.height * 1.5f), Color.WHITE);
             ImageCrop(ref parrots, new Rectangle(0, 50, parrots.width, parrots.height - 100));
 
             // Draw on the image with a few image draw methods
-            ImageDrawPixel(ref parrots, 10, 10, RAYWHITE);
-            ImageDrawCircle(ref parrots, 10, 10, 5, RAYWHITE);
-            ImageDrawRectangle(ref parrots, 5, 20, 10, 10, RAYWHITE);
+            ImageDrawPixel(ref parrots, 10, 10, Color.RAYWHITE);
+            ImageDrawCircle(ref parrots, 10, 10, 5, Color.RAYWHITE);
+            ImageDrawRectangle(ref parrots, 5, 20, 10, 10, Color.RAYWHITE);
 
             UnloadImage(cat);
 
@@ -54,7 +53,7 @@ namespace Examples.Textures
             Font font = LoadFont("resources/fonts/custom_jupiter_crash.png");
 
             // Draw over image using custom font
-            ImageDrawTextEx(ref parrots, font, "PARROTS & CAT", new Vector2(300, 230), font.baseSize, -2, WHITE);
+            ImageDrawTextEx(ref parrots, font, "PARROTS & CAT", new Vector2(300, 230), font.baseSize, -2, Color.WHITE);
 
             // Unload custom spritefont (already drawn used on image)
             UnloadFont(font);
@@ -66,7 +65,7 @@ namespace Examples.Textures
             //---------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -76,17 +75,17 @@ namespace Examples.Textures
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 int x = screenWidth / 2 - texture.width / 2;
                 int y = screenHeight / 2 - texture.height / 2;
-                DrawTexture(texture, x, y - 40, WHITE);
-                DrawRectangleLines(x, y - 40, texture.width, texture.height, DARKGRAY);
+                DrawTexture(texture, x, y - 40, Color.WHITE);
+                DrawRectangleLines(x, y - 40, texture.width, texture.height, Color.DARKGRAY);
 
-                DrawText("We are drawing only one texture from various images composed!", 240, 350, 10, DARKGRAY);
+                DrawText("We are drawing only one texture from various images composed!", 240, 350, 10, Color.DARKGRAY);
 
                 string text = "Source images have been cropped, scaled, flipped and copied one over the other.";
-                DrawText(text, 90, 370, 10, DARKGRAY);
+                DrawText(text, 90, 370, 10, Color.DARKGRAY);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -94,9 +93,9 @@ namespace Examples.Textures
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadTexture(texture);       // Texture unloading
+            UnloadTexture(texture);
 
-            CloseWindow();                // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

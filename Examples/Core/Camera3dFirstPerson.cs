@@ -12,14 +12,12 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.KeyboardKey;
 
 namespace Examples.Core
 {
     public class Camera3dFirstPerson
     {
-        public const int MAX_COLUMNS = 20;
+        public const int MaxColumns = 20;
 
         public static int Main()
         {
@@ -39,54 +37,54 @@ namespace Examples.Core
             camera.projection = CameraProjection.CAMERA_PERSPECTIVE;
 
             // Generates some random columns
-            float[] heights = new float[MAX_COLUMNS];
-            Vector3[] positions = new Vector3[MAX_COLUMNS];
-            Color[] colors = new Color[MAX_COLUMNS];
+            float[] heights = new float[MaxColumns];
+            Vector3[] positions = new Vector3[MaxColumns];
+            Color[] colors = new Color[MaxColumns];
 
-            for (int i = 0; i < MAX_COLUMNS; i++)
+            for (int i = 0; i < MaxColumns; i++)
             {
                 heights[i] = (float)GetRandomValue(1, 12);
                 positions[i] = new Vector3(GetRandomValue(-15, 15), heights[i] / 2, GetRandomValue(-15, 15));
                 colors[i] = new Color(GetRandomValue(20, 255), GetRandomValue(10, 55), 30, 255);
             }
 
-            CameraMode cameraMode = CameraMode.CAMERA_FIRST_PERSON; // Set a first person camera mode
+            CameraMode cameraMode = CameraMode.CAMERA_FIRST_PERSON;
 
             SetTargetFPS(60);                           // Set our game to run at 60 frames-per-second
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())                // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
                 // Switch camera mode
-                if (IsKeyPressed(KEY_ONE))
+                if (IsKeyPressed(KeyboardKey.KEY_ONE))
                 {
                     cameraMode = CameraMode.CAMERA_FREE;
                     camera.up = new Vector3(0.0f, 1.0f, 0.0f);
                 }
 
-                if (IsKeyPressed(KEY_TWO))
+                if (IsKeyPressed(KeyboardKey.KEY_TWO))
                 {
                     cameraMode = CameraMode.CAMERA_FIRST_PERSON;
                     camera.up = new Vector3(0.0f, 1.0f, 0.0f);
                 }
 
-                if (IsKeyPressed(KEY_THREE))
+                if (IsKeyPressed(KeyboardKey.KEY_THREE))
                 {
                     cameraMode = CameraMode.CAMERA_THIRD_PERSON;
                     camera.up = new Vector3(0.0f, 1.0f, 0.0f);
                 }
 
-                if (IsKeyPressed(KEY_FOUR))
+                if (IsKeyPressed(KeyboardKey.KEY_FOUR))
                 {
                     cameraMode = CameraMode.CAMERA_ORBITAL;
                     camera.up = new Vector3(0.0f, 1.0f, 0.0f);
                 }
 
                 // Switch camera projection
-                if (IsKeyPressed(KEY_P))
+                if (IsKeyPressed(KeyboardKey.KEY_P))
                 {
                     if (camera.projection == CameraProjection.CAMERA_PERSPECTIVE)
                     {
@@ -122,58 +120,58 @@ namespace Examples.Core
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 BeginMode3D(camera);
 
                 // Draw ground
-                DrawPlane(new Vector3(0.0f, 0.0f, 0.0f), new Vector2(32.0f, 32.0f), LIGHTGRAY);
+                DrawPlane(new Vector3(0.0f, 0.0f, 0.0f), new Vector2(32.0f, 32.0f), Color.LIGHTGRAY);
 
                 // Draw a blue wall
-                DrawCube(new Vector3(-16.0f, 2.5f, 0.0f), 1.0f, 5.0f, 32.0f, BLUE);
+                DrawCube(new Vector3(-16.0f, 2.5f, 0.0f), 1.0f, 5.0f, 32.0f, Color.BLUE);
 
                 // Draw a green wall
-                DrawCube(new Vector3(16.0f, 2.5f, 0.0f), 1.0f, 5.0f, 32.0f, LIME);
+                DrawCube(new Vector3(16.0f, 2.5f, 0.0f), 1.0f, 5.0f, 32.0f, Color.LIME);
 
                 // Draw a yellow wall
-                DrawCube(new Vector3(0.0f, 2.5f, 16.0f), 32.0f, 5.0f, 1.0f, GOLD);
+                DrawCube(new Vector3(0.0f, 2.5f, 16.0f), 32.0f, 5.0f, 1.0f, Color.GOLD);
 
                 // Draw some cubes around
-                for (int i = 0; i < MAX_COLUMNS; i++)
+                for (int i = 0; i < MaxColumns; i++)
                 {
                     DrawCube(positions[i], 2.0f, heights[i], 2.0f, colors[i]);
-                    DrawCubeWires(positions[i], 2.0f, heights[i], 2.0f, MAROON);
+                    DrawCubeWires(positions[i], 2.0f, heights[i], 2.0f, Color.MAROON);
                 }
 
                 // Draw player cube
                 if (cameraMode == CameraMode.CAMERA_THIRD_PERSON)
                 {
-                    DrawCube(camera.target, 0.5f, 0.5f, 0.5f, PURPLE);
-                    DrawCubeWires(camera.target, 0.5f, 0.5f, 0.5f, DARKPURPLE);
+                    DrawCube(camera.target, 0.5f, 0.5f, 0.5f, Color.PURPLE);
+                    DrawCubeWires(camera.target, 0.5f, 0.5f, 0.5f, Color.DARKPURPLE);
                 }
 
                 EndMode3D();
 
                 // Draw info boxes
-                DrawRectangle(10, 10, 220, 70, ColorAlpha(SKYBLUE, 0.5f));
-                DrawRectangleLines(10, 10, 220, 70, BLUE);
+                DrawRectangle(5, 5, 330, 100, ColorAlpha(Color.SKYBLUE, 0.5f));
+                DrawRectangleLines(10, 10, 330, 100, Color.BLUE);
 
-                DrawText("Camera controls:", 15, 15, 10, BLACK);
-                DrawText("- Move keys: W, A, S, D, Space, Left-Ctrl", 15, 30, 10, BLACK);
-                DrawText("- Look around: arrow keys or mouse", 15, 45, 10, BLACK);
-                DrawText("- Camera mode keys: 1, 2, 3, 4", 15, 60, 10, BLACK);
-                DrawText("- Zoom keys: num-plus, num-minus or mouse scroll", 15, 75, 10, BLACK);
-                DrawText("- Camera projection key: P", 15, 90, 10, BLACK);
+                DrawText("Camera controls:", 15, 15, 10, Color.BLACK);
+                DrawText("- Move keys: W, A, S, D, Space, Left-Ctrl", 15, 30, 10, Color.BLACK);
+                DrawText("- Look around: arrow keys or mouse", 15, 45, 10, Color.BLACK);
+                DrawText("- Camera mode keys: 1, 2, 3, 4", 15, 60, 10, Color.BLACK);
+                DrawText("- Zoom keys: num-plus, num-minus or mouse scroll", 15, 75, 10, Color.BLACK);
+                DrawText("- Camera projection key: P", 15, 90, 10, Color.BLACK);
 
-                DrawRectangle(600, 5, 195, 100, Fade(SKYBLUE, 0.5f));
-                DrawRectangleLines(600, 5, 195, 100, BLUE);
+                DrawRectangle(600, 5, 195, 100, Fade(Color.SKYBLUE, 0.5f));
+                DrawRectangleLines(600, 5, 195, 100, Color.BLUE);
 
-                DrawText("Camera status:", 610, 15, 10, BLACK);
-                DrawText($"- Mode: {cameraMode}", 610, 30, 10, BLACK);
-                DrawText($"- Projection: {camera.projection}", 610, 45, 10, BLACK);
-                DrawText($"- Position: {camera.position}", 610, 60, 10, BLACK);
-                DrawText($"- Target: {camera.target}", 610, 75, 10, BLACK);
-                DrawText($"- Up: {camera.up}", 610, 90, 10, BLACK);
+                DrawText("Camera status:", 610, 15, 10, Color.BLACK);
+                DrawText($"- Mode: {cameraMode}", 610, 30, 10, Color.BLACK);
+                DrawText($"- Projection: {camera.projection}", 610, 45, 10, Color.BLACK);
+                DrawText($"- Position: {camera.position}", 610, 60, 10, Color.BLACK);
+                DrawText($"- Target: {camera.target}", 610, 75, 10, Color.BLACK);
+                DrawText($"- Up: {camera.up}", 610, 90, 10, Color.BLACK);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -181,7 +179,7 @@ namespace Examples.Core
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

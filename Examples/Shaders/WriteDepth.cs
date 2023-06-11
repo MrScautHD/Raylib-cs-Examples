@@ -51,7 +51,7 @@ namespace Examples.Shaders
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -98,7 +98,7 @@ namespace Examples.Shaders
             UnloadRenderTextureDepthTex(target);
             UnloadShader(shader);
 
-            CloseWindow();                  // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

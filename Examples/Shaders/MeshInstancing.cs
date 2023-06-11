@@ -87,8 +87,12 @@ namespace Examples.Shaders
                 rotations[i] = Matrix4x4.Identity;
             }
 
-            Matrix4x4[] transforms = new Matrix4x4[instances];   // Pre-multiplied transformations passed to rlgl
-            Shader shader = LoadShader("resources/shaders/glsl330/lighting_instancing.vs", "resources/shaders/glsl330/lighting.fs");
+            // Pre-multiplied transformations passed to rlgl
+            Matrix4x4[] transforms = new Matrix4x4[instances];
+            Shader shader = LoadShader(
+                "resources/shaders/glsl330/lighting_instancing.vs",
+                "resources/shaders/glsl330/lighting.fs"
+            );
 
             // Get some shader loactions
             unsafe
@@ -113,7 +117,7 @@ namespace Examples.Shaders
 
             Rlights.CreateLight(
                 0,
-                LightType.LIGHT_DIRECTIONAL,
+                LightType.Directorional,
                 new Vector3(50, 50, 0),
                 Vector3.Zero,
                 Color.WHITE,
@@ -136,7 +140,7 @@ namespace Examples.Shaders
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())        // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -315,7 +319,7 @@ namespace Examples.Shaders
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

@@ -13,7 +13,6 @@
 
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
 
 namespace Examples.Shapes
 {
@@ -42,7 +41,7 @@ namespace Examples.Shapes
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -57,22 +56,22 @@ namespace Examples.Shapes
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
-                DrawLine(560, 0, 560, GetScreenHeight(), ColorAlpha(LIGHTGRAY, 0.6f));
-                DrawRectangle(560, 0, GetScreenWidth() - 500, GetScreenHeight(), ColorAlpha(LIGHTGRAY, 0.3f));
+                DrawLine(560, 0, 560, GetScreenHeight(), ColorAlpha(Color.LIGHTGRAY, 0.6f));
+                DrawRectangle(560, 0, GetScreenWidth() - 500, GetScreenHeight(), ColorAlpha(Color.LIGHTGRAY, 0.3f));
 
                 if (drawRect)
                 {
-                    DrawRectangleRec(rec, ColorAlpha(GOLD, 0.6f));
+                    DrawRectangleRec(rec, ColorAlpha(Color.GOLD, 0.6f));
                 }
                 if (drawRoundedRect)
                 {
-                    DrawRectangleRounded(rec, roundness, segments, ColorAlpha(MAROON, 0.2f));
+                    DrawRectangleRounded(rec, roundness, segments, ColorAlpha(Color.MAROON, 0.2f));
                 }
                 if (drawRoundedLines)
                 {
-                    DrawRectangleRoundedLines(rec, roundness, segments, (float)lineThick, ColorAlpha(MAROON, 0.4f));
+                    DrawRectangleRoundedLines(rec, roundness, segments, (float)lineThick, ColorAlpha(Color.MAROON, 0.4f));
                 }
 
                 // Draw GUI controls
@@ -89,7 +88,7 @@ namespace Examples.Shapes
                 //------------------------------------------------------------------------------
 
                 string text = $"MODE: {((segments >= 4) ? "MANUAL" : "AUTO")}";
-                DrawText(text, 640, 280, 10, (segments >= 4) ? MAROON : DARKGRAY);
+                DrawText(text, 640, 280, 10, (segments >= 4) ? Color.MAROON : Color.DARKGRAY);
                 DrawFPS(10, 10);
 
                 EndDrawing();
@@ -98,7 +97,7 @@ namespace Examples.Shapes
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

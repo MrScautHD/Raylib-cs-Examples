@@ -19,7 +19,6 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
 
 namespace Examples.Shaders
 {
@@ -37,14 +36,16 @@ namespace Examples.Shaders
             Texture2D fudesumi = LoadTexture("resources/fudesumi.png");
 
             // NOTE: Using GLSL 330 shader version, on OpenGL ES 2.0 use GLSL 100 shader version
-            Shader shader = LoadShader("resources/shaders/glsl330/base.vs",
-                                       "resources/shaders/glsl330/grayscale.fs");
+            Shader shader = LoadShader(
+                "resources/shaders/glsl330/base.vs",
+                "resources/shaders/glsl330/grayscale.fs"
+            );
 
             SetTargetFPS(60);
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -54,50 +55,54 @@ namespace Examples.Shaders
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 // Start drawing with default shader
+                DrawText("USING DEFAULT SHADER", 20, 40, 10, Color.RED);
 
-                DrawText("USING DEFAULT SHADER", 20, 40, 10, RED);
+                DrawCircle(80, 120, 35, Color.DARKBLUE);
+                DrawCircleGradient(80, 220, 60, Color.GREEN, Color.SKYBLUE);
+                DrawCircleLines(80, 340, 80, Color.DARKBLUE);
 
-                DrawCircle(80, 120, 35, DARKBLUE);
-                DrawCircleGradient(80, 220, 60, GREEN, SKYBLUE);
-                DrawCircleLines(80, 340, 80, DARKBLUE);
-
-
-                // Activate our custom shader to be applied on next shapes/textures drawings
-                BeginShaderMode(shader);
-
-                DrawText("USING CUSTOM SHADER", 190, 40, 10, RED);
-
-                DrawRectangle(250 - 60, 90, 120, 60, RED);
-                DrawRectangleGradientH(250 - 90, 170, 180, 130, MAROON, GOLD);
-                DrawRectangleLines(250 - 40, 320, 80, 60, ORANGE);
-
-                // Activate our default shader for next drawings
-                EndShaderMode();
-
-                DrawText("USING DEFAULT SHADER", 370, 40, 10, RED);
-
-                DrawTriangle(new Vector2(430, 80),
-                             new Vector2(430 - 60, 150),
-                             new Vector2(430 + 60, 150), VIOLET);
-
-                DrawTriangleLines(new Vector2(430, 160),
-                                  new Vector2(430 - 20, 230),
-                                  new Vector2(430 + 20, 230), DARKBLUE);
-
-                DrawPoly(new Vector2(430, 320), 6, 80, 0, BROWN);
 
                 // Activate our custom shader to be applied on next shapes/textures drawings
                 BeginShaderMode(shader);
 
-                DrawTexture(fudesumi, 500, -30, WHITE);    // Using custom shader
+                DrawText("USING CUSTOM SHADER", 190, 40, 10, Color.RED);
+
+                DrawRectangle(250 - 60, 90, 120, 60, Color.RED);
+                DrawRectangleGradientH(250 - 90, 170, 180, 130, Color.MAROON, Color.GOLD);
+                DrawRectangleLines(250 - 40, 320, 80, 60, Color.ORANGE);
 
                 // Activate our default shader for next drawings
                 EndShaderMode();
 
-                DrawText("(c) Fudesumi sprite by Eiden Marsal", 380, screenHeight - 20, 10, GRAY);
+                DrawText("USING DEFAULT SHADER", 370, 40, 10, Color.RED);
+
+                DrawTriangle(
+                    new Vector2(430, 80),
+                    new Vector2(430 - 60, 150),
+                    new Vector2(430 + 60, 150), Color.VIOLET
+                );
+
+                DrawTriangleLines(
+                    new Vector2(430, 160),
+                    new Vector2(430 - 20, 230),
+                    new Vector2(430 + 20, 230), Color.DARKBLUE
+                );
+
+                DrawPoly(new Vector2(430, 320), 6, 80, 0, Color.BROWN);
+
+                // Activate our custom shader to be applied on next shapes/textures drawings
+                BeginShaderMode(shader);
+
+                // Using custom shader
+                DrawTexture(fudesumi, 500, -30, Color.WHITE);
+
+                // Activate our default shader for next drawings
+                EndShaderMode();
+
+                DrawText("(c) Fudesumi sprite by Eiden Marsal", 380, screenHeight - 20, 10, Color.GRAY);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -105,10 +110,10 @@ namespace Examples.Shaders
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadShader(shader);       // Unload shader
-            UnloadTexture(fudesumi);    // Unload texture
+            UnloadShader(shader);
+            UnloadTexture(fudesumi);
 
-            CloseWindow();              // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

@@ -31,15 +31,14 @@ using System;
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.ShaderUniformDataType;
 
 namespace Examples.Shaders
 {
     public class Spotlight
     {
-        const int MAX_SPOTS = 3;        // NOTE: It must be the same as define in shader
-        const int MAX_STARS = 400;
+        // NOTE: It must be the same as define in shader
+        const int MaxSpots = 3;
+        const int MaxStars = 400;
 
         // Spot data
         struct Spot
@@ -74,9 +73,9 @@ namespace Examples.Shaders
 
             Texture2D texRay = LoadTexture("resources/raysan.png");
 
-            Star[] stars = new Star[MAX_STARS];
+            Star[] stars = new Star[MaxStars];
 
-            for (int n = 0; n < MAX_STARS; n++)
+            for (int n = 0; n < MaxStars; n++)
             {
                 ResetStar(ref stars[n]);
             }
@@ -84,7 +83,7 @@ namespace Examples.Shaders
             // Progress all the stars on, so they don't all start in the centre
             for (int m = 0; m < screenWidth / 2.0; m++)
             {
-                for (int n = 0; n < MAX_STARS; n++)
+                for (int n = 0; n < MaxStars; n++)
                 {
                     UpdateStar(ref stars[n]);
                 }
@@ -96,9 +95,9 @@ namespace Examples.Shaders
             Shader shdrSpot = LoadShader(null, "resources/shaders/glsl330/spotlight.fs");
 
             // Get the locations of spots in the shader
-            Spot[] spots = new Spot[MAX_SPOTS];
+            Spot[] spots = new Spot[MaxSpots];
 
-            for (int i = 0; i < MAX_SPOTS; i++)
+            for (int i = 0; i < MaxSpots; i++)
             {
                 string posName = $"spots[{i}].pos";
                 string innerName = $"spots[{i}].inner";
@@ -110,14 +109,14 @@ namespace Examples.Shaders
             }
 
             // Tell the shader how wide the screen is so we can have
-            // a pitch black half and a dimly lit half.
+            // a pitch Color.black half and a dimly lit half.
             int wLoc = GetShaderLocation(shdrSpot, "screenWidth");
             float sw = (float)GetScreenWidth();
-            Raylib.SetShaderValue(shdrSpot, wLoc, sw, SHADER_UNIFORM_FLOAT);
+            Raylib.SetShaderValue(shdrSpot, wLoc, sw, ShaderUniformDataType.SHADER_UNIFORM_FLOAT);
 
             // Randomise the locations and velocities of the spotlights
             // and initialise the shader locations
-            for (int i = 0; i < MAX_SPOTS; i++)
+            for (int i = 0; i < MaxSpots; i++)
             {
                 spots[i].pos.X = GetRandomValue(64, screenWidth - 64);
                 spots[i].pos.Y = GetRandomValue(64, screenHeight - 64);
@@ -132,29 +131,44 @@ namespace Examples.Shaders
                 spots[i].inner = 28.0f * (i + 1);
                 spots[i].radius = 48.0f * (i + 1);
 
-                Raylib.SetShaderValue(shdrSpot, spots[i].posLoc, spots[i].pos, SHADER_UNIFORM_VEC2);
-                Raylib.SetShaderValue(shdrSpot, spots[i].innerLoc, spots[i].inner, SHADER_UNIFORM_FLOAT);
-                Raylib.SetShaderValue(shdrSpot, spots[i].radiusLoc, spots[i].radius, SHADER_UNIFORM_FLOAT);
+                Raylib.SetShaderValue(
+                    shdrSpot,
+                    spots[i].posLoc,
+                    spots[i].pos,
+                    ShaderUniformDataType.SHADER_UNIFORM_VEC2
+                );
+                Raylib.SetShaderValue(
+                    shdrSpot,
+                    spots[i].innerLoc,
+                    spots[i].inner,
+                    ShaderUniformDataType.SHADER_UNIFORM_FLOAT
+                );
+                Raylib.SetShaderValue(
+                    shdrSpot,
+                    spots[i].radiusLoc,
+                    spots[i].radius,
+                    ShaderUniformDataType.SHADER_UNIFORM_FLOAT
+                );
             }
 
             SetTargetFPS(60);               // Set  to run at 60 frames-per-second
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
                 frameCounter++;
 
                 // Move the stars, resetting them if the go offscreen
-                for (int n = 0; n < MAX_STARS; n++)
+                for (int n = 0; n < MaxStars; n++)
                 {
                     UpdateStar(ref stars[n]);
                 }
 
                 // Update the spots, send them to the shader
-                for (int i = 0; i < MAX_SPOTS; i++)
+                for (int i = 0; i < MaxSpots; i++)
                 {
                     if (i == 0)
                     {
@@ -188,42 +202,49 @@ namespace Examples.Shaders
                         }
                     }
 
-                    Raylib.SetShaderValue(shdrSpot, spots[i].posLoc, spots[i].pos, SHADER_UNIFORM_VEC2);
+                    Raylib.SetShaderValue(
+                        shdrSpot,
+                        spots[i].posLoc,
+                        spots[i].pos,
+                        ShaderUniformDataType.SHADER_UNIFORM_VEC2
+                    );
                 }
 
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(DARKBLUE);
+                ClearBackground(Color.DARKBLUE);
 
                 // Draw stars and bobs
-                for (int n = 0; n < MAX_STARS; n++)
+                for (int n = 0; n < MaxStars; n++)
                 {
                     // MathF.Single pixel is just too small these days!
-                    DrawRectangle((int)stars[n].pos.X, (int)stars[n].pos.Y, 2, 2, WHITE);
+                    DrawRectangle((int)stars[n].pos.X, (int)stars[n].pos.Y, 2, 2, Color.WHITE);
                 }
 
                 for (int i = 0; i < 16; i++)
                 {
-                    DrawTexture(texRay,
+                    DrawTexture(
+                        texRay,
                         (int)((screenWidth / 2.0) + MathF.Cos((frameCounter + i * 8) / 51.45f) * (screenWidth / 2.2) - 32),
-                        (int)((screenHeight / 2.0) + MathF.Sin((frameCounter + i * 8) / 17.87f) * (screenHeight / 4.2)), WHITE);
+                        (int)((screenHeight / 2.0) + MathF.Sin((frameCounter + i * 8) / 17.87f) * (screenHeight / 4.2)),
+                        Color.WHITE
+                    );
                 }
 
                 // Draw spot lights
                 BeginShaderMode(shdrSpot);
-                // Instead of a blank rectangle you could render here
-                // a render texture of the full screen used to do screen
-                // scaling (slight adjustment to shader would be required
-                // to actually pay attention to the colour!)
-                DrawRectangle(0, 0, screenWidth, screenHeight, WHITE);
+
+                // Instead of a blank rectangle you could render a render texture of the full screen used to do screen
+                // scaling (slight adjustment to shader would be required to actually pay attention to the colour!)
+                DrawRectangle(0, 0, screenWidth, screenHeight, Color.WHITE);
                 EndShaderMode();
 
                 DrawFPS(10, 10);
 
-                DrawText("Move the mouse!", 10, 30, 20, GREEN);
-                DrawText("Pitch Black", (int)(screenWidth * 0.2f), screenHeight / 2, 20, GREEN);
-                DrawText("Dark", (int)(screenWidth * 0.66f), screenHeight / 2, 20, GREEN);
+                DrawText("Move the mouse!", 10, 30, 20, Color.GREEN);
+                DrawText("Pitch Color.Black", (int)(screenWidth * 0.2f), screenHeight / 2, 20, Color.GREEN);
+                DrawText("Dark", (int)(screenWidth * 0.66f), screenHeight / 2, 20, Color.GREEN);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -234,7 +255,7 @@ namespace Examples.Shaders
             UnloadTexture(texRay);
             UnloadShader(shdrSpot);
 
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

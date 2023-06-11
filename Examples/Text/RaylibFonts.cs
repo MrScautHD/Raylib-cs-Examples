@@ -15,13 +15,12 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
 
 namespace Examples.Text
 {
     public class RaylibFonts
     {
-        public const int MAX_FONTS = 8;
+        public const int MaxFonts = 8;
 
         public static int Main()
         {
@@ -33,7 +32,7 @@ namespace Examples.Text
             InitWindow(screenWidth, screenHeight, "raylib [text] example - raylib fonts");
 
             // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
-            Font[] fonts = new Font[MAX_FONTS];
+            Font[] fonts = new Font[MaxFonts];
 
             fonts[0] = LoadFont("resources/fonts/alagard.png");
             fonts[1] = LoadFont("resources/fonts/pixelplay.png");
@@ -44,7 +43,7 @@ namespace Examples.Text
             fonts[6] = LoadFont("resources/fonts/alpha_beta.png");
             fonts[7] = LoadFont("resources/fonts/jupiter_crash.png");
 
-            string[] messages = new string[MAX_FONTS] {
+            string[] messages = new string[MaxFonts] {
                 "ALAGARD FONT designed by Hewett Tsoi",
                 "PIXELPLAY FONT designed by Aleksander Shevchuk",
                 "MECHA FONT designed by Captain Falcon",
@@ -55,12 +54,13 @@ namespace Examples.Text
                 "JUPITER_CRASH FONT designed by Brian Kent (AEnigma)"
             };
 
-            int[] spacings = new int[MAX_FONTS] { 2, 4, 8, 4, 3, 4, 4, 1 };
-            Vector2[] positions = new Vector2[MAX_FONTS];
+            int[] spacings = new int[MaxFonts] { 2, 4, 8, 4, 3, 4, 4, 1 };
+            Vector2[] positions = new Vector2[MaxFonts];
 
-            for (int i = 0; i < MAX_FONTS; i++)
+            for (int i = 0; i < MaxFonts; i++)
             {
-                positions[i].X = screenWidth / 2 - MeasureTextEx(fonts[i], messages[i], fonts[i].baseSize * 2, spacings[i]).X / 2;
+                float halfWidth = MeasureTextEx(fonts[i], messages[i], fonts[i].baseSize * 2, spacings[i]).X / 2;
+                positions[i].X = screenWidth / 2 - halfWidth;
                 positions[i].Y = 60 + fonts[i].baseSize + 45 * i;
             }
 
@@ -69,11 +69,20 @@ namespace Examples.Text
             positions[4].Y += 2;
             positions[7].Y -= 8;
 
-            Color[] colors = new Color[MAX_FONTS] { MAROON, ORANGE, DARKGREEN, DARKBLUE, DARKPURPLE, LIME, GOLD, RED };
+            Color[] colors = new Color[MaxFonts] {
+                Color.MAROON,
+                Color.ORANGE,
+                Color.DARKGREEN,
+                Color.DARKBLUE,
+                Color.DARKPURPLE,
+                Color.LIME,
+                Color.GOLD,
+                Color.RED
+            };
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -83,12 +92,12 @@ namespace Examples.Text
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
-                DrawText("free fonts included with raylib", 250, 20, 20, DARKGRAY);
-                DrawLine(220, 50, 590, 50, DARKGRAY);
+                DrawText("free fonts included with raylib", 250, 20, 20, Color.DARKGRAY);
+                DrawLine(220, 50, 590, 50, Color.DARKGRAY);
 
-                for (int i = 0; i < MAX_FONTS; i++)
+                for (int i = 0; i < MaxFonts; i++)
                 {
                     DrawTextEx(fonts[i], messages[i], positions[i], fonts[i].baseSize * 2, spacings[i], colors[i]);
                 }
@@ -99,14 +108,12 @@ namespace Examples.Text
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-
-            // Fonts unloading
-            for (int i = 0; i < MAX_FONTS; i++)
+            for (int i = 0; i < MaxFonts; i++)
             {
                 UnloadFont(fonts[i]);
             }
 
-            CloseWindow();                 // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

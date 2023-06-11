@@ -11,8 +11,8 @@
 
 using System;
 using System.Numerics;
+using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
 
 namespace Examples.Shapes
 {
@@ -42,7 +42,7 @@ namespace Examples.Shapes
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -83,15 +83,15 @@ namespace Examples.Shapes
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
-                DrawCircleV(scleraLeftPosition, scleraRadius, LIGHTGRAY);
-                DrawCircleV(irisLeftPosition, irisRadius, BROWN);
-                DrawCircleV(irisLeftPosition, 10, BLACK);
+                DrawCircleV(scleraLeftPosition, scleraRadius, Color.LIGHTGRAY);
+                DrawCircleV(irisLeftPosition, irisRadius, Color.BROWN);
+                DrawCircleV(irisLeftPosition, 10, Color.BLACK);
 
-                DrawCircleV(scleraRightPosition, scleraRadius, LIGHTGRAY);
-                DrawCircleV(irisRightPosition, irisRadius, DARKGREEN);
-                DrawCircleV(irisRightPosition, 10, BLACK);
+                DrawCircleV(scleraRightPosition, scleraRadius, Color.LIGHTGRAY);
+                DrawCircleV(irisRightPosition, irisRadius, Color.DARKGREEN);
+                DrawCircleV(irisRightPosition, 10, Color.BLACK);
 
                 DrawFPS(10, 10);
 
@@ -101,7 +101,7 @@ namespace Examples.Shapes
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

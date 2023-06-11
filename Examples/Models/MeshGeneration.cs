@@ -12,16 +12,11 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.MaterialMapIndex;
-using static Raylib_cs.MouseButton;
 
 namespace Examples.Models
 {
     public class MeshGeneration
     {
-        public const int NUM_MODELS = 7;
-
         public static int Main()
         {
             // Initialization
@@ -32,11 +27,11 @@ namespace Examples.Models
             InitWindow(screenWidth, screenHeight, "raylib [models] example - mesh generation");
 
             // We generate a isChecked image for texturing
-            Image isChecked = GenImageChecked(2, 2, 1, 1, RED, GREEN);
+            Image isChecked = GenImageChecked(2, 2, 1, 1, Color.RED, Color.GREEN);
             Texture2D texture = LoadTextureFromImage(isChecked);
             UnloadImage(isChecked);
 
-            Model[] models = new Model[NUM_MODELS];
+            Model[] models = new Model[7];
 
             models[0] = LoadModelFromMesh(GenMeshPlane(2, 2, 5, 5));
             models[1] = LoadModelFromMesh(GenMeshCube(2.0f, 1.0f, 2.0f));
@@ -47,14 +42,19 @@ namespace Examples.Models
             models[6] = LoadModelFromMesh(GenMeshKnot(1.0f, 2.0f, 16, 128));
 
             // Set isChecked texture as default diffuse component for all models material
-            for (int i = 0; i < NUM_MODELS; i++)
+            for (int i = 0; i < models.Length; i++)
             {
                 // Set map diffuse texture
-                Raylib.SetMaterialTexture(ref models[i], 0, MATERIAL_MAP_ALBEDO, ref texture);
+                Raylib.SetMaterialTexture(ref models[i], 0, MaterialMapIndex.MATERIAL_MAP_ALBEDO, ref texture);
             }
 
             // Define the camera to look into our 3d world
-            Camera3D camera = new Camera3D(new Vector3(5.0f, 5.0f, 5.0f), new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 1.0f, 0.0f), 45.0f, 0);
+            Camera3D camera = new Camera3D();
+            camera.position = new Vector3(5.0f, 5.0f, 5.0f);
+            camera.target = new Vector3(0.0f, 0.0f, 0.0f);
+            camera.up = new Vector3(0.0f, 1.0f, 0.0f);
+            camera.fovy = 45.0f;
+            camera.projection = CameraProjection.CAMERA_PERSPECTIVE;
 
             // Model drawing position
             Vector3 position = new Vector3(0.0f, 0.0f, 0.0f);
@@ -65,57 +65,58 @@ namespace Examples.Models
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
-                UpdateCamera(ref camera, CameraMode.CAMERA_ORBITAL);      // Update internal camera and our camera
+                UpdateCamera(ref camera, CameraMode.CAMERA_ORBITAL);
 
-                if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+                if (IsMouseButtonPressed(MouseButton.MOUSE_LEFT_BUTTON))
                 {
-                    currentModel = (currentModel + 1) % NUM_MODELS; // Cycle between the textures
+                    // Cycle between the textures
+                    currentModel = (currentModel + 1) % models.Length;
                 }
                 //----------------------------------------------------------------------------------
 
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 BeginMode3D(camera);
 
-                DrawModel(models[currentModel], position, 1.0f, WHITE);
+                DrawModel(models[currentModel], position, 1.0f, Color.WHITE);
 
                 DrawGrid(10, 1.0f);
 
                 EndMode3D();
 
-                DrawRectangle(30, 400, 310, 30, ColorAlpha(SKYBLUE, 0.5f));
-                DrawRectangleLines(30, 400, 310, 30, ColorAlpha(DARKBLUE, 0.5f));
-                DrawText("MOUSE LEFT BUTTON to CYCLE PROCEDURAL MODELS", 40, 410, 10, BLUE);
+                DrawRectangle(30, 400, 310, 30, ColorAlpha(Color.SKYBLUE, 0.5f));
+                DrawRectangleLines(30, 400, 310, 30, ColorAlpha(Color.DARKBLUE, 0.5f));
+                DrawText("MOUSE LEFT BUTTON to CYCLE PROCEDURAL MODELS", 40, 410, 10, Color.BLUE);
 
                 switch (currentModel)
                 {
                     case 0:
-                        DrawText("PLANE", 680, 10, 20, DARKBLUE);
+                        DrawText("PLANE", 680, 10, 20, Color.DARKBLUE);
                         break;
                     case 1:
-                        DrawText("CUBE", 680, 10, 20, DARKBLUE);
+                        DrawText("CUBE", 680, 10, 20, Color.DARKBLUE);
                         break;
                     case 2:
-                        DrawText("SPHERE", 680, 10, 20, DARKBLUE);
+                        DrawText("SPHERE", 680, 10, 20, Color.DARKBLUE);
                         break;
                     case 3:
-                        DrawText("HEMISPHERE", 640, 10, 20, DARKBLUE);
+                        DrawText("HEMISPHERE", 640, 10, 20, Color.DARKBLUE);
                         break;
                     case 4:
-                        DrawText("CYLINDER", 680, 10, 20, DARKBLUE);
+                        DrawText("CYLINDER", 680, 10, 20, Color.DARKBLUE);
                         break;
                     case 5:
-                        DrawText("TORUS", 680, 10, 20, DARKBLUE);
+                        DrawText("TORUS", 680, 10, 20, Color.DARKBLUE);
                         break;
                     case 6:
-                        DrawText("KNOT", 680, 10, 20, DARKBLUE);
+                        DrawText("KNOT", 680, 10, 20, Color.DARKBLUE);
                         break;
                     default:
                         break;
@@ -127,14 +128,12 @@ namespace Examples.Models
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-
-            // Unload models data (GPU VRAM)
-            for (int i = 0; i < NUM_MODELS; i++)
+            for (int i = 0; i < models.Length; i++)
             {
                 UnloadModel(models[i]);
             }
 
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

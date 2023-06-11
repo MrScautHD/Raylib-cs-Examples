@@ -11,8 +11,6 @@
 
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.KeyboardKey;
 
 namespace Examples.Shapes
 {
@@ -51,7 +49,7 @@ namespace Examples.Shapes
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -116,7 +114,7 @@ namespace Examples.Shapes
                 // State 4: Reset and Replay
                 else if (state == 4)
                 {
-                    if (IsKeyPressed(KEY_R))
+                    if (IsKeyPressed(KeyboardKey.KEY_R))
                     {
                         framesCounter = 0;
                         lettersCount = 0;
@@ -137,7 +135,7 @@ namespace Examples.Shapes
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 if (state == 0)
                 {
@@ -168,7 +166,7 @@ namespace Examples.Shapes
                     DrawRectangle(logoPositionX + 240, logoPositionY + 16, 16, rightSideRecHeight - 32, outlineFade);
                     DrawRectangle(logoPositionX, logoPositionY + 240, bottomSideRecWidth, 16, outlineFade);
 
-                    Color whiteFade = ColorAlpha(RAYWHITE, alpha);
+                    Color whiteFade = ColorAlpha(Color.RAYWHITE, alpha);
                     DrawRectangle(screenWidth / 2 - 112, screenHeight / 2 - 112, 224, 224, whiteFade);
 
                     Color label = ColorAlpha(new Color(155, 79, 151, 255), alpha);
@@ -179,7 +177,7 @@ namespace Examples.Shapes
                 }
                 else if (state == 4)
                 {
-                    DrawText("[R] REPLAY", 340, 200, 20, GRAY);
+                    DrawText("[R] REPLAY", 340, 200, 20, Color.GRAY);
                 }
 
                 EndDrawing();
@@ -188,7 +186,7 @@ namespace Examples.Shapes
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

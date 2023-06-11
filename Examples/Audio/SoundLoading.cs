@@ -13,8 +13,6 @@
 
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.KeyboardKey;
 
 namespace Examples.Audio
 {
@@ -28,37 +26,37 @@ namespace Examples.Audio
             const int screenHeight = 450;
 
             InitWindow(screenWidth, screenHeight, "raylib [audio] example - sound loading and playing");
-            InitAudioDevice();      // Initialize audio device
+            InitAudioDevice();
 
-            Sound fxWav = LoadSound("resources/audio/sound.wav");       // Load WAV audio file
-            Sound fxOgg = LoadSound("resources/audio/target.ogg");      // Load OGG audio file
+            Sound fxWav = LoadSound("resources/audio/sound.wav");
+            Sound fxOgg = LoadSound("resources/audio/target.ogg");
 
             SetTargetFPS(60);
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
-                if (IsKeyPressed(KEY_SPACE))
+                if (IsKeyPressed(KeyboardKey.KEY_SPACE))
                 {
-                    PlaySound(fxWav);      // Play WAV sound
+                    PlaySound(fxWav);
                 }
 
-                if (IsKeyPressed(KEY_ENTER))
+                if (IsKeyPressed(KeyboardKey.KEY_ENTER))
                 {
-                    PlaySound(fxOgg);      // Play OGG sound
+                    PlaySound(fxOgg);
                 }
                 //----------------------------------------------------------------------------------
 
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
-                DrawText("Press SPACE to PLAY the WAV sound!", 200, 180, 20, LIGHTGRAY);
-                DrawText("Press ENTER to PLAY the OGG sound!", 200, 220, 20, LIGHTGRAY);
+                DrawText("Press SPACE to PLAY the WAV sound!", 200, 180, 20, Color.LIGHTGRAY);
+                DrawText("Press ENTER to PLAY the OGG sound!", 200, 220, 20, Color.LIGHTGRAY);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -66,12 +64,12 @@ namespace Examples.Audio
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadSound(fxWav);     // Unload sound data
-            UnloadSound(fxOgg);     // Unload sound data
+            UnloadSound(fxWav);
+            UnloadSound(fxOgg);
 
-            CloseAudioDevice();     // Close audio device
+            CloseAudioDevice();
 
-            CloseWindow();          // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

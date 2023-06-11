@@ -6,7 +6,7 @@
 *     - Characters must be ordered starting with character 32 (Space)
 *     - Every character must be contained within the same Rectangle height
 *     - Every character and every line must be separated the same distance
-*     - Rectangles must be defined by a MAGENTA color background
+*     - Rectangles must be defined by a magenta color background
 *
 *   If following this constraints, a font can be provided just by an image,
 *   this is quite handy to avoid additional information files (like BMFonts use).
@@ -21,7 +21,6 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
 
 namespace Examples.Text
 {
@@ -64,7 +63,7 @@ namespace Examples.Text
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -74,11 +73,11 @@ namespace Examples.Text
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
-                DrawTextEx(font1, msg1, fontPosition1, font1.baseSize, -3, WHITE);
-                DrawTextEx(font2, msg2, fontPosition2, font2.baseSize, -2, WHITE);
-                DrawTextEx(font3, msg3, fontPosition3, font3.baseSize, 2, WHITE);
+                DrawTextEx(font1, msg1, fontPosition1, font1.baseSize, -3, Color.WHITE);
+                DrawTextEx(font2, msg2, fontPosition2, font2.baseSize, -2, Color.WHITE);
+                DrawTextEx(font3, msg3, fontPosition3, font3.baseSize, 2, Color.WHITE);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -90,7 +89,7 @@ namespace Examples.Text
             UnloadFont(font2);
             UnloadFont(font3);
 
-            CloseWindow();          // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

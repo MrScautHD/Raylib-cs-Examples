@@ -15,9 +15,6 @@ using System;
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.KeyboardKey;
-using static Raylib_cs.TextureFilter;
 
 namespace Examples.Core
 {
@@ -38,7 +35,7 @@ namespace Examples.Core
 
             // Render texture initialization, used to hold the rendering result so we can easily resize it
             RenderTexture2D target = LoadRenderTexture(gameScreenWidth, gameScreenHeight);
-            SetTextureFilter(target.texture, TEXTURE_FILTER_BILINEAR);  // Texture scale filter to use
+            SetTextureFilter(target.texture, TextureFilter.TEXTURE_FILTER_BILINEAR);
 
             Color[] colors = new Color[10];
             for (int i = 0; i < 10; i++)
@@ -50,19 +47,27 @@ namespace Examples.Core
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
                 // Compute required framebuffer scaling
-                float scale = Math.Min((float)GetScreenWidth() / gameScreenWidth, (float)GetScreenHeight() / gameScreenHeight);
+                float scale = MathF.Min(
+                    (float)GetScreenWidth() / gameScreenWidth,
+                    (float)GetScreenHeight() / gameScreenHeight
+                );
 
-                if (IsKeyPressed(KEY_SPACE))
+                if (IsKeyPressed(KeyboardKey.KEY_SPACE))
                 {
                     // Recalculate random colors for the bars
                     for (int i = 0; i < 10; i++)
                     {
-                        colors[i] = new Color(GetRandomValue(100, 250), GetRandomValue(50, 150), GetRandomValue(10, 100), 255);
+                        colors[i] = new Color(
+                            GetRandomValue(100, 250),
+                            GetRandomValue(50, 150),
+                            GetRandomValue(10, 100),
+                            255
+                        );
                     }
                 }
 
@@ -79,21 +84,27 @@ namespace Examples.Core
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(BLACK);
+                ClearBackground(Color.BLACK);
 
                 // Draw everything in the render texture, note this will not be rendered on screen, yet
                 BeginTextureMode(target);
-                ClearBackground(RAYWHITE);         // Clear render texture background color
+                ClearBackground(Color.RAYWHITE);
 
                 for (int i = 0; i < 10; i++)
                 {
                     DrawRectangle(0, (gameScreenHeight / 10) * i, gameScreenWidth, gameScreenHeight / 10, colors[i]);
                 }
 
-                DrawText("If executed inside a window,\nyou can resize the window,\nand see the screen scaling!", 10, 25, 20, WHITE);
+                DrawText(
+                    "If executed inside a window,\nyou can resize the window,\nand see the screen scaling!",
+                    10,
+                    25,
+                    20,
+                    Color.WHITE
+                );
 
-                DrawText($"Default Mouse: [{(int)mouse.X} {(int)mouse.Y}]", 350, 25, 20, GREEN);
-                DrawText($"Virtual Mouse: [{(int)virtualMouse.X}, {(int)virtualMouse.Y}]", 350, 55, 20, YELLOW);
+                DrawText($"Default Mouse: [{(int)mouse.X} {(int)mouse.Y}]", 350, 25, 20, Color.GREEN);
+                DrawText($"Virtual Mouse: [{(int)virtualMouse.X}, {(int)virtualMouse.Y}]", 350, 55, 20, Color.YELLOW);
 
                 EndTextureMode();
 
@@ -110,7 +121,7 @@ namespace Examples.Core
                     (float)gameScreenWidth * scale,
                     (float)gameScreenHeight * scale
                 );
-                DrawTexturePro(target.texture, sourceRec, destRec, new Vector2(0, 0), 0.0f, WHITE);
+                DrawTexturePro(target.texture, sourceRec, destRec, new Vector2(0, 0), 0.0f, Color.WHITE);
 
                 EndDrawing();
                 //--------------------------------------------------------------------------------------
@@ -118,9 +129,9 @@ namespace Examples.Core
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadRenderTexture(target);    // Unload render texture
+            UnloadRenderTexture(target);
 
-            CloseWindow();                  // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

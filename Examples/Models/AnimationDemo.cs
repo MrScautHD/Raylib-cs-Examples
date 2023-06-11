@@ -17,13 +17,9 @@
 *
 ********************************************************************************************/
 
-using System;
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.KeyboardKey;
-using static Raylib_cs.MaterialMapIndex;
 
 namespace Examples.Models
 {
@@ -40,18 +36,17 @@ namespace Examples.Models
 
             // Define the camera to look into our 3d world
             Camera3D camera = new Camera3D();
-            camera.position = new Vector3(10.0f, 10.0f, 10.0f); // Camera position
-            camera.target = new Vector3(0.0f, 0.0f, 0.0f);      // Camera looking at point
-            camera.up = new Vector3(0.0f, 1.0f, 0.0f);          // Camera up vector (rotation towards target)
-            camera.fovy = 45.0f;                                // Camera field-of-view Y
-            camera.projection = CameraProjection.CAMERA_PERSPECTIVE;                   // Camera mode type
+            camera.position = new Vector3(10.0f, 10.0f, 10.0f);
+            camera.target = new Vector3(0.0f, 0.0f, 0.0f);
+            camera.up = new Vector3(0.0f, 1.0f, 0.0f);
+            camera.fovy = 45.0f;
+            camera.projection = CameraProjection.CAMERA_PERSPECTIVE;
 
-            Model model = LoadModel("resources/models/iqm/guy.iqm");                // Load the animated model mesh and basic data
-            Texture2D texture = LoadTexture("resources/models/iqm/guytex.png");     // Load model texture and set material
-            Raylib.SetMaterialTexture(ref model, 0, MATERIAL_MAP_ALBEDO, ref texture); // Set model material map texture
+            Model model = LoadModel("resources/models/iqm/guy.iqm");
+            Texture2D texture = LoadTexture("resources/models/iqm/guytex.png");
+            Raylib.SetMaterialTexture(ref model, 0, MaterialMapIndex.MATERIAL_MAP_ALBEDO, ref texture);
 
-            Vector3 position = new Vector3(0.0f, 0.0f, 0.0f);            // Set model position
-
+            Vector3 position = new Vector3(0.0f, 0.0f, 0.0f);
             // Load animation data
             uint animsCount = 0;
             var anims = LoadModelAnimations("resources/models/iqm/guyanim.iqm", ref animsCount);
@@ -61,14 +56,14 @@ namespace Examples.Models
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())        // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
                 UpdateCamera(ref camera, CameraMode.CAMERA_FREE);
 
                 // Play animation when spacebar is held down
-                if (IsKeyDown(KEY_SPACE))
+                if (IsKeyDown(KeyboardKey.KEY_SPACE))
                 {
                     animFrameCounter++;
                     UpdateModelAnimation(model, anims[0], animFrameCounter);
@@ -82,24 +77,31 @@ namespace Examples.Models
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 BeginMode3D(camera);
 
-                DrawModelEx(model, position, new Vector3(1.0f, 0.0f, 0.0f), -90.0f, new Vector3(1.0f, 1.0f, 1.0f), WHITE);
+                DrawModelEx(
+                    model,
+                    position,
+                    new Vector3(1.0f, 0.0f, 0.0f),
+                    -90.0f,
+                    new Vector3(1.0f, 1.0f, 1.0f),
+                    Color.WHITE
+                );
 
                 for (int i = 0; i < model.boneCount; i++)
                 {
                     var framePoses = anims[0].FramePoses;
-                    DrawCube(framePoses[animFrameCounter][i].translation, 0.2f, 0.2f, 0.2f, RED);
+                    DrawCube(framePoses[animFrameCounter][i].translation, 0.2f, 0.2f, 0.2f, Color.RED);
                 }
 
-                DrawGrid(10, 1.0f);         // Draw a grid
+                DrawGrid(10, 1.0f);
 
                 EndMode3D();
 
-                DrawText("PRESS SPACE to PLAY MODEL ANIMATION", 10, 10, 20, MAROON);
-                DrawText("(c) Guy IQM 3D model by @culacant", screenWidth - 200, screenHeight - 20, 10, GRAY);
+                DrawText("PRESS SPACE to PLAY MODEL ANIMATION", 10, 10, 20, Color.MAROON);
+                DrawText("(c) Guy IQM 3D model by @culacant", screenWidth - 200, screenHeight - 20, 10, Color.GRAY);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -107,17 +109,16 @@ namespace Examples.Models
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadTexture(texture);     // Unload texture
+            UnloadTexture(texture);
 
-            // Unload model animations data
             for (int i = 0; i < animsCount; i++)
             {
                 UnloadModelAnimation(anims[i]);
             }
 
-            UnloadModel(model);         // Unload model
+            UnloadModel(model);
 
-            CloseWindow();              // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

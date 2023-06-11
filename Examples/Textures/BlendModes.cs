@@ -15,9 +15,6 @@
 
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.KeyboardKey;
-using static Raylib_cs.BlendMode;
 
 namespace Examples.Textures
 {
@@ -47,11 +44,11 @@ namespace Examples.Textures
             BlendMode blendMode = 0;
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
-                if (IsKeyPressed(KEY_SPACE))
+                if (IsKeyPressed(KeyboardKey.KEY_SPACE))
                 {
                     if ((int)blendMode >= (blendCountMax - 1))
                     {
@@ -67,42 +64,42 @@ namespace Examples.Textures
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 int bgX = screenWidth / 2 - bgTexture.width / 2;
                 int bgY = screenHeight / 2 - bgTexture.height / 2;
-                DrawTexture(bgTexture, bgX, bgY, WHITE);
+                DrawTexture(bgTexture, bgX, bgY, Color.WHITE);
 
                 // Apply the blend mode and then draw the foreground texture
                 BeginBlendMode(blendMode);
                 int fgX = screenWidth / 2 - fgTexture.width / 2;
                 int fgY = screenHeight / 2 - fgTexture.height / 2;
-                DrawTexture(fgTexture, fgX, fgY, WHITE);
+                DrawTexture(fgTexture, fgX, fgY, Color.WHITE);
                 EndBlendMode();
 
                 // Draw the texts
-                DrawText("Press SPACE to change blend modes.", 310, 350, 10, GRAY);
+                DrawText("Press SPACE to change blend modes.", 310, 350, 10, Color.GRAY);
 
                 switch (blendMode)
                 {
-                    case BLEND_ALPHA:
-                        DrawText("Current: BLEND_ALPHA", (screenWidth / 2) - 60, 370, 10, GRAY);
+                    case BlendMode.BLEND_ALPHA:
+                        DrawText("Current: BLEND_ALPHA", (screenWidth / 2) - 60, 370, 10, Color.GRAY);
                         break;
-                    case BLEND_ADDITIVE:
-                        DrawText("Current: BLEND_ADDITIVE", (screenWidth / 2) - 60, 370, 10, GRAY);
+                    case BlendMode.BLEND_ADDITIVE:
+                        DrawText("Current: BLEND_ADDITIVE", (screenWidth / 2) - 60, 370, 10, Color.GRAY);
                         break;
-                    case BLEND_MULTIPLIED:
-                        DrawText("Current: BLEND_MULTIPLIED", (screenWidth / 2) - 60, 370, 10, GRAY);
+                    case BlendMode.BLEND_MULTIPLIED:
+                        DrawText("Current: BLEND_MULTIPLIED", (screenWidth / 2) - 60, 370, 10, Color.GRAY);
                         break;
-                    case BLEND_ADD_COLORS:
-                        DrawText("Current: BLEND_ADD_COLORS", (screenWidth / 2) - 60, 370, 10, GRAY);
+                    case BlendMode.BLEND_ADD_COLORS:
+                        DrawText("Current: BLEND_ADD_COLORS", (screenWidth / 2) - 60, 370, 10, Color.GRAY);
                         break;
                     default:
                         break;
                 }
 
                 string text = "(c) Cyberpunk Street Environment by Luis Zuno (@ansimuz)";
-                DrawText(text, screenWidth - 330, screenHeight - 20, 10, GRAY);
+                DrawText(text, screenWidth - 330, screenHeight - 20, 10, Color.GRAY);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -110,10 +107,10 @@ namespace Examples.Textures
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadTexture(fgTexture); // Unload foreground texture
-            UnloadTexture(bgTexture); // Unload background texture
+            UnloadTexture(fgTexture);
+            UnloadTexture(bgTexture);
 
-            CloseWindow();            // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

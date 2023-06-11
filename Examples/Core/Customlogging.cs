@@ -15,7 +15,6 @@ using System;
 using System.Runtime.InteropServices;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
 
 namespace Examples.Core
 {
@@ -60,7 +59,7 @@ namespace Examples.Core
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -70,9 +69,9 @@ namespace Examples.Core
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
-                DrawText("Check out the console output to see the custom logger in action!", 60, 200, 20, LIGHTGRAY);
+                DrawText("Check out the console output to see the custom logger in action!", 60, 200, 20, Color.LIGHTGRAY);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -80,7 +79,7 @@ namespace Examples.Core
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             Raylib.SetTraceLogCallback(&Logging.LogConsole);
             //--------------------------------------------------------------------------------------
 

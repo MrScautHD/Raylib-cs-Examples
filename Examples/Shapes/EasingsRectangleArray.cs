@@ -15,21 +15,18 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.KeyboardKey;
 
 namespace Examples.Shapes
 {
     public class EasingsRectangleArray
     {
-        public const int RECS_WIDTH = 50;
-        public const int RECS_HEIGHT = 50;
-
-        public const int MAX_RECS_X = 800 / RECS_WIDTH;
-        public const int MAX_RECS_Y = 450 / RECS_HEIGHT;
+        public const int RecsWidth = 50;
+        public const int RecsHeight = 50;
+        public const int MaxRecsX = 800 / RecsWidth;
+        public const int MaxRecsY = 450 / RecsHeight;
 
         // At 60 fps = 4 seconds
-        public const int PLAY_TIME_IN_FRAMES = 240;
+        public const int PlayTimeInFrames = 240;
 
         public static int Main()
         {
@@ -40,16 +37,16 @@ namespace Examples.Shapes
 
             InitWindow(screenWidth, screenHeight, "raylib [shapes] example - easings rectangle array");
 
-            Rectangle[] recs = new Rectangle[MAX_RECS_X * MAX_RECS_Y];
+            Rectangle[] recs = new Rectangle[MaxRecsX * MaxRecsY];
 
-            for (int y = 0; y < MAX_RECS_Y; y++)
+            for (int y = 0; y < MaxRecsY; y++)
             {
-                for (int x = 0; x < MAX_RECS_X; x++)
+                for (int x = 0; x < MaxRecsX; x++)
                 {
-                    recs[y * MAX_RECS_X + x].x = RECS_WIDTH / 2 + RECS_WIDTH * x;
-                    recs[y * MAX_RECS_X + x].y = RECS_HEIGHT / 2 + RECS_HEIGHT * y;
-                    recs[y * MAX_RECS_X + x].width = RECS_WIDTH;
-                    recs[y * MAX_RECS_X + x].height = RECS_HEIGHT;
+                    recs[y * MaxRecsX + x].x = RecsWidth / 2 + RecsWidth * x;
+                    recs[y * MaxRecsX + x].y = RecsHeight / 2 + RecsHeight * y;
+                    recs[y * MaxRecsX + x].width = RecsWidth;
+                    recs[y * MaxRecsX + x].height = RecsHeight;
                 }
             }
 
@@ -63,7 +60,7 @@ namespace Examples.Shapes
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -71,10 +68,10 @@ namespace Examples.Shapes
                 {
                     framesCounter++;
 
-                    for (int i = 0; i < MAX_RECS_X * MAX_RECS_Y; i++)
+                    for (int i = 0; i < MaxRecsX * MaxRecsY; i++)
                     {
-                        recs[i].height = Easings.EaseCircOut(framesCounter, RECS_HEIGHT, -RECS_HEIGHT, PLAY_TIME_IN_FRAMES);
-                        recs[i].width = Easings.EaseCircOut(framesCounter, RECS_WIDTH, -RECS_WIDTH, PLAY_TIME_IN_FRAMES);
+                        recs[i].height = Easings.EaseCircOut(framesCounter, RecsHeight, -RecsHeight, PlayTimeInFrames);
+                        recs[i].width = Easings.EaseCircOut(framesCounter, RecsWidth, -RecsWidth, PlayTimeInFrames);
 
                         if (recs[i].height < 0)
                         {
@@ -90,18 +87,18 @@ namespace Examples.Shapes
                         {
                             state = 1;
                         }
-                        rotation = Easings.EaseLinearIn(framesCounter, 0.0f, 360.0f, PLAY_TIME_IN_FRAMES);
+                        rotation = Easings.EaseLinearIn(framesCounter, 0.0f, 360.0f, PlayTimeInFrames);
                     }
                 }
-                else if ((state == 1) && IsKeyPressed(KEY_SPACE))
+                else if ((state == 1) && IsKeyPressed(KeyboardKey.KEY_SPACE))
                 {
                     // When animation has finished, press space to restart
                     framesCounter = 0;
 
-                    for (int i = 0; i < MAX_RECS_X * MAX_RECS_Y; i++)
+                    for (int i = 0; i < MaxRecsX * MaxRecsY; i++)
                     {
-                        recs[i].height = RECS_HEIGHT;
-                        recs[i].width = RECS_WIDTH;
+                        recs[i].height = RecsHeight;
+                        recs[i].width = RecsWidth;
                     }
 
                     state = 0;
@@ -111,18 +108,23 @@ namespace Examples.Shapes
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 if (state == 0)
                 {
-                    for (int i = 0; i < MAX_RECS_X * MAX_RECS_Y; i++)
+                    for (int i = 0; i < MaxRecsX * MaxRecsY; i++)
                     {
-                        DrawRectanglePro(recs[i], new Vector2(recs[i].width / 2, recs[i].height / 2), rotation, RED);
+                        DrawRectanglePro(
+                            recs[i],
+                            new Vector2(recs[i].width / 2, recs[i].height / 2),
+                            rotation,
+                            Color.RED
+                        );
                     }
                 }
                 else if (state == 1)
                 {
-                    DrawText("PRESS [SPACE] TO PLAY AGAIN!", 240, 200, 20, GRAY);
+                    DrawText("PRESS [SPACE] TO PLAY AGAIN!", 240, 200, 20, Color.GRAY);
                 }
 
                 EndDrawing();
@@ -131,7 +133,7 @@ namespace Examples.Shapes
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

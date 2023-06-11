@@ -11,15 +11,12 @@
 
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.KeyboardKey;
-using static Raylib_cs.MouseButton;
 
 namespace Examples.Textures
 {
     public class ImageGeneration
     {
-        public const int NUM_TEXTURES = 6;
+        public const int NumTextures = 6;
 
         public static int Main()
         {
@@ -30,14 +27,14 @@ namespace Examples.Textures
 
             InitWindow(screenWidth, screenHeight, "raylib [textures] example - procedural images generation");
 
-            Image verticalGradient = GenImageGradientV(screenWidth, screenHeight, RED, BLUE);
-            Image horizontalGradient = GenImageGradientH(screenWidth, screenHeight, RED, BLUE);
-            Image radialGradient = GenImageGradientRadial(screenWidth, screenHeight, 0.0f, WHITE, BLACK);
-            Image isChecked = GenImageChecked(screenWidth, screenHeight, 32, 32, RED, BLUE);
+            Image verticalGradient = GenImageGradientV(screenWidth, screenHeight, Color.RED, Color.BLUE);
+            Image horizontalGradient = GenImageGradientH(screenWidth, screenHeight, Color.RED, Color.BLUE);
+            Image radialGradient = GenImageGradientRadial(screenWidth, screenHeight, 0.0f, Color.WHITE, Color.BLACK);
+            Image isChecked = GenImageChecked(screenWidth, screenHeight, 32, 32, Color.RED, Color.BLUE);
             Image whiteNoise = GenImageWhiteNoise(screenWidth, screenHeight, 0.5f);
             Image cellular = GenImageCellular(screenWidth, screenHeight, 32);
 
-            Texture2D[] textures = new Texture2D[NUM_TEXTURES];
+            Texture2D[] textures = new Texture2D[NumTextures];
             textures[0] = LoadTextureFromImage(verticalGradient);
             textures[1] = LoadTextureFromImage(horizontalGradient);
             textures[2] = LoadTextureFromImage(radialGradient);
@@ -45,7 +42,6 @@ namespace Examples.Textures
             textures[4] = LoadTextureFromImage(whiteNoise);
             textures[5] = LoadTextureFromImage(cellular);
 
-            // Unload image data (CPU RAM)
             UnloadImage(verticalGradient);
             UnloadImage(horizontalGradient);
             UnloadImage(radialGradient);
@@ -63,43 +59,43 @@ namespace Examples.Textures
             {
                 // Update
                 //----------------------------------------------------------------------------------
-                if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) || IsKeyPressed(KEY_RIGHT))
+                if (IsMouseButtonPressed(MouseButton.MOUSE_LEFT_BUTTON) || IsKeyPressed(KeyboardKey.KEY_RIGHT))
                 {
                     // Cycle between the textures
-                    currentTexture = (currentTexture + 1) % NUM_TEXTURES;
+                    currentTexture = (currentTexture + 1) % NumTextures;
                 }
                 //----------------------------------------------------------------------------------
 
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
-                DrawTexture(textures[currentTexture], 0, 0, WHITE);
+                DrawTexture(textures[currentTexture], 0, 0, Color.WHITE);
 
-                DrawRectangle(30, 400, 325, 30, ColorAlpha(SKYBLUE, 0.5f));
-                DrawRectangleLines(30, 400, 325, 30, ColorAlpha(WHITE, 0.5f));
-                DrawText("MOUSE LEFT BUTTON to CYCLE PROCEDURAL TEXTURES", 40, 410, 10, WHITE);
+                DrawRectangle(30, 400, 325, 30, ColorAlpha(Color.SKYBLUE, 0.5f));
+                DrawRectangleLines(30, 400, 325, 30, ColorAlpha(Color.WHITE, 0.5f));
+                DrawText("MOUSE LEFT BUTTON to CYCLE PROCEDURAL TEXTURES", 40, 410, 10, Color.WHITE);
 
                 switch (currentTexture)
                 {
                     case 0:
-                        DrawText("VERTICAL GRADIENT", 560, 10, 20, RAYWHITE);
+                        DrawText("VERTICAL GRADIENT", 560, 10, 20, Color.RAYWHITE);
                         break;
                     case 1:
-                        DrawText("HORIZONTAL GRADIENT", 540, 10, 20, RAYWHITE);
+                        DrawText("HORIZONTAL GRADIENT", 540, 10, 20, Color.RAYWHITE);
                         break;
                     case 2:
-                        DrawText("RADIAL GRADIENT", 580, 10, 20, LIGHTGRAY);
+                        DrawText("RADIAL GRADIENT", 580, 10, 20, Color.LIGHTGRAY);
                         break;
                     case 3:
-                        DrawText("CHECKED", 680, 10, 20, RAYWHITE);
+                        DrawText("CHECKED", 680, 10, 20, Color.RAYWHITE);
                         break;
                     case 4:
-                        DrawText("WHITE NOISE", 640, 10, 20, RED);
+                        DrawText("Color.WHITE NOISE", 640, 10, 20, Color.RED);
                         break;
                     case 5:
-                        DrawText("CELLULAR", 670, 10, 20, RAYWHITE);
+                        DrawText("CELLULAR", 670, 10, 20, Color.RAYWHITE);
                         break;
                     default:
                         break;
@@ -111,14 +107,12 @@ namespace Examples.Textures
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-
-            // Unload textures data (GPU VRAM)
-            for (int i = 0; i < NUM_TEXTURES; i++)
+            for (int i = 0; i < textures.Length; i++)
             {
                 UnloadTexture(textures[i]);
             }
 
-            CloseWindow();                // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

@@ -11,8 +11,6 @@
 
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.KeyboardKey;
 
 namespace Examples.Core
 {
@@ -43,22 +41,22 @@ namespace Examples.Core
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
-                if (IsKeyPressed(KEY_R))
+                if (IsKeyPressed(KeyboardKey.KEY_R))
                 {
                     score = GetRandomValue(1000, 2000);
                     hiscore = GetRandomValue(2000, 4000);
                 }
 
-                if (IsKeyPressed(KEY_ENTER))
+                if (IsKeyPressed(KeyboardKey.KEY_ENTER))
                 {
                     SaveStorageValue(storageDataFile, (int)StorageData.Score, score);
                     SaveStorageValue(storageDataFile, (int)StorageData.HiScore, hiscore);
                 }
-                else if (IsKeyPressed(KEY_SPACE))
+                else if (IsKeyPressed(KeyboardKey.KEY_SPACE))
                 {
                     // NOTE: If requested position could not be found, value 0 is returned
                     score = LoadStorageValue(storageDataFile, (int)StorageData.Score);
@@ -71,16 +69,16 @@ namespace Examples.Core
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
-                DrawText($"SCORE: {score}", 280, 130, 40, MAROON);
-                DrawText($"HI-SCORE: {hiscore}", 210, 200, 50, BLACK);
+                DrawText($"SCORE: {score}", 280, 130, 40, Color.MAROON);
+                DrawText($"HI-SCORE: {hiscore}", 210, 200, 50, Color.BLACK);
 
-                DrawText($"frames: {framesCounter}", 10, 10, 20, LIME);
+                DrawText($"frames: {framesCounter}", 10, 10, 20, Color.LIME);
 
-                DrawText("Press R to generate random numbers", 220, 40, 20, LIGHTGRAY);
-                DrawText("Press ENTER to SAVE values", 250, 310, 20, LIGHTGRAY);
-                DrawText("Press SPACE to LOAD values", 252, 350, 20, LIGHTGRAY);
+                DrawText("Press R to generate random numbers", 220, 40, 20, Color.LIGHTGRAY);
+                DrawText("Press ENTER to SAVE values", 250, 310, 20, Color.LIGHTGRAY);
+                DrawText("Press SPACE to LOAD values", 252, 350, 20, Color.LIGHTGRAY);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -88,7 +86,7 @@ namespace Examples.Core
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

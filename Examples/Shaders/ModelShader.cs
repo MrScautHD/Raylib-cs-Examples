@@ -19,8 +19,6 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.MaterialMapIndex;
 
 namespace Examples.Shaders
 {
@@ -33,7 +31,8 @@ namespace Examples.Shaders
             const int screenWidth = 800;
             const int screenHeight = 450;
 
-            SetConfigFlags(ConfigFlags.FLAG_MSAA_4X_HINT);      // Enable Multi Sampling Anti Aliasing 4x (if available)
+            // Enable Multi Sampling Anti Aliasing 4x (if available)
+            SetConfigFlags(ConfigFlags.FLAG_MSAA_4X_HINT);
 
             InitWindow(screenWidth, screenHeight, "raylib [shaders] example - model shader");
 
@@ -45,21 +44,21 @@ namespace Examples.Shaders
             camera.fovy = 45.0f;
             camera.projection = CameraProjection.CAMERA_PERSPECTIVE;
 
-            Model model = LoadModel("resources/models/watermill.obj");                   // Load OBJ model
-            Texture2D texture = LoadTexture("resources/models/watermill_diffuse.png");   // Load model texture
+            Model model = LoadModel("resources/models/watermill.obj");
+            Texture2D texture = LoadTexture("resources/models/watermill_diffuse.png");
             Shader shader = LoadShader("resources/shaders/glsl330/base.vs",
-                                       "resources/shaders/glsl330/grayscale.fs");   // Load model shader
+                                       "resources/shaders/glsl330/grayscale.fs");
 
-            Raylib.SetMaterialShader(ref model, 0, ref shader);  // Set shader effect to 3d model
-            Raylib.SetMaterialTexture(ref model, 0, MATERIAL_MAP_ALBEDO, ref texture);    // Bind texture to model
+            Raylib.SetMaterialShader(ref model, 0, ref shader);
+            Raylib.SetMaterialTexture(ref model, 0, MaterialMapIndex.MATERIAL_MAP_ALBEDO, ref texture);
 
-            Vector3 position = new Vector3(0.0f, 0.0f, 0.0f);    // Set model position
+            Vector3 position = new Vector3(0.0f, 0.0f, 0.0f);
 
             SetTargetFPS(60);                           // Set our game to run at 60 frames-per-second
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())                // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -69,20 +68,26 @@ namespace Examples.Shaders
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 BeginMode3D(camera);
 
-                DrawModel(model, position, 0.2f, WHITE);   // Draw 3d model with texture
+                DrawModel(model, position, 0.2f, Color.WHITE);
 
-                DrawGrid(10, 1.0f);     // Draw a grid
+                DrawGrid(10, 1.0f);
 
                 EndMode3D();
 
-                DrawText("(c) Watermill 3D model by Alberto Cano", screenWidth - 210, screenHeight - 20, 10, GRAY);
+                DrawText(
+                    "(c) Watermill 3D model by Alberto Cano",
+                    screenWidth - 210,
+                    screenHeight - 20,
+                    10,
+                    Color.GRAY
+                );
 
-                DrawText(string.Format("Camera3D position: ({0:0.00}, {0:0.00}, {0:0.00})", camera.position.X, camera.position.Y, camera.position.Z), 600, 20, 10, BLACK);
-                DrawText(string.Format("Camera3D target: ({0:0.00}, {0:0.00}, {0:0.00})", camera.target.X, camera.target.Y, camera.target.Z), 600, 40, 10, GRAY);
+                DrawText($"Camera3D position: ({camera.position})", 600, 20, 10, Color.BLACK);
+                DrawText($"Camera3D target: ({camera.position})", 600, 40, 10, Color.GRAY);
 
                 DrawFPS(10, 10);
 
@@ -92,11 +97,11 @@ namespace Examples.Shaders
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadShader(shader);       // Unload shader
-            UnloadTexture(texture);     // Unload texture
-            UnloadModel(model);         // Unload model
+            UnloadShader(shader);
+            UnloadTexture(texture);
+            UnloadModel(model);
 
-            CloseWindow();              // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

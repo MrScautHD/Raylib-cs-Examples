@@ -11,7 +11,6 @@
 
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
 
 namespace Examples.Text
 {
@@ -34,7 +33,7 @@ namespace Examples.Text
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -44,12 +43,12 @@ namespace Examples.Text
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
-                DrawText($"Score: {score}", 200, 80, 20, RED);
-                DrawText($"HiScore: {hiscore}", 200, 120, 20, GREEN);
-                DrawText($"Lives: {lives}", 200, 160, 40, BLUE);
-                DrawText($"Elapsed Time: {GetFrameTime() * 1000} ms", 200, 220, 20, BLACK);
+                DrawText($"Score: {score}", 200, 80, 20, Color.RED);
+                DrawText($"HiScore: {hiscore}", 200, 120, 20, Color.GREEN);
+                DrawText($"Lives: {lives}", 200, 160, 40, Color.BLUE);
+                DrawText($"Elapsed Time: {GetFrameTime() * 1000} ms", 200, 220, 20, Color.BLACK);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -57,7 +56,7 @@ namespace Examples.Text
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

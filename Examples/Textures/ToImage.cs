@@ -13,7 +13,6 @@
 
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
 
 namespace Examples.Textures
 {
@@ -42,7 +41,7 @@ namespace Examples.Textures
             //---------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -52,13 +51,13 @@ namespace Examples.Textures
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 int x = screenWidth / 2 - texture.width / 2;
                 int y = screenHeight / 2 - texture.height / 2;
-                DrawTexture(texture, x, y, WHITE);
+                DrawTexture(texture, x, y, Color.WHITE);
 
-                DrawText("this IS a texture loaded from an image!", 300, 370, 10, GRAY);
+                DrawText("this IS a texture loaded from an image!", 300, 370, 10, Color.GRAY);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -66,9 +65,9 @@ namespace Examples.Textures
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadTexture(texture);       // Texture unloading
+            UnloadTexture(texture);
 
-            CloseWindow();                // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

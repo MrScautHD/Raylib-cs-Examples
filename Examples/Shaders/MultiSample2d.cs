@@ -18,9 +18,6 @@
 
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.KeyboardKey;
-using static Raylib_cs.ShaderUniformDataType;
 
 namespace Examples.Shaders
 {
@@ -56,15 +53,15 @@ namespace Examples.Shaders
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())                // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
-                if (IsKeyDown(KEY_RIGHT))
+                if (IsKeyDown(KeyboardKey.KEY_RIGHT))
                 {
                     dividerValue += 0.01f;
                 }
-                else if (IsKeyDown(KEY_LEFT))
+                else if (IsKeyDown(KeyboardKey.KEY_LEFT))
                 {
                     dividerValue -= 0.01f;
                 }
@@ -78,13 +75,13 @@ namespace Examples.Shaders
                     dividerValue = 1.0f;
                 }
 
-                Raylib.SetShaderValue(shader, dividerLoc, dividerValue, SHADER_UNIFORM_FLOAT);
+                Raylib.SetShaderValue(shader, dividerLoc, dividerValue, ShaderUniformDataType.SHADER_UNIFORM_FLOAT);
                 //----------------------------------------------------------------------------------
 
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 BeginShaderMode(shader);
 
@@ -95,12 +92,12 @@ namespace Examples.Shaders
 
                 // We are drawing texRed using default sampler2D texture0 but
                 // an additional texture units is enabled for texBlue (sampler2D texture1)
-                DrawTexture(texRed, 0, 0, WHITE);
+                DrawTexture(texRed, 0, 0, Color.WHITE);
 
                 EndShaderMode();
 
                 int y = GetScreenHeight() - 40;
-                DrawText("Use KEY_LEFT/KEY_RIGHT to move texture mixing in shader!", 80, y, 20, RAYWHITE);
+                DrawText("Use KEY_LEFT/KEY_RIGHT to move texture mixing in shader!", 80, y, 20, Color.RAYWHITE);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -108,11 +105,11 @@ namespace Examples.Shaders
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadShader(shader);       // Unload shader
-            UnloadTexture(texRed);      // Unload texture
-            UnloadTexture(texBlue);     // Unload texture
+            UnloadShader(shader);
+            UnloadTexture(texRed);
+            UnloadTexture(texBlue);
 
-            CloseWindow();              // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

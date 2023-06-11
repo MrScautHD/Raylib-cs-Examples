@@ -11,8 +11,6 @@
 
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.KeyboardKey;
 
 namespace Examples.Text
 {
@@ -34,11 +32,11 @@ namespace Examples.Text
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
-                if (IsKeyDown(KEY_SPACE))
+                if (IsKeyDown(KeyboardKey.KEY_SPACE))
                 {
                     framesCounter += 8;
                 }
@@ -47,7 +45,7 @@ namespace Examples.Text
                     framesCounter += 1;
                 }
 
-                if (IsKeyPressed(KEY_ENTER))
+                if (IsKeyPressed(KeyboardKey.KEY_ENTER))
                 {
                     framesCounter = 0;
                 }
@@ -56,12 +54,12 @@ namespace Examples.Text
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
-                DrawText(message.SubText(0, framesCounter / 10), 210, 160, 20, MAROON);
+                DrawText(message.SubText(0, framesCounter / 10), 210, 160, 20, Color.MAROON);
 
-                DrawText("PRESS [ENTER] to RESTART!", 240, 260, 20, LIGHTGRAY);
-                DrawText("PRESS [SPACE] to SPEED UP!", 239, 300, 20, LIGHTGRAY);
+                DrawText("PRESS [ENTER] to RESTART!", 240, 260, 20, Color.LIGHTGRAY);
+                DrawText("PRESS [SPACE] to SPEED UP!", 239, 300, 20, Color.LIGHTGRAY);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -69,7 +67,7 @@ namespace Examples.Text
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

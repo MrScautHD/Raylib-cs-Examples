@@ -12,8 +12,6 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.KeyboardKey;
-using static Raylib_cs.Color;
 
 namespace Examples.Core
 {
@@ -34,26 +32,26 @@ namespace Examples.Core
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
-                if (IsKeyDown(KEY_RIGHT))
+                if (IsKeyDown(KeyboardKey.KEY_RIGHT))
                 {
                     ballPosition.X += 2.0f;
                 }
 
-                if (IsKeyDown(KEY_LEFT))
+                if (IsKeyDown(KeyboardKey.KEY_LEFT))
                 {
                     ballPosition.X -= 2.0f;
                 }
 
-                if (IsKeyDown(KEY_UP))
+                if (IsKeyDown(KeyboardKey.KEY_UP))
                 {
                     ballPosition.Y -= 2.0f;
                 }
 
-                if (IsKeyDown(KEY_DOWN))
+                if (IsKeyDown(KeyboardKey.KEY_DOWN))
                 {
                     ballPosition.Y += 2.0f;
                 }
@@ -62,11 +60,11 @@ namespace Examples.Core
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
-                DrawText("move the ball with arrow keys", 10, 10, 20, DARKGRAY);
+                DrawText("move the ball with arrow keys", 10, 10, 20, Color.DARKGRAY);
 
-                DrawCircleV(ballPosition, 50, MAROON);
+                DrawCircleV(ballPosition, 50, Color.MAROON);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -74,7 +72,7 @@ namespace Examples.Core
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

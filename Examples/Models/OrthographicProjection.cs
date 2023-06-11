@@ -14,8 +14,6 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.KeyboardKey;
 
 namespace Examples.Models
 {
@@ -45,11 +43,11 @@ namespace Examples.Models
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
-                if (IsKeyPressed(KEY_SPACE))
+                if (IsKeyPressed(KeyboardKey.KEY_SPACE))
                 {
                     if (camera.projection == CameraProjection.CAMERA_PERSPECTIVE)
                     {
@@ -67,37 +65,37 @@ namespace Examples.Models
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 BeginMode3D(camera);
 
-                DrawCube(new Vector3(-4.0f, 0.0f, 2.0f), 2.0f, 5.0f, 2.0f, RED);
-                DrawCubeWires(new Vector3(-4.0f, 0.0f, 2.0f), 2.0f, 5.0f, 2.0f, GOLD);
-                DrawCubeWires(new Vector3(-4.0f, 0.0f, -2.0f), 3.0f, 6.0f, 2.0f, MAROON);
+                DrawCube(new Vector3(-4.0f, 0.0f, 2.0f), 2.0f, 5.0f, 2.0f, Color.RED);
+                DrawCubeWires(new Vector3(-4.0f, 0.0f, 2.0f), 2.0f, 5.0f, 2.0f, Color.GOLD);
+                DrawCubeWires(new Vector3(-4.0f, 0.0f, -2.0f), 3.0f, 6.0f, 2.0f, Color.MAROON);
 
-                DrawSphere(new Vector3(-1.0f, 0.0f, -2.0f), 1.0f, GREEN);
-                DrawSphereWires(new Vector3(1.0f, 0.0f, 2.0f), 2.0f, 16, 16, LIME);
+                DrawSphere(new Vector3(-1.0f, 0.0f, -2.0f), 1.0f, Color.GREEN);
+                DrawSphereWires(new Vector3(1.0f, 0.0f, 2.0f), 2.0f, 16, 16, Color.LIME);
 
-                DrawCylinder(new Vector3(4.0f, 0.0f, -2.0f), 1.0f, 2.0f, 3.0f, 4, SKYBLUE);
-                DrawCylinderWires(new Vector3(4.0f, 0.0f, -2.0f), 1.0f, 2.0f, 3.0f, 4, DARKBLUE);
-                DrawCylinderWires(new Vector3(4.5f, -1.0f, 2.0f), 1.0f, 1.0f, 2.0f, 6, BROWN);
+                DrawCylinder(new Vector3(4.0f, 0.0f, -2.0f), 1.0f, 2.0f, 3.0f, 4, Color.SKYBLUE);
+                DrawCylinderWires(new Vector3(4.0f, 0.0f, -2.0f), 1.0f, 2.0f, 3.0f, 4, Color.DARKBLUE);
+                DrawCylinderWires(new Vector3(4.5f, -1.0f, 2.0f), 1.0f, 1.0f, 2.0f, 6, Color.BROWN);
 
-                DrawCylinder(new Vector3(1.0f, 0.0f, -4.0f), 0.0f, 1.5f, 3.0f, 8, GOLD);
-                DrawCylinderWires(new Vector3(1.0f, 0.0f, -4.0f), 0.0f, 1.5f, 3.0f, 8, PINK);
+                DrawCylinder(new Vector3(1.0f, 0.0f, -4.0f), 0.0f, 1.5f, 3.0f, 8, Color.GOLD);
+                DrawCylinderWires(new Vector3(1.0f, 0.0f, -4.0f), 0.0f, 1.5f, 3.0f, 8, Color.PINK);
 
-                DrawGrid(10, 1.0f);        // Draw a grid
+                DrawGrid(10, 1.0f);
 
                 EndMode3D();
 
-                DrawText("Press Spacebar to switch camera type", 10, GetScreenHeight() - 30, 20, DARKGRAY);
+                DrawText("Press Spacebar to switch camera type", 10, GetScreenHeight() - 30, 20, Color.DARKGRAY);
 
                 if (camera.projection == CameraProjection.CAMERA_ORTHOGRAPHIC)
                 {
-                    DrawText("ORTHOGRAPHIC", 10, 40, 20, BLACK);
+                    DrawText("ORTHOGRAPHIC", 10, 40, 20, Color.BLACK);
                 }
                 else if (camera.projection == CameraProjection.CAMERA_PERSPECTIVE)
                 {
-                    DrawText("PERSPECTIVE", 10, 40, 20, BLACK);
+                    DrawText("PERSPECTIVE", 10, 40, 20, Color.BLACK);
                 }
 
                 DrawFPS(10, 10);
@@ -108,7 +106,7 @@ namespace Examples.Models
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

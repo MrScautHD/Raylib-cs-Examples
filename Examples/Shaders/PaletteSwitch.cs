@@ -20,22 +20,18 @@
 
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.KeyboardKey;
-using static Raylib_cs.ShaderUniformDataType;
 
 namespace Examples.Shaders
 {
     public class PaletteSwitch
     {
-        const int GLSL_VERSION = 330;
-
-        const int MAX_PALETTES = 3;
-        const int COLORS_PER_PALETTE = 8;
+        const int GlslVersion = 330;
+        const int ColorsPerPalette = 8;
         const int VALUES_PER_COLOR = 3;
 
-        static int[][] palettes = new int[][] {
-            new int[] {   // 3-BIT RGB
+        static int[][] Palettes = new int[][] {
+            // 3-BIT RGB
+            new int[] {
                 0, 0, 0,
                 255, 0, 0,
                 0, 255, 0,
@@ -45,7 +41,8 @@ namespace Examples.Shaders
                 255, 255, 0,
                 255, 255, 255,
             },
-            new int[] {   // AMMO-8 (GameBoy-like)
+            // AMMO-8 (GameBoy-like)
+            new int[] {
                 4, 12, 6,
                 17, 35, 24,
                 30, 58, 41,
@@ -55,7 +52,8 @@ namespace Examples.Shaders
                 190, 220, 127,
                 238, 255, 204,
             },
-            new int[] {   // RKBV (2-strip film)
+            // RKBV (2-strip film)
+            new int[] {
                 21, 25, 26,
                 138, 76, 88,
                 217, 98, 117,
@@ -67,7 +65,7 @@ namespace Examples.Shaders
             }
         };
 
-        static string[] paletteText = new string[] {
+        static string[] PaletteText = new string[] {
             "3-BIT RGB",
             "AMMO-8 (GameBoy-like)",
             "RKBV (2-strip film)"
@@ -85,54 +83,60 @@ namespace Examples.Shaders
             // Load shader to be used on some parts drawing
             // NOTE 1: Using GLSL 330 shader version, on OpenGL ES 2.0 use GLSL 100 shader version
             // NOTE 2: Defining 0 (NULL) for vertex shader forces usage of internal default vertex shader
-            Shader shader = LoadShader(null, string.Format("resources/shaders/glsl{0}/palette_switch.fs", GLSL_VERSION));
+            Shader shader = LoadShader(null, $"resources/shaders/glsl{GlslVersion}/palette_switch.fs");
 
             // Get variable (uniform) location on the shader to connect with the program
             // NOTE: If uniform variable could not be found in the shader, function returns -1
             int paletteLoc = GetShaderLocation(shader, "palette");
 
             int currentPalette = 0;
-            int lineHeight = screenHeight / COLORS_PER_PALETTE;
+            int lineHeight = screenHeight / ColorsPerPalette;
 
             SetTargetFPS(60);                       // Set our game to run at 60 frames-per-second
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())            // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
-                if (IsKeyPressed(KEY_RIGHT))
+                if (IsKeyPressed(KeyboardKey.KEY_RIGHT))
                 {
                     currentPalette++;
                 }
-                else if (IsKeyPressed(KEY_LEFT))
+                else if (IsKeyPressed(KeyboardKey.KEY_LEFT))
                 {
                     currentPalette--;
                 }
 
-                if (currentPalette >= MAX_PALETTES)
+                if (currentPalette >= Palettes.Length)
                 {
                     currentPalette = 0;
                 }
                 else if (currentPalette < 0)
                 {
-                    currentPalette = MAX_PALETTES - 1;
+                    currentPalette = Palettes.Length - 1;
                 }
 
                 // Send new value to the shader to be used on drawing.
                 // NOTE: We are sending RGB triplets w/o the alpha channel
-                Raylib.SetShaderValueV(shader, paletteLoc, palettes[currentPalette], SHADER_UNIFORM_IVEC3, COLORS_PER_PALETTE);
+                Raylib.SetShaderValueV(
+                    shader,
+                    paletteLoc,
+                    Palettes[currentPalette],
+                    ShaderUniformDataType.SHADER_UNIFORM_IVEC3,
+                    ColorsPerPalette
+                );
                 //----------------------------------------------------------------------------------
 
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 BeginShaderMode(shader);
 
-                for (int i = 0; i < COLORS_PER_PALETTE; i++)
+                for (int i = 0; i < ColorsPerPalette; i++)
                 {
                     // Draw horizontal screen-wide rectangles with increasing "palette index"
                     // The used palette index is encoded in the RGB components of the pixel
@@ -141,9 +145,9 @@ namespace Examples.Shaders
 
                 EndShaderMode();
 
-                DrawText("< >", 10, 10, 30, DARKBLUE);
-                DrawText("CURRENT PALETTE:", 60, 15, 20, RAYWHITE);
-                DrawText(paletteText[currentPalette], 300, 15, 20, RED);
+                DrawText("< >", 10, 10, 30, Color.DARKBLUE);
+                DrawText("CURRENT PALETTE:", 60, 15, 20, Color.RAYWHITE);
+                DrawText(PaletteText[currentPalette], 300, 15, 20, Color.RED);
 
                 DrawFPS(700, 15);
 
@@ -153,9 +157,9 @@ namespace Examples.Shaders
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadShader(shader);       // Unload shader
+            UnloadShader(shader);
 
-            CloseWindow();              // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

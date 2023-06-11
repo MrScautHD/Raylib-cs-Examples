@@ -76,11 +76,11 @@ namespace Examples.Shaders
             model.materials[0].shader = shader;
             cube.materials[0].shader = shader;
 
-            // Using 4 point lights: gold, red, green and blue
+            // Using 4 point lights: Color.gold, Color.red, Color.green and Color.blue
             Light[] lights = new Light[4];
             lights[0] = CreateLight(
                 0,
-                LightType.LIGHT_POINT,
+                LightType.Point,
                 new Vector3(-2, 1, -2),
                 Vector3.Zero,
                 Color.YELLOW,
@@ -88,7 +88,7 @@ namespace Examples.Shaders
             );
             lights[1] = CreateLight(
                 1,
-                LightType.LIGHT_POINT,
+                LightType.Point,
                 new Vector3(2, 1, 2),
                 Vector3.Zero,
                 Color.RED,
@@ -96,7 +96,7 @@ namespace Examples.Shaders
             );
             lights[2] = CreateLight(
                 2,
-                LightType.LIGHT_POINT,
+                LightType.Point,
                 new Vector3(-2, 1, 2),
                 Vector3.Zero,
                 Color.GREEN,
@@ -104,7 +104,7 @@ namespace Examples.Shaders
             );
             lights[3] = CreateLight(
                 3,
-                LightType.LIGHT_POINT,
+                LightType.Point,
                 new Vector3(2, 1, -2),
                 Vector3.Zero,
                 Color.BLUE,
@@ -115,7 +115,7 @@ namespace Examples.Shaders
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())            // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -213,11 +213,11 @@ namespace Examples.Shaders
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadModel(model);     // Unload the model
-            UnloadModel(cube);      // Unload the model
-            UnloadShader(shader);   // Unload shader
+            UnloadModel(model);
+            UnloadModel(cube);
+            UnloadShader(shader);
 
-            CloseWindow();              // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

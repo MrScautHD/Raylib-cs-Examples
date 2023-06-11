@@ -12,8 +12,6 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.MouseButton;
-using static Raylib_cs.Color;
 
 namespace Examples.Core
 {
@@ -47,13 +45,13 @@ namespace Examples.Core
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose()) // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
                 UpdateCamera(ref camera, CameraMode.CAMERA_FREE);
 
-                if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+                if (IsMouseButtonPressed(MouseButton.MOUSE_LEFT_BUTTON))
                 {
                     if (!collision.hit)
                     {
@@ -78,34 +76,34 @@ namespace Examples.Core
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 BeginMode3D(camera);
 
                 if (collision.hit)
                 {
-                    DrawCube(cubePosition, cubeSize.X, cubeSize.Y, cubeSize.Z, RED);
-                    DrawCubeWires(cubePosition, cubeSize.X, cubeSize.Y, cubeSize.Z, MAROON);
+                    DrawCube(cubePosition, cubeSize.X, cubeSize.Y, cubeSize.Z, Color.RED);
+                    DrawCubeWires(cubePosition, cubeSize.X, cubeSize.Y, cubeSize.Z, Color.MAROON);
 
-                    DrawCubeWires(cubePosition, cubeSize.X + 0.2f, cubeSize.Y + 0.2f, cubeSize.Z + 0.2f, GREEN);
+                    DrawCubeWires(cubePosition, cubeSize.X + 0.2f, cubeSize.Y + 0.2f, cubeSize.Z + 0.2f, Color.GREEN);
                 }
                 else
                 {
-                    DrawCube(cubePosition, cubeSize.X, cubeSize.Y, cubeSize.Z, GRAY);
-                    DrawCubeWires(cubePosition, cubeSize.X, cubeSize.Y, cubeSize.Z, DARKGRAY);
+                    DrawCube(cubePosition, cubeSize.X, cubeSize.Y, cubeSize.Z, Color.GRAY);
+                    DrawCubeWires(cubePosition, cubeSize.X, cubeSize.Y, cubeSize.Z, Color.DARKGRAY);
                 }
 
-                DrawRay(ray, MAROON);
+                DrawRay(ray, Color.MAROON);
                 DrawGrid(10, 1.0f);
 
                 EndMode3D();
 
-                DrawText("Try selecting the box with mouse!", 240, 10, 20, DARKGRAY);
+                DrawText("Try selecting the box with mouse!", 240, 10, 20, Color.DARKGRAY);
 
                 if (collision.hit)
                 {
                     int posX = (screenWidth - MeasureText("BOX SELECTED", 30)) / 2;
-                    DrawText("BOX SELECTED", posX, (int)(screenHeight * 0.1f), 30, GREEN);
+                    DrawText("BOX SELECTED", posX, (int)(screenHeight * 0.1f), 30, Color.GREEN);
                 }
 
                 DrawFPS(10, 10);
@@ -116,7 +114,7 @@ namespace Examples.Core
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

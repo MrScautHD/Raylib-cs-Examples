@@ -10,9 +10,8 @@
 ********************************************************************************************/
 
 using System.Numerics;
+using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.KeyboardKey;
 
 namespace Examples.Shapes
 {
@@ -38,11 +37,11 @@ namespace Examples.Shapes
             //----------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //-----------------------------------------------------
-                if (IsKeyPressed(KEY_SPACE))
+                if (IsKeyPressed(KeyboardKey.KEY_SPACE))
                 {
                     pause = !pause;
                 }
@@ -71,15 +70,15 @@ namespace Examples.Shapes
                 // Draw
                 //-----------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
-                DrawCircleV(ballPosition, ballRadius, MAROON);
-                DrawText("PRESS SPACE to PAUSE BALL MOVEMENT", 10, GetScreenHeight() - 25, 20, LIGHTGRAY);
+                DrawCircleV(ballPosition, ballRadius, Color.MAROON);
+                DrawText("PRESS SPACE to PAUSE BALL MOVEMENT", 10, GetScreenHeight() - 25, 20, Color.LIGHTGRAY);
 
                 // On pause, we draw a blinking message
                 if (pause && ((framesCounter / 30) % 2) == 0)
                 {
-                    DrawText("PAUSED", 350, 200, 30, GRAY);
+                    DrawText("PAUSED", 350, 200, 30, Color.GRAY);
                 }
                 DrawFPS(10, 10);
 
@@ -89,7 +88,7 @@ namespace Examples.Shapes
 
             // De-Initialization
             //---------------------------------------------------------
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //----------------------------------------------------------
 
             return 0;

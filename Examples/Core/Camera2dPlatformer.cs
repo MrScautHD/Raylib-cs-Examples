@@ -22,8 +22,8 @@ namespace Examples.Core
     public class Camera2dPlatformer
     {
         const int G = 400;
-        const float PLAYER_JUMP_SPD = 350.0f;
-        const float PLAYER_HOR_SPD = 200.0f;
+        const float PlayerJumpSpeed = 350.0f;
+        const float PlayerHorSpeed = 200.0f;
 
         struct Player
         {
@@ -46,7 +46,14 @@ namespace Examples.Core
             }
         }
 
-        delegate void CameraUpdaterCallback(ref Camera2D camera, ref Player player, EnvItem[] envItems, float delta, int width, int height);
+        delegate void CameraUpdaterCallback(
+            ref Camera2D camera,
+            ref Player player,
+            EnvItem[] envItems,
+            float delta,
+            int width,
+            int height
+        );
 
         public static int Main()
         {
@@ -167,7 +174,7 @@ namespace Examples.Core
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;
@@ -177,17 +184,17 @@ namespace Examples.Core
         {
             if (IsKeyDown(KeyboardKey.KEY_LEFT))
             {
-                player.position.X -= PLAYER_HOR_SPD * delta;
+                player.position.X -= PlayerHorSpeed * delta;
             }
 
             if (IsKeyDown(KeyboardKey.KEY_RIGHT))
             {
-                player.position.X += PLAYER_HOR_SPD * delta;
+                player.position.X += PlayerHorSpeed * delta;
             }
 
             if (IsKeyDown(KeyboardKey.KEY_SPACE) && player.canJump)
             {
-                player.speed = -PLAYER_JUMP_SPD;
+                player.speed = -PlayerJumpSpeed;
                 player.canJump = false;
             }
 

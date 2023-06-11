@@ -11,15 +11,12 @@
 
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.KeyboardKey;
-using static Raylib_cs.MouseCursor;
 
 namespace Examples.Text
 {
     public class InputBox
     {
-        public const int MAX_INPUT_CHARS = 9;
+        public const int MaxInputChars = 9;
 
         public static int Main()
         {
@@ -31,7 +28,7 @@ namespace Examples.Text
             InitWindow(screenWidth, screenHeight, "raylib [text] example - input box");
 
             // NOTE: One extra space required for line ending char '\0'
-            char[] name = new char[MAX_INPUT_CHARS];
+            char[] name = new char[MaxInputChars];
             int letterCount = 0;
 
             Rectangle textBox = new Rectangle(screenWidth / 2 - 100, 180, 225, 50);
@@ -43,7 +40,7 @@ namespace Examples.Text
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -59,7 +56,7 @@ namespace Examples.Text
                 if (mouseOnText)
                 {
                     // Set the window's cursor to the I-Beam
-                    SetMouseCursor(MOUSE_CURSOR_IBEAM);
+                    SetMouseCursor(MouseCursor.MOUSE_CURSOR_IBEAM);
 
                     // Check if more characters have been pressed on the same frame
                     int key = GetCharPressed();
@@ -67,7 +64,7 @@ namespace Examples.Text
                     while (key > 0)
                     {
                         // NOTE: Only allow keys in range [32..125]
-                        if ((key >= 32) && (key <= 125) && (letterCount < MAX_INPUT_CHARS))
+                        if ((key >= 32) && (key <= 125) && (letterCount < MaxInputChars))
                         {
                             name[letterCount] = (char)key;
                             letterCount++;
@@ -77,7 +74,7 @@ namespace Examples.Text
                         key = GetCharPressed();
                     }
 
-                    if (IsKeyPressed(KEY_BACKSPACE))
+                    if (IsKeyPressed(KeyboardKey.KEY_BACKSPACE))
                     {
                         letterCount -= 1;
                         if (letterCount < 0)
@@ -89,7 +86,7 @@ namespace Examples.Text
                 }
                 else
                 {
-                    SetMouseCursor(MOUSE_CURSOR_DEFAULT);
+                    SetMouseCursor(MouseCursor.MOUSE_CURSOR_DEFAULT);
                 }
 
                 if (mouseOnText)
@@ -105,36 +102,54 @@ namespace Examples.Text
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
-                DrawText("PLACE MOUSE OVER INPUT BOX!", 240, 140, 20, GRAY);
-                DrawRectangleRec(textBox, LIGHTGRAY);
+                DrawText("PLACE MOUSE OVER INPUT BOX!", 240, 140, 20, Color.GRAY);
+                DrawRectangleRec(textBox, Color.LIGHTGRAY);
 
                 if (mouseOnText)
                 {
-                    DrawRectangleLines((int)textBox.x, (int)textBox.y, (int)textBox.width, (int)textBox.height, RED);
+                    DrawRectangleLines(
+                        (int)textBox.x,
+                        (int)textBox.y,
+                        (int)textBox.width,
+                        (int)textBox.height,
+                        Color.RED
+                    );
                 }
                 else
                 {
-                    DrawRectangleLines((int)textBox.x, (int)textBox.y, (int)textBox.width, (int)textBox.height, DARKGRAY);
+                    DrawRectangleLines(
+                        (int)textBox.x,
+                        (int)textBox.y,
+                        (int)textBox.width,
+                        (int)textBox.height,
+                        Color.DARKGRAY
+                    );
                 }
 
-                DrawText(new string(name), (int)textBox.x + 5, (int)textBox.y + 8, 40, MAROON);
-                DrawText($"INPUT CHARS: {letterCount}/{MAX_INPUT_CHARS}", 315, 250, 20, DARKGRAY);
+                DrawText(new string(name), (int)textBox.x + 5, (int)textBox.y + 8, 40, Color.MAROON);
+                DrawText($"INPUT CHARS: {letterCount}/{MaxInputChars}", 315, 250, 20, Color.DARKGRAY);
 
                 if (mouseOnText)
                 {
-                    if (letterCount < MAX_INPUT_CHARS)
+                    if (letterCount < MaxInputChars)
                     {
                         // Draw blinking underscore char
                         if ((framesCounter / 20 % 2) == 0)
                         {
-                            DrawText("_", (int)textBox.x + 8 + MeasureText(new string(name), 40), (int)textBox.y + 12, 40, MAROON);
+                            DrawText(
+                                "_",
+                                (int)textBox.x + 8 + MeasureText(new string(name), 40),
+                                (int)textBox.y + 12,
+                                40,
+                                Color.MAROON
+                            );
                         }
                     }
                     else
                     {
-                        DrawText("Press BACKSPACE to delete chars...", 230, 300, 20, GRAY);
+                        DrawText("Press BACKSPACE to delete chars...", 230, 300, 20, Color.GRAY);
                     }
                 }
 
@@ -144,7 +159,7 @@ namespace Examples.Text
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

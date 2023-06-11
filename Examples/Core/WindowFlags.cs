@@ -12,9 +12,7 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
 using static Raylib_cs.ConfigFlags;
-using static Raylib_cs.KeyboardKey;
 
 namespace Examples.Core
 {
@@ -56,16 +54,17 @@ namespace Examples.Core
             //----------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //-----------------------------------------------------
-                if (IsKeyPressed(KEY_F))
+                if (IsKeyPressed(KeyboardKey.KEY_F))
                 {
-                    ToggleFullscreen();  // modifies window size when scaling!
+                    // modifies window size when scaling!
+                    ToggleFullscreen();
                 }
 
-                if (IsKeyPressed(KEY_R))
+                if (IsKeyPressed(KeyboardKey.KEY_R))
                 {
                     if (IsWindowState(FLAG_WINDOW_RESIZABLE))
                     {
@@ -77,7 +76,7 @@ namespace Examples.Core
                     }
                 }
 
-                if (IsKeyPressed(KEY_D))
+                if (IsKeyPressed(KeyboardKey.KEY_D))
                 {
                     if (IsWindowState(FLAG_WINDOW_UNDECORATED))
                     {
@@ -89,7 +88,7 @@ namespace Examples.Core
                     }
                 }
 
-                if (IsKeyPressed(KEY_H))
+                if (IsKeyPressed(KeyboardKey.KEY_H))
                 {
                     if (!IsWindowState(FLAG_WINDOW_HIDDEN))
                     {
@@ -104,11 +103,12 @@ namespace Examples.Core
                     framesCounter++;
                     if (framesCounter >= 240)
                     {
-                        ClearWindowState(FLAG_WINDOW_HIDDEN); // Show window after 3 seconds
+                        // Show window after 3 seconds
+                        ClearWindowState(FLAG_WINDOW_HIDDEN);
                     }
                 }
 
-                if (IsKeyPressed(KEY_N))
+                if (IsKeyPressed(KeyboardKey.KEY_N))
                 {
                     if (!IsWindowState(FLAG_WINDOW_MINIMIZED))
                     {
@@ -123,11 +123,12 @@ namespace Examples.Core
                     framesCounter++;
                     if (framesCounter >= 240)
                     {
-                        RestoreWindow(); // Restore window after 3 seconds
+                        // Restore window after 3 seconds
+                        RestoreWindow();
                     }
                 }
 
-                if (IsKeyPressed(KEY_M))
+                if (IsKeyPressed(KeyboardKey.KEY_M))
                 {
                     // NOTE: Requires FLAG_WINDOW_RESIZABLE enabled!
                     if (IsWindowState(FLAG_WINDOW_MAXIMIZED))
@@ -140,7 +141,7 @@ namespace Examples.Core
                     }
                 }
 
-                if (IsKeyPressed(KEY_U))
+                if (IsKeyPressed(KeyboardKey.KEY_U))
                 {
                     if (IsWindowState(FLAG_WINDOW_UNFOCUSED))
                     {
@@ -152,7 +153,7 @@ namespace Examples.Core
                     }
                 }
 
-                if (IsKeyPressed(KEY_T))
+                if (IsKeyPressed(KeyboardKey.KEY_T))
                 {
                     if (IsWindowState(FLAG_WINDOW_TOPMOST))
                     {
@@ -164,7 +165,7 @@ namespace Examples.Core
                     }
                 }
 
-                if (IsKeyPressed(KEY_A))
+                if (IsKeyPressed(KeyboardKey.KEY_A))
                 {
                     if (IsWindowState(FLAG_WINDOW_ALWAYS_RUN))
                     {
@@ -176,7 +177,7 @@ namespace Examples.Core
                     }
                 }
 
-                if (IsKeyPressed(KEY_V))
+                if (IsKeyPressed(KeyboardKey.KEY_V))
                 {
                     if (IsWindowState(FLAG_VSYNC_HINT))
                     {
@@ -207,27 +208,27 @@ namespace Examples.Core
 
                 if (IsWindowState(FLAG_WINDOW_TRANSPARENT))
                 {
-                    ClearBackground(BLANK);
+                    ClearBackground(Color.BLANK);
                 }
                 else
                 {
-                    ClearBackground(RAYWHITE);
+                    ClearBackground(Color.RAYWHITE);
                 }
 
-                DrawCircleV(ballPosition, ballRadius, MAROON);
-                DrawRectangleLinesEx(new Rectangle(0, 0, GetScreenWidth(), GetScreenHeight()), 4, RAYWHITE);
+                DrawCircleV(ballPosition, ballRadius, Color.MAROON);
+                DrawRectangleLinesEx(new Rectangle(0, 0, GetScreenWidth(), GetScreenHeight()), 4, Color.RAYWHITE);
 
-                DrawCircleV(GetMousePosition(), 10, DARKBLUE);
+                DrawCircleV(GetMousePosition(), 10, Color.DARKBLUE);
 
                 DrawFPS(10, 10);
 
-                DrawText($"Screen Size: [{GetScreenWidth()}, {GetScreenHeight()}]", 10, 40, 10, GREEN);
+                DrawText($"Screen Size: [{GetScreenWidth()}, {GetScreenHeight()}]", 10, 40, 10, Color.GREEN);
 
                 // Draw window state info
                 Color on = Color.LIME;
                 Color off = Color.MAROON;
 
-                DrawText("Following flags can be set after window creation:", 10, 60, 10, GRAY);
+                DrawText("Following flags can be set after window creation:", 10, 60, 10, Color.GRAY);
 
                 DrawWindowState(FLAG_FULLSCREEN_MODE, "[F] FLAG_FULLSCREEN_MODE: ", 10, 80, 10);
                 DrawWindowState(FLAG_WINDOW_RESIZABLE, "[R] FLAG_WINDOW_RESIZABLE: ", 10, 100, 10);
@@ -240,7 +241,7 @@ namespace Examples.Core
                 DrawWindowState(FLAG_WINDOW_ALWAYS_RUN, "[A] FLAG_WINDOW_ALWAYS_RUN: ", 10, 240, 10);
                 DrawWindowState(FLAG_VSYNC_HINT, "[V] FLAG_VSYNC_HINT: ", 10, 260, 10);
 
-                DrawText("Following flags can only be set before window creation:", 10, 300, 10, GRAY);
+                DrawText("Following flags can only be set before window creation:", 10, 300, 10, Color.GRAY);
 
                 DrawWindowState(FLAG_WINDOW_HIGHDPI, "[F] FLAG_WINDOW_HIGHDPI: ", 10, 320, 10);
                 DrawWindowState(FLAG_WINDOW_TRANSPARENT, "[F] FLAG_WINDOW_TRANSPARENT: ", 10, 340, 10);
@@ -252,8 +253,7 @@ namespace Examples.Core
 
             // De-Initialization
             //---------------------------------------------------------
-            CloseWindow();        // Close window and OpenGL context
-            //----------------------------------------------------------
+            CloseWindow();            //----------------------------------------------------------
 
             return 0;
         }

@@ -12,7 +12,6 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
 
 namespace Examples.Core
 {
@@ -42,32 +41,47 @@ namespace Examples.Core
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())        // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
                 UpdateCamera(ref camera, CameraMode.CAMERA_FREE);
 
                 // Calculate cube screen space position (with a little offset to be in top)
-                cubeScreenPosition = GetWorldToScreen(new Vector3(cubePosition.X, cubePosition.Y + 2.5f, cubePosition.Z), camera);
+                cubeScreenPosition = GetWorldToScreen(
+                    new Vector3(cubePosition.X, cubePosition.Y + 2.5f, cubePosition.Z),
+                    camera
+                );
                 //----------------------------------------------------------------------------------
 
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 BeginMode3D(camera);
 
-                DrawCube(cubePosition, 2.0f, 2.0f, 2.0f, RED);
-                DrawCubeWires(cubePosition, 2.0f, 2.0f, 2.0f, MAROON);
+                DrawCube(cubePosition, 2.0f, 2.0f, 2.0f, Color.RED);
+                DrawCubeWires(cubePosition, 2.0f, 2.0f, 2.0f, Color.MAROON);
 
                 DrawGrid(10, 1.0f);
 
                 EndMode3D();
 
-                DrawText("Enemy: 100 / 100", (int)cubeScreenPosition.X - MeasureText("Enemy: 100 / 100", 20) / 2, (int)cubeScreenPosition.Y, 20, BLACK);
-                DrawText("Text is always on top of the cube", (screenWidth - MeasureText("Text is always on top of the cube", 20)) / 2, 25, 20, GRAY);
+                DrawText(
+                    "Enemy: 100 / 100",
+                    (int)cubeScreenPosition.X - MeasureText("Enemy: 100 / 100", 20) / 2,
+                    (int)cubeScreenPosition.Y,
+                    20,
+                    Color.BLACK
+                );
+                DrawText(
+                    "Text is always on top of the cube",
+                    (screenWidth - MeasureText("Text is always on top of the cube", 20)) / 2,
+                    25,
+                    20,
+                    Color.GRAY
+                );
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -75,7 +89,7 @@ namespace Examples.Core
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

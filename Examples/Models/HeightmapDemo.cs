@@ -12,8 +12,6 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.MaterialMapIndex;
 
 namespace Examples.Models
 {
@@ -29,26 +27,31 @@ namespace Examples.Models
             InitWindow(screenWidth, screenHeight, "raylib [models] example - heightmap loading and drawing");
 
             // Define our custom camera to look into our 3d world
-            Camera3D camera = new Camera3D(new Vector3(18.0f, 16.0f, 18.0f), new Vector3(0.0f, 0.0f, 0.0f), new Vector3(0.0f, 1.0f, 0.0f), 45.0f, 0);
+            Camera3D camera = new Camera3D();
+            camera.position = new Vector3(18.0f, 16.0f, 18.0f);
+            camera.target = new Vector3(0.0f, 0.0f, 0.0f);
+            camera.up = new Vector3(0.0f, 1.0f, 0.0f);
+            camera.fovy = 45.0f;
+            camera.projection = CameraProjection.CAMERA_PERSPECTIVE;
 
-            Image image = LoadImage("resources/heightmap.png");             // Load heightmap image (RAM)
-            Texture2D texture = LoadTextureFromImage(image);                // Convert image to texture (VRAM)
+            Image image = LoadImage("resources/heightmap.png");
+            Texture2D texture = LoadTextureFromImage(image);
 
-            Mesh mesh = GenMeshHeightmap(image, new Vector3(16, 8, 16));    // Generate heightmap mesh (RAM and VRAM)
-            Model model = LoadModelFromMesh(mesh);                          // Load model from generated mesh
+            Mesh mesh = GenMeshHeightmap(image, new Vector3(16, 8, 16));
+            Model model = LoadModelFromMesh(mesh);
 
             // Set map diffuse texture
-            Raylib.SetMaterialTexture(ref model, 0, MATERIAL_MAP_ALBEDO, ref texture);
+            Raylib.SetMaterialTexture(ref model, 0, MaterialMapIndex.MATERIAL_MAP_ALBEDO, ref texture);
 
-            Vector3 mapPosition = new Vector3(-8.0f, 0.0f, -8.0f);                   // Define model position
+            Vector3 mapPosition = new Vector3(-8.0f, 0.0f, -8.0f);
 
-            UnloadImage(image);                     // Unload heightmap image from RAM, already uploaded to VRAM
+            UnloadImage(image);
 
             SetTargetFPS(60);                       // Set our game to run at 60 frames-per-second
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())            // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -58,18 +61,18 @@ namespace Examples.Models
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 BeginMode3D(camera);
 
-                DrawModel(model, mapPosition, 1.0f, RED);
+                DrawModel(model, mapPosition, 1.0f, Color.RED);
 
                 DrawGrid(20, 1.0f);
 
                 EndMode3D();
 
-                DrawTexture(texture, screenWidth - texture.width - 20, 20, WHITE);
-                DrawRectangleLines(screenWidth - texture.width - 20, 20, texture.width, texture.height, GREEN);
+                DrawTexture(texture, screenWidth - texture.width - 20, 20, Color.WHITE);
+                DrawRectangleLines(screenWidth - texture.width - 20, 20, texture.width, texture.height, Color.GREEN);
 
                 DrawFPS(10, 10);
 
@@ -79,10 +82,10 @@ namespace Examples.Models
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadTexture(texture);     // Unload texture
-            UnloadModel(model);         // Unload model
+            UnloadTexture(texture);
+            UnloadModel(model);
 
-            CloseWindow();              // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

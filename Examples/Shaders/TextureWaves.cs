@@ -20,14 +20,12 @@
 
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.ShaderUniformDataType;
 
 namespace Examples.Shaders
 {
     public class TextureWaves
     {
-        const int GLSL_VERSION = 330;
+        const int GlslVersion = 330;
 
         public static int Main()
         {
@@ -42,7 +40,7 @@ namespace Examples.Shaders
             Texture2D texture = LoadTexture("resources/space.png");
 
             // Load shader and setup location points and values
-            Shader shader = LoadShader(null, string.Format("resources/shaders/glsl{0}/wave.fs", GLSL_VERSION));
+            Shader shader = LoadShader(null, $"resources/shaders/glsl{GlslVersion}/wave.fs");
 
             int secondsLoc = GetShaderLocation(shader, "secondes");
             int freqXLoc = GetShaderLocation(shader, "freqX");
@@ -61,38 +59,43 @@ namespace Examples.Shaders
             float speedY = 8.0f;
 
             float[] screenSize = { (float)GetScreenWidth(), (float)GetScreenHeight() };
-            Raylib.SetShaderValue(shader, GetShaderLocation(shader, "size"), screenSize, SHADER_UNIFORM_VEC2);
-            Raylib.SetShaderValue(shader, freqXLoc, freqX, SHADER_UNIFORM_FLOAT);
-            Raylib.SetShaderValue(shader, freqYLoc, freqY, SHADER_UNIFORM_FLOAT);
-            Raylib.SetShaderValue(shader, ampXLoc, ampX, SHADER_UNIFORM_FLOAT);
-            Raylib.SetShaderValue(shader, ampYLoc, ampY, SHADER_UNIFORM_FLOAT);
-            Raylib.SetShaderValue(shader, speedXLoc, speedX, SHADER_UNIFORM_FLOAT);
-            Raylib.SetShaderValue(shader, speedYLoc, speedY, SHADER_UNIFORM_FLOAT);
+            Raylib.SetShaderValue(
+                shader,
+                GetShaderLocation(shader, "size"),
+                screenSize,
+                ShaderUniformDataType.SHADER_UNIFORM_VEC2
+            );
+            Raylib.SetShaderValue(shader, freqXLoc, freqX, ShaderUniformDataType.SHADER_UNIFORM_FLOAT);
+            Raylib.SetShaderValue(shader, freqYLoc, freqY, ShaderUniformDataType.SHADER_UNIFORM_FLOAT);
+            Raylib.SetShaderValue(shader, ampXLoc, ampX, ShaderUniformDataType.SHADER_UNIFORM_FLOAT);
+            Raylib.SetShaderValue(shader, ampYLoc, ampY, ShaderUniformDataType.SHADER_UNIFORM_FLOAT);
+            Raylib.SetShaderValue(shader, speedXLoc, speedX, ShaderUniformDataType.SHADER_UNIFORM_FLOAT);
+            Raylib.SetShaderValue(shader, speedYLoc, speedY, ShaderUniformDataType.SHADER_UNIFORM_FLOAT);
 
             float seconds = 0.0f;
 
             SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
-            //-------------------------------------------------------------------------------------------------------------
+            //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
                 seconds += GetFrameTime();
 
-                Raylib.SetShaderValue(shader, secondsLoc, seconds, SHADER_UNIFORM_FLOAT);
+                Raylib.SetShaderValue(shader, secondsLoc, seconds, ShaderUniformDataType.SHADER_UNIFORM_FLOAT);
                 //----------------------------------------------------------------------------------
 
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 BeginShaderMode(shader);
 
-                DrawTexture(texture, 0, 0, WHITE);
-                DrawTexture(texture, texture.width, 0, WHITE);
+                DrawTexture(texture, 0, 0, Color.WHITE);
+                DrawTexture(texture, texture.width, 0, Color.WHITE);
 
                 EndShaderMode();
 
@@ -102,10 +105,10 @@ namespace Examples.Shaders
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadShader(shader);         // Unload shader
-            UnloadTexture(texture);       // Unload texture
+            UnloadShader(shader);
+            UnloadTexture(texture);
 
-            CloseWindow();                // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

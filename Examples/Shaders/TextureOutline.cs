@@ -15,8 +15,6 @@
 
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.ShaderUniformDataType;
 
 namespace Examples.Shaders
 {
@@ -38,7 +36,7 @@ namespace Examples.Shaders
 
             float outlineSize = 2.0f;
 
-            // Normalized RED color
+            // Normalized red color
             float[] outlineColor = new[] { 1.0f, 0.0f, 0.0f, 1.0f };
             float[] textureSize = { (float)texture.width, (float)texture.height };
 
@@ -48,15 +46,30 @@ namespace Examples.Shaders
             int textureSizeLoc = GetShaderLocation(shdrOutline, "textureSize");
 
             // Set shader values (they can be changed later)
-            Raylib.SetShaderValue(shdrOutline, outlineSizeLoc, outlineSize, SHADER_UNIFORM_FLOAT);
-            Raylib.SetShaderValue(shdrOutline, outlineColorLoc, outlineColor, SHADER_UNIFORM_VEC4);
-            Raylib.SetShaderValue(shdrOutline, textureSizeLoc, textureSize, SHADER_UNIFORM_VEC2);
+            Raylib.SetShaderValue(
+                shdrOutline,
+                outlineSizeLoc,
+                outlineSize,
+                ShaderUniformDataType.SHADER_UNIFORM_FLOAT
+            );
+            Raylib.SetShaderValue(
+                shdrOutline,
+                outlineColorLoc,
+                outlineColor,
+                ShaderUniformDataType.SHADER_UNIFORM_VEC4
+            );
+            Raylib.SetShaderValue(
+                shdrOutline,
+                textureSizeLoc,
+                textureSize,
+                ShaderUniformDataType.SHADER_UNIFORM_VEC2
+            );
 
             SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -66,22 +79,27 @@ namespace Examples.Shaders
                     outlineSize = 1.0f;
                 }
 
-                Raylib.SetShaderValue(shdrOutline, outlineSizeLoc, outlineSize, SHADER_UNIFORM_FLOAT);
+                Raylib.SetShaderValue(
+                    shdrOutline,
+                    outlineSizeLoc,
+                    outlineSize,
+                    ShaderUniformDataType.SHADER_UNIFORM_FLOAT
+                );
                 //----------------------------------------------------------------------------------
 
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
 
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 BeginShaderMode(shdrOutline);
-                DrawTexture(texture, GetScreenWidth() / 2 - texture.width / 2, -30, WHITE);
+                DrawTexture(texture, GetScreenWidth() / 2 - texture.width / 2, -30, Color.WHITE);
                 EndShaderMode();
 
-                DrawText("Shader-based\ntexture\noutline", 10, 10, 20, GRAY);
+                DrawText("Shader-based\ntexture\noutline", 10, 10, 20, Color.GRAY);
 
-                DrawText($"Outline size: {outlineSize} px", 10, 120, 20, MAROON);
+                DrawText($"Outline size: {outlineSize} px", 10, 120, 20, Color.MAROON);
 
                 DrawFPS(710, 10);
 
@@ -94,7 +112,7 @@ namespace Examples.Shaders
             UnloadTexture(texture);
             UnloadShader(shdrOutline);
 
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

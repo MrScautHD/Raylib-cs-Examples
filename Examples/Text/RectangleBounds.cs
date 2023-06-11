@@ -45,7 +45,7 @@ namespace Examples.Text
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())        // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -185,7 +185,7 @@ namespace Examples.Text
             float textOffsetX = 0.0f;
 
             // Character rectangle scaling factor
-            float scaleFactor = fontSize/(float)font.baseSize;
+            float scaleFactor = fontSize / (float)font.baseSize;
 
             // Word/character wrapping mechanism variables
             bool shouldMeasure = wordWrap;
@@ -210,15 +210,19 @@ namespace Examples.Text
 
                 // NOTE: Normally we exit the decoding sequence as soon as a bad byte is found (and return 0x3f)
                 // but we need to draw all of the bad bytes using the '?' symbol moving one byte
-                if (codepoint == 0x3f) codepointByteCount = 1;
+                if (codepoint == 0x3f)
+                {
+                    codepointByteCount = 1;
+                }
+
                 i += (codepointByteCount - 1);
 
                 float glyphWidth = 0;
                 if (codepoint != '\n')
                 {
                     glyphWidth = (font.glyphs[index].advanceX == 0) ?
-                        font.recs[index].width*scaleFactor :
-                        font.glyphs[index].advanceX*scaleFactor;
+                        font.recs[index].width * scaleFactor :
+                        font.glyphs[index].advanceX * scaleFactor;
 
                     if (i + 1 < length)
                     {
@@ -234,8 +238,8 @@ namespace Examples.Text
                 // the container.
                 if (shouldMeasure)
                 {
-                    // TODO: There are multiple types of spaces in UNICODE, maybe it's a good idea to add support for more
-                    // Ref: http://jkorpela.fi/chars/spaces.html
+                    // TODO: There are multiple types of spaces in UNICODE, maybe it's a good idea to add support for
+                    // more. Ref: http://jkorpela.fi/chars/spaces.html
                     if ((codepoint == ' ') || (codepoint == '\t') || (codepoint == '\n'))
                     {
                         endLine = i;
@@ -243,7 +247,7 @@ namespace Examples.Text
 
                     if ((textOffsetX + glyphWidth) > rec.width)
                     {
-                        endLine = (endLine < 1)? i : endLine;
+                        endLine = (endLine < 1) ? i : endLine;
                         if (i == endLine)
                         {
                             endLine -= codepointByteCount;
@@ -283,7 +287,7 @@ namespace Examples.Text
                     {
                         if (!wordWrap)
                         {
-                            textOffsetY += (font.baseSize + font.baseSize/2)*scaleFactor;
+                            textOffsetY += (font.baseSize + font.baseSize / 2) * scaleFactor;
                             textOffsetX = 0;
                         }
                     }
@@ -291,12 +295,12 @@ namespace Examples.Text
                     {
                         if (!wordWrap && ((textOffsetX + glyphWidth) > rec.width))
                         {
-                            textOffsetY += (font.baseSize + font.baseSize/2)*scaleFactor;
+                            textOffsetY += (font.baseSize + font.baseSize / 2) * scaleFactor;
                             textOffsetX = 0;
                         }
 
                         // When text overflows rectangle height limit, just stop drawing
-                        if ((textOffsetY + font.baseSize*scaleFactor) > rec.height)
+                        if ((textOffsetY + font.baseSize * scaleFactor) > rec.height)
                         {
                             break;
                         }
@@ -332,7 +336,7 @@ namespace Examples.Text
 
                     if (wordWrap && (i == endLine))
                     {
-                        textOffsetY += (font.baseSize + font.baseSize/2)*scaleFactor;
+                        textOffsetY += (font.baseSize + font.baseSize / 2) * scaleFactor;
                         textOffsetX = 0;
                         startLine = endLine;
                         endLine = -1;

@@ -12,8 +12,6 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.MouseButton;
 
 namespace Examples.Core
 {
@@ -29,40 +27,40 @@ namespace Examples.Core
             InitWindow(screenWidth, screenHeight, "raylib [core] example - mouse input");
 
             Vector2 ballPosition = new Vector2(-100.0f, -100.0f);
-            Color ballColor = DARKBLUE;
+            Color ballColor = Color.DARKBLUE;
 
             SetTargetFPS(60);
             //---------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
                 ballPosition = GetMousePosition();
 
-                if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+                if (IsMouseButtonPressed(MouseButton.MOUSE_LEFT_BUTTON))
                 {
-                    ballColor = MAROON;
+                    ballColor = Color.MAROON;
                 }
-                else if (IsMouseButtonPressed(MOUSE_MIDDLE_BUTTON))
+                else if (IsMouseButtonPressed(MouseButton.MOUSE_MIDDLE_BUTTON))
                 {
-                    ballColor = LIME;
+                    ballColor = Color.LIME;
                 }
-                else if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
+                else if (IsMouseButtonPressed(MouseButton.MOUSE_RIGHT_BUTTON))
                 {
-                    ballColor = DARKBLUE;
+                    ballColor = Color.DARKBLUE;
                 }
                 //----------------------------------------------------------------------------------
 
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 DrawCircleV(ballPosition, 40, ballColor);
 
-                DrawText("move ball with mouse and click mouse button to change color", 10, 10, 20, DARKGRAY);
+                DrawText("move ball with mouse and click mouse button to change color", 10, 10, 20, Color.DARKGRAY);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -70,7 +68,7 @@ namespace Examples.Core
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

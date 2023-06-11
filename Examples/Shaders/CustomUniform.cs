@@ -19,8 +19,6 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.MaterialMapIndex;
 
 namespace Examples.Shaders
 {
@@ -33,7 +31,8 @@ namespace Examples.Shaders
             const int screenWidth = 800;
             const int screenHeight = 450;
 
-            SetConfigFlags(ConfigFlags.FLAG_MSAA_4X_HINT);      // Enable Multi Sampling Anti Aliasing 4x (if available)
+            // Enable Multi Sampling Anti Aliasing 4x (if available)
+            SetConfigFlags(ConfigFlags.FLAG_MSAA_4X_HINT);
 
             InitWindow(screenWidth, screenHeight, "raylib [shaders] example - custom uniform variable");
 
@@ -45,13 +44,12 @@ namespace Examples.Shaders
             camera.fovy = 45.0f;
             camera.projection = CameraProjection.CAMERA_PERSPECTIVE;
 
-            Model model = LoadModel("resources/models/barracks.obj");                   // Load OBJ model
-            Texture2D texture = LoadTexture("resources/models/barracks_diffuse.png");   // Load model texture (diffuse map)
+            Model model = LoadModel("resources/models/barracks.obj");
+            Texture2D texture = LoadTexture("resources/models/barracks_diffuse.png");
 
             // Set model diffuse texture
-            Raylib.SetMaterialTexture(ref model, 0, MATERIAL_MAP_ALBEDO, ref texture);
+            Raylib.SetMaterialTexture(ref model, 0, MaterialMapIndex.MATERIAL_MAP_ALBEDO, ref texture);
 
-            // Set model position
             Vector3 position = new Vector3(0.0f, 0.0f, 0.0f);
 
             // Load postpro shader
@@ -71,7 +69,7 @@ namespace Examples.Shaders
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())            // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -89,30 +87,43 @@ namespace Examples.Shaders
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
-                BeginTextureMode(target);   // Enable drawing to texture
-                ClearBackground(RAYWHITE);
+                // Enable drawing to texture
+                BeginTextureMode(target);
+                ClearBackground(Color.RAYWHITE);
 
                 BeginMode3D(camera);
 
-                DrawModel(model, position, 0.5f, WHITE);   // Draw 3d model with texture
-                DrawGrid(10, 1.0f);     // Draw a grid
+                DrawModel(model, position, 0.5f, Color.WHITE);
+                DrawGrid(10, 1.0f);
 
                 EndMode3D();
 
-                DrawText("TEXT DRAWN IN RENDER TEXTURE", 200, 10, 30, RED);
+                DrawText("TEXT DRAWN IN RENDER TEXTURE", 200, 10, 30, Color.RED);
 
-                EndTextureMode();           // End drawing to texture (now we have a texture available for next passes)
+                // End drawing to texture (now we have a texture available for next passes)
+                EndTextureMode();
 
                 BeginShaderMode(shader);
 
                 // NOTE: Render texture must be y-flipped due to default OpenGL coordinates (left-bottom)
-                DrawTextureRec(target.texture, new Rectangle(0, 0, target.texture.width, -target.texture.height), new Vector2(0, 0), WHITE);
+                DrawTextureRec(
+                    target.texture,
+                    new Rectangle(0, 0, target.texture.width, -target.texture.height),
+                    new Vector2(0, 0),
+                    Color.WHITE
+                );
 
                 EndShaderMode();
 
-                DrawText("(c) Barracks 3D model by Alberto Cano", screenWidth - 220, screenHeight - 20, 10, GRAY);
+                DrawText(
+                    "(c) Barracks 3D model by Alberto Cano",
+                    screenWidth - 220,
+                    screenHeight - 20,
+                    10,
+                    Color.GRAY
+                );
 
                 DrawFPS(10, 10);
 
@@ -122,12 +133,12 @@ namespace Examples.Shaders
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadShader(shader);           // Unload shader
-            UnloadTexture(texture);         // Unload texture
-            UnloadModel(model);             // Unload model
-            UnloadRenderTexture(target);    // Unload render texture
+            UnloadShader(shader);
+            UnloadTexture(texture);
+            UnloadModel(model);
+            UnloadRenderTexture(target);
 
-            CloseWindow();                  // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

@@ -12,8 +12,6 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.MouseButton;
 
 namespace Examples.Shapes
 {
@@ -36,15 +34,15 @@ namespace Examples.Shapes
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
-                if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+                if (IsMouseButtonDown(MouseButton.MOUSE_LEFT_BUTTON))
                 {
                     start = GetMousePosition();
                 }
-                else if (IsMouseButtonDown(MOUSE_RIGHT_BUTTON))
+                else if (IsMouseButtonDown(MouseButton.MOUSE_RIGHT_BUTTON))
                 {
                     end = GetMousePosition();
                 }
@@ -53,10 +51,10 @@ namespace Examples.Shapes
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
-                DrawText("USE MOUSE LEFT-RIGHT CLICK to DEFINE LINE START and END POINTS", 15, 20, 20, GRAY);
-                DrawLineBezier(start, end, 2.0f, RED);
+                DrawText("USE MOUSE LEFT-RIGHT CLICK to DEFINE LINE START and END POINTS", 15, 20, 20, Color.GRAY);
+                DrawLineBezier(start, end, 2.0f, Color.RED);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -64,7 +62,7 @@ namespace Examples.Shapes
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

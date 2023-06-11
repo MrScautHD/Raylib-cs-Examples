@@ -15,9 +15,6 @@ using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
 using static Raylib_cs.Raymath;
-using static Raylib_cs.Color;
-using static Raylib_cs.KeyboardKey;
-using static Raylib_cs.MaterialMapIndex;
 
 namespace Examples.Models
 {
@@ -42,7 +39,7 @@ namespace Examples.Models
             // Model loading
             Model model = LoadModel("resources/models/obj/plane.obj");
             Texture2D texture = LoadTexture("resources/models/obj/plane_diffuse.png");
-            model.materials[0].maps[(int)MATERIAL_MAP_DIFFUSE].texture = texture;
+            model.materials[0].maps[(int)MaterialMapIndex.MATERIAL_MAP_DIFFUSE].texture = texture;
 
             float pitch = 0.0f;
             float roll = 0.0f;
@@ -51,17 +48,17 @@ namespace Examples.Models
             SetTargetFPS(60);
             //--------------------------------------------------------------------------------------
 
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
 
                 // Plane roll (x-axis) controls
-                if (IsKeyDown(KEY_DOWN))
+                if (IsKeyDown(KeyboardKey.KEY_DOWN))
                 {
                     pitch += 0.6f;
                 }
-                else if (IsKeyDown(KEY_UP))
+                else if (IsKeyDown(KeyboardKey.KEY_UP))
                 {
                     pitch -= 0.6f;
                 }
@@ -78,11 +75,11 @@ namespace Examples.Models
                 }
 
                 // Plane yaw (y-axis) controls
-                if (IsKeyDown(KEY_S))
+                if (IsKeyDown(KeyboardKey.KEY_S))
                 {
                     yaw += 1.0f;
                 }
-                else if (IsKeyDown(KEY_A))
+                else if (IsKeyDown(KeyboardKey.KEY_A))
                 {
                     yaw -= 1.0f;
                 }
@@ -99,11 +96,11 @@ namespace Examples.Models
                 }
 
                 // Plane pitch (z-axis) controls
-                if (IsKeyDown(KEY_LEFT))
+                if (IsKeyDown(KeyboardKey.KEY_LEFT))
                 {
                     roll += 1.0f;
                 }
-                else if (IsKeyDown(KEY_RIGHT))
+                else if (IsKeyDown(KeyboardKey.KEY_RIGHT))
                 {
                     roll -= 1.0f;
                 }
@@ -126,25 +123,31 @@ namespace Examples.Models
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 // Draw 3D model (recomended to draw 3D always before 2D)
                 BeginMode3D(camera);
 
                 // Draw 3d model with texture
-                DrawModel(model, new Vector3(0.0f, -8.0f, 0.0f), 1.0f, WHITE);
+                DrawModel(model, new Vector3(0.0f, -8.0f, 0.0f), 1.0f, Color.WHITE);
                 DrawGrid(10, 10.0f);
 
                 EndMode3D();
 
                 // Draw controls info
-                DrawRectangle(30, 370, 260, 70, Fade(GREEN, 0.5f));
-                DrawRectangleLines(30, 370, 260, 70, Fade(DARKGREEN, 0.5f));
-                DrawText("Pitch controlled with: KEY_UP / KEY_DOWN", 40, 380, 10, DARKGRAY);
-                DrawText("Roll controlled with: KEY_LEFT / KEY_RIGHT", 40, 400, 10, DARKGRAY);
-                DrawText("Yaw controlled with: KEY_A / KEY_S", 40, 420, 10, DARKGRAY);
+                DrawRectangle(30, 370, 260, 70, Fade(Color.GREEN, 0.5f));
+                DrawRectangleLines(30, 370, 260, 70, Fade(Color.DARKGREEN, 0.5f));
+                DrawText("Pitch controlled with: KEY_UP / KEY_DOWN", 40, 380, 10, Color.DARKGRAY);
+                DrawText("Roll controlled with: KEY_LEFT / KEY_RIGHT", 40, 400, 10, Color.DARKGRAY);
+                DrawText("Yaw controlled with: KEY_A / KEY_S", 40, 420, 10, Color.DARKGRAY);
 
-                DrawText("(c) WWI Plane Model created by GiaHanLam", screenWidth - 240, screenHeight - 20, 10, DARKGRAY);
+                DrawText(
+                    "(c) WWI Plane Model created by GiaHanLam",
+                    screenWidth - 240,
+                    screenHeight - 20,
+                    10,
+                    Color.DARKGRAY
+                );
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -152,9 +155,9 @@ namespace Examples.Models
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadModel(model);   // Unload model data
+            UnloadModel(model);
 
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

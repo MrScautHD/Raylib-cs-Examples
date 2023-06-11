@@ -11,8 +11,6 @@
 
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.KeyboardKey;
 
 namespace Examples.Shapes
 {
@@ -45,7 +43,7 @@ namespace Examples.Shapes
             //----------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //-----------------------------------------------------
@@ -94,7 +92,7 @@ namespace Examples.Shapes
                 }
 
                 // Pause Box A movement
-                if (IsKeyPressed(KEY_SPACE))
+                if (IsKeyPressed(KeyboardKey.KEY_SPACE))
                 {
                     pause = !pause;
                 }
@@ -103,26 +101,26 @@ namespace Examples.Shapes
                 // Draw
                 //-----------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
-                DrawRectangle(0, 0, screenWidth, screenUpperLimit, collision ? RED : BLACK);
+                DrawRectangle(0, 0, screenWidth, screenUpperLimit, collision ? Color.RED : Color.BLACK);
 
-                DrawRectangleRec(boxA, GOLD);
-                DrawRectangleRec(boxB, BLUE);
+                DrawRectangleRec(boxA, Color.GOLD);
+                DrawRectangleRec(boxB, Color.BLUE);
 
                 if (collision)
                 {
                     // Draw collision area
-                    DrawRectangleRec(boxCollision, LIME);
+                    DrawRectangleRec(boxCollision, Color.LIME);
 
                     // Draw collision message
                     int cx = GetScreenWidth() / 2 - MeasureText("COLLISION!", 20) / 2;
                     int cy = screenUpperLimit / 2 - 10;
-                    DrawText("COLLISION!", cx, cy, 20, BLACK);
+                    DrawText("COLLISION!", cx, cy, 20, Color.BLACK);
 
                     // Draw collision area
                     string text = $"Collision Area: {(int)boxCollision.width * (int)boxCollision.height}";
-                    DrawText(text, GetScreenWidth() / 2 - 100, screenUpperLimit + 10, 20, BLACK);
+                    DrawText(text, GetScreenWidth() / 2 - 100, screenUpperLimit + 10, 20, Color.BLACK);
                 }
 
                 DrawFPS(10, 10);
@@ -133,7 +131,7 @@ namespace Examples.Shapes
 
             // De-Initialization
             //---------------------------------------------------------
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //----------------------------------------------------------
 
             return 0;

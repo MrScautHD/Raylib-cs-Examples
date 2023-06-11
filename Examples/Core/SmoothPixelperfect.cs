@@ -16,7 +16,6 @@ using System;
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
 
 namespace Examples.Core
 {
@@ -66,7 +65,7 @@ namespace Examples.Core
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -92,25 +91,25 @@ namespace Examples.Core
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginTextureMode(target);
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 BeginMode2D(worldSpaceCamera);
-                DrawRectanglePro(rec01, origin, rotation, BLACK);
-                DrawRectanglePro(rec02, origin, -rotation, RED);
-                DrawRectanglePro(rec03, origin, rotation + 45.0f, BLUE);
+                DrawRectanglePro(rec01, origin, rotation, Color.BLACK);
+                DrawRectanglePro(rec02, origin, -rotation, Color.RED);
+                DrawRectanglePro(rec03, origin, rotation + 45.0f, Color.BLUE);
                 EndMode2D();
 
                 EndTextureMode();
 
                 BeginDrawing();
-                ClearBackground(RED);
+                ClearBackground(Color.RED);
 
                 BeginMode2D(screenSpaceCamera);
-                DrawTexturePro(target.texture, sourceRec, destRec, origin, 0.0f, WHITE);
+                DrawTexturePro(target.texture, sourceRec, destRec, origin, 0.0f, Color.WHITE);
                 EndMode2D();
 
-                DrawText($"Screen resolution: {screenWidth}x{screenHeight}", 10, 10, 20, DARKBLUE);
-                DrawText($"World resolution: {virtualScreenWidth}x{virtualScreenHeight}", 10, 40, 20, DARKGREEN);
+                DrawText($"Screen resolution: {screenWidth}x{screenHeight}", 10, 10, 20, Color.DARKBLUE);
+                DrawText($"World resolution: {virtualScreenWidth}x{virtualScreenHeight}", 10, 40, 20, Color.DARKGREEN);
                 DrawFPS(GetScreenWidth() - 95, 10);
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -118,9 +117,9 @@ namespace Examples.Core
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadRenderTexture(target);    // Unload render texture
+            UnloadRenderTexture(target);
 
-            CloseWindow();                  // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

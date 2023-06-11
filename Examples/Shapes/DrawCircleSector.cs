@@ -15,7 +15,6 @@ using System;
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
 
 namespace Examples.Shapes
 {
@@ -42,7 +41,7 @@ namespace Examples.Shapes
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -52,13 +51,20 @@ namespace Examples.Shapes
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
-                DrawLine(500, 0, 500, GetScreenHeight(), ColorAlpha(LIGHTGRAY, 0.6f));
-                DrawRectangle(500, 0, GetScreenWidth() - 500, GetScreenHeight(), ColorAlpha(LIGHTGRAY, 0.3f));
+                DrawLine(500, 0, 500, GetScreenHeight(), ColorAlpha(Color.LIGHTGRAY, 0.6f));
+                DrawRectangle(500, 0, GetScreenWidth() - 500, GetScreenHeight(), ColorAlpha(Color.LIGHTGRAY, 0.3f));
 
-                DrawCircleSector(center, outerRadius, startAngle, endAngle, segments, ColorAlpha(MAROON, 0.3f));
-                DrawCircleSectorLines(center, outerRadius, startAngle, endAngle, segments, ColorAlpha(MAROON, 0.6f));
+                DrawCircleSector(center, outerRadius, startAngle, endAngle, segments, ColorAlpha(Color.MAROON, 0.3f));
+                DrawCircleSectorLines(
+                    center,
+                    outerRadius,
+                    startAngle,
+                    endAngle,
+                    segments,
+                    ColorAlpha(Color.MAROON, 0.6f)
+                );
 
                 // Draw GUI controls
                 //------------------------------------------------------------------------------
@@ -70,7 +76,7 @@ namespace Examples.Shapes
                 //------------------------------------------------------------------------------
 
                 minSegments = (int)MathF.Ceiling((endAngle - startAngle) / 90);
-                Color color = (segments >= minSegments) ? MAROON : DARKGRAY;
+                Color color = (segments >= minSegments) ? Color.MAROON : Color.DARKGRAY;
                 DrawText($"MODE: {((segments >= minSegments) ? "MANUAL" : "AUTO")}", 600, 270, 10, color);
 
                 DrawFPS(10, 10);
@@ -81,7 +87,7 @@ namespace Examples.Shapes
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

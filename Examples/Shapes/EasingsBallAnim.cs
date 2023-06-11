@@ -9,9 +9,8 @@
 *
 ********************************************************************************************/
 
+using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.KeyboardKey;
 
 namespace Examples.Shapes
 {
@@ -38,7 +37,7 @@ namespace Examples.Shapes
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -80,7 +79,7 @@ namespace Examples.Shapes
                 // Reset state to play again
                 else if (state == 3)
                 {
-                    if (IsKeyPressed(KEY_ENTER))
+                    if (IsKeyPressed(KeyboardKey.KEY_ENTER))
                     {
                         // Reset required variables to play again
                         ballPositionX = -100;
@@ -90,7 +89,7 @@ namespace Examples.Shapes
                     }
                 }
 
-                if (IsKeyPressed(KEY_R))
+                if (IsKeyPressed(KeyboardKey.KEY_R))
                 {
                     framesCounter = 0;
                 }
@@ -99,18 +98,18 @@ namespace Examples.Shapes
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 if (state >= 2)
                 {
-                    DrawRectangle(0, 0, screenWidth, screenHeight, GREEN);
+                    DrawRectangle(0, 0, screenWidth, screenHeight, Color.GREEN);
                 }
 
-                DrawCircle(ballPositionX, 200, ballRadius, ColorAlpha(RED, 1.0f - ballAlpha));
+                DrawCircle(ballPositionX, 200, ballRadius, ColorAlpha(Color.RED, 1.0f - ballAlpha));
 
                 if (state == 3)
                 {
-                    DrawText("PRESS [ENTER] TO PLAY AGAIN!", 240, 200, 20, BLACK);
+                    DrawText("PRESS [ENTER] TO PLAY AGAIN!", 240, 200, 20, Color.BLACK);
                 }
 
                 EndDrawing();
@@ -119,7 +118,7 @@ namespace Examples.Shapes
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            CloseWindow();        // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

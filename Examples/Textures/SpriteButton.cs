@@ -12,15 +12,13 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
-using static Raylib_cs.MouseButton;
 
 namespace Examples.Textures
 {
     public class SpriteButton
     {
         // Number of frames (rectangles) for the button sprite texture
-        public const int NUM_FRAMES = 3;
+        public const int NumFrames = 3;
 
         public static int Main()
         {
@@ -37,13 +35,13 @@ namespace Examples.Textures
             Texture2D button = LoadTexture("resources/button.png");
 
             // Define frame rectangle for drawing
-            int frameHeight = button.height / NUM_FRAMES;
+            int frameHeight = button.height / NumFrames;
             Rectangle sourceRec = new Rectangle(0, 0, button.width, frameHeight);
 
             // Define button bounds on screen
             Rectangle btnBounds = new Rectangle(
                 screenWidth / 2 - button.width / 2,
-                screenHeight / 2 - button.height / NUM_FRAMES / 2,
+                screenHeight / 2 - button.height / NumFrames / 2,
                 button.width,
                 frameHeight
             );
@@ -60,7 +58,7 @@ namespace Examples.Textures
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -70,7 +68,7 @@ namespace Examples.Textures
                 // Check button state
                 if (CheckCollisionPointRec(mousePoint, btnBounds))
                 {
-                    if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+                    if (IsMouseButtonDown(MouseButton.MOUSE_LEFT_BUTTON))
                     {
                         btnState = 2;
                     }
@@ -79,7 +77,7 @@ namespace Examples.Textures
                         btnState = 1;
                     }
 
-                    if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON))
+                    if (IsMouseButtonReleased(MouseButton.MOUSE_LEFT_BUTTON))
                     {
                         btnAction = true;
                     }
@@ -102,10 +100,10 @@ namespace Examples.Textures
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
                 // Draw button frame
-                DrawTextureRec(button, sourceRec, new Vector2(btnBounds.x, btnBounds.y), WHITE);
+                DrawTextureRec(button, sourceRec, new Vector2(btnBounds.x, btnBounds.y), Color.WHITE);
 
                 EndDrawing();
                 //----------------------------------------------------------------------------------
@@ -113,11 +111,11 @@ namespace Examples.Textures
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadTexture(button);  // Unload button texture
-            UnloadSound(fxButton);  // Unload sound
+            UnloadTexture(button);
+            UnloadSound(fxButton);
 
             CloseAudioDevice();
-            CloseWindow();          // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

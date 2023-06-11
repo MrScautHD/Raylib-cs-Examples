@@ -22,10 +22,6 @@ using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
 using static Raylib_cs.Raymath;
-using static Raylib_cs.Color;
-using static Raylib_cs.MaterialMapIndex;
-using static Raylib_cs.ShaderUniformDataType;
-using static Raylib_cs.ShaderLocationIndex;
 
 namespace Examples.Shaders
 {
@@ -67,11 +63,11 @@ namespace Examples.Shaders
 
             Material* materials = model1.materials;
             MaterialMap* maps = materials[0].maps;
-            model1.materials[0].maps[(int)MATERIAL_MAP_ALBEDO].texture = texDiffuse;
+            model1.materials[0].maps[(int)MaterialMapIndex.MATERIAL_MAP_ALBEDO].texture = texDiffuse;
 
             materials = model2.materials;
             maps = materials[0].maps;
-            maps[(int)MATERIAL_MAP_ALBEDO].texture = texDiffuse;
+            maps[(int)MaterialMapIndex.MATERIAL_MAP_ALBEDO].texture = texDiffuse;
 
             // Using MAP_EMISSION as a spare slot to use for 2nd texture
             // NOTE: Don't use MAP_IRRADIANCE, MAP_PREFILTER or  MAP_CUBEMAP
@@ -80,14 +76,14 @@ namespace Examples.Shaders
 
             materials = model1.materials;
             maps = (MaterialMap*)materials[0].maps;
-            maps[(int)MATERIAL_MAP_EMISSION].texture = texMask;
+            maps[(int)MaterialMapIndex.MATERIAL_MAP_EMISSION].texture = texMask;
 
             materials = model2.materials;
             maps = (MaterialMap*)materials[0].maps;
-            maps[(int)MATERIAL_MAP_EMISSION].texture = texMask;
+            maps[(int)MaterialMapIndex.MATERIAL_MAP_EMISSION].texture = texMask;
 
             int* locs = shader.locs;
-            locs[(int)SHADER_LOC_MAP_EMISSION] = GetShaderLocation(shader, "mask");
+            locs[(int)ShaderLocationIndex.SHADER_LOC_MAP_EMISSION] = GetShaderLocation(shader, "mask");
 
             // Frame is incremented each frame to animate the shader
             int shaderFrame = GetShaderLocation(shader, "framesCounter");
@@ -100,13 +96,15 @@ namespace Examples.Shaders
             materials[0].shader = shader;
 
             int framesCounter = 0;
-            Vector3 rotation = new Vector3(0, 0, 0);       // Model rotation angles
+
+            // Model rotation angles
+            Vector3 rotation = new Vector3(0, 0, 0);
 
             SetTargetFPS(60);               // Set  to run at 60 frames-per-second
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -116,7 +114,7 @@ namespace Examples.Shaders
                 rotation.Z -= 0.0025f;
 
                 // Send frames counter to shader for animation
-                Raylib.SetShaderValue(shader, shaderFrame, framesCounter, SHADER_UNIFORM_INT);
+                Raylib.SetShaderValue(shader, shaderFrame, framesCounter, ShaderUniformDataType.SHADER_UNIFORM_INT);
 
                 // Rotate one of the models
                 model1.transform = MatrixRotateXYZ(rotation);
@@ -127,20 +125,20 @@ namespace Examples.Shaders
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(DARKBLUE);
+                ClearBackground(Color.DARKBLUE);
 
                 BeginMode3D(camera);
 
-                DrawModel(model1, new Vector3(0.5f, 0, 0), 1, WHITE);
-                DrawModelEx(model2, new Vector3(-.5f, 0, 0), new Vector3(1, 1, 0), 50, new Vector3(1, 1, 1), WHITE);
-                DrawModel(model3, new Vector3(0, 0, -1.5f), 1, WHITE);
+                DrawModel(model1, new Vector3(0.5f, 0, 0), 1, Color.WHITE);
+                DrawModelEx(model2, new Vector3(-.5f, 0, 0), new Vector3(1, 1, 0), 50, new Vector3(1, 1, 1), Color.WHITE);
+                DrawModel(model3, new Vector3(0, 0, -1.5f), 1, Color.WHITE);
                 DrawGrid(10, 1.0f);
 
                 EndMode3D();
 
                 string frameText = $"Frame: {framesCounter}";
-                DrawRectangle(16, 698, MeasureText(frameText, 20) + 8, 42, BLUE);
-                DrawText(frameText, 20, 700, 20, WHITE);
+                DrawRectangle(16, 698, MeasureText(frameText, 20) + 8, 42, Color.BLUE);
+                DrawText(frameText, 20, 700, 20, Color.WHITE);
 
                 DrawFPS(10, 10);
 
@@ -154,12 +152,12 @@ namespace Examples.Shaders
             UnloadModel(model2);
             UnloadModel(model3);
 
-            UnloadTexture(texDiffuse);  // Unload default diffuse texture
-            UnloadTexture(texMask);     // Unload texture mask
+            UnloadTexture(texDiffuse);
+            UnloadTexture(texMask);
 
-            UnloadShader(shader);       // Unload shader
+            UnloadShader(shader);
 
-            CloseWindow();              // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;

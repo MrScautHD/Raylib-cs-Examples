@@ -26,13 +26,12 @@
 using System.Numerics;
 using Raylib_cs;
 using static Raylib_cs.Raylib;
-using static Raylib_cs.Color;
 
 namespace Examples.Shaders
 {
     public class Eratosthenes
     {
-        const int GLSL_VERSION = 330;
+        const int GlslVersion = 330;
 
         public static int Main()
         {
@@ -47,13 +46,13 @@ namespace Examples.Shaders
 
             // Load Eratosthenes shader
             // NOTE: Defining 0 (NULL) for vertex shader forces usage of internal default vertex shader
-            Shader shader = LoadShader(null, string.Format("resources/shaders/glsl{0}/eratosthenes.fs", GLSL_VERSION));
+            Shader shader = LoadShader(null, $"resources/shaders/glsl{GlslVersion}/eratosthenes.fs");
 
             SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
             //--------------------------------------------------------------------------------------
 
             // Main game loop
-            while (!WindowShouldClose())    // Detect window close button or ESC key
+            while (!WindowShouldClose())
             {
                 // Update
                 //----------------------------------------------------------------------------------
@@ -63,21 +62,29 @@ namespace Examples.Shaders
                 // Draw
                 //----------------------------------------------------------------------------------
                 BeginDrawing();
-                ClearBackground(RAYWHITE);
+                ClearBackground(Color.RAYWHITE);
 
-                BeginTextureMode(target);   // Enable drawing to texture
-                ClearBackground(BLACK); // Clear the render texture
+                // Enable drawing to texture
+                BeginTextureMode(target);
+                ClearBackground(Color.BLACK);
 
                 // Draw a rectangle in shader mode to be used as shader canvas
                 // NOTE: Rectangle uses font white character texture coordinates,
                 // so shader can not be applied here directly because input vertexTexCoord
                 // do not represent full screen coordinates (space where want to apply shader)
-                DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), BLACK);
-                EndTextureMode();           // End drawing to texture (now we have a blank texture available for the shader)
+                DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), Color.BLACK);
+
+                // End drawing to texture (now we have a blank texture available for the shader)
+                EndTextureMode();
 
                 BeginShaderMode(shader);
                 // NOTE: Render texture must be y-flipped due to default OpenGL coordinates (left-bottom)
-                DrawTextureRec(target.texture, new Rectangle(0, 0, target.texture.width, -target.texture.height), new Vector2(0.0f, 0.0f), WHITE);
+                DrawTextureRec(
+                    target.texture,
+                    new Rectangle(0, 0, target.texture.width, -target.texture.height),
+                    new Vector2(0.0f, 0.0f),
+                    Color.WHITE
+                );
                 EndShaderMode();
 
                 EndDrawing();
@@ -86,10 +93,10 @@ namespace Examples.Shaders
 
             // De-Initialization
             //--------------------------------------------------------------------------------------
-            UnloadShader(shader);           // Unload shader
-            UnloadRenderTexture(target);    // Unload texture
+            UnloadShader(shader);
+            UnloadRenderTexture(target);
 
-            CloseWindow();                  // Close window and OpenGL context
+            CloseWindow();
             //--------------------------------------------------------------------------------------
 
             return 0;
