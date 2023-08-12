@@ -1,4 +1,4 @@
-![Raylib-cs Logo](https://github.com/ChrisDill/Raylib-cs/blob/master/Logo/raylib-cs_256x256.png "Raylib-cs Logo")
+![Raylib-cs Logo](https://github.com/ChrisDill/Raylib-cs/blob/master/Raylib-cs/logo/raylib-cs_256x256.png "Raylib-cs Logo")
 
 # Raylib-cs-Examples
 
