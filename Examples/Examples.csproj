@@ -6,11 +6,13 @@
     <StartupObject>Examples.Program</StartupObject>
     <RunWorkingDirectory>$(MSBuildThisFileDirectory)</RunWorkingDirectory>
   </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Core/LoadingThread.cs"/>
     <Compile Remove="Text/Unicode.cs"/>
   </ItemGroup>
+
   <ItemGroup>
-    <PackageReference Include="Raylib-cs" Version="4.5.0.2"/>
+    <PackageReference Include="Raylib-cs" Version="4.5.0.4"/>
   </ItemGroup>
 </Project>
