@@ -1,5 +1,7 @@
 ![Raylib-cs Logo](https://github.com/ChrisDill/Raylib-cs/blob/master/Raylib-cs/logo/raylib-cs_256x256.png "Raylib-cs Logo")
 
+# NOTE: In the process of moving examples back into [Raylib-cs](https://github.com/ChrisDill/Raylib-cs). Please open any issues or pull requests about the examples there.
+
 # Raylib-cs-Examples
 
 C# examples for Raylib-cs, a simple and easy-to-use library to learn videogames programming (www.raylib.com)
